@@ -16,7 +16,9 @@
     <script src={{ asset('js/charts-lines.js') }} defer></script>
     <script src={{ asset('js/charts-pie.js')}} defer></script>
 </head>
-
+<script>
+    console.log(window.location.pathname);
+</script>
 <body>
 @yield('content')
 </body>

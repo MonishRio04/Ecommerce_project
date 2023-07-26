@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\categories;
 use Illuminate\Http\Request;
 
-class adminController extends Controller
+
+class categoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.index');
+        $category=categories::get();
+        return view('admin.category.list',['category'=>$category]);
     }
 
     /**
@@ -21,7 +23,7 @@ class adminController extends Controller
      */
     public function create()
     {
-
+        return view('admin.category.category');
     }
 
     /**
@@ -29,8 +31,22 @@ class adminController extends Controller
      */
     public function store(Request $r)
     {
+        $r->validate([
+            'CategoryName'=>'required|string',
+            'discription'=>'required',
+            'status'=>'required',
+        ]);
         // dd($r);
-
+        $category=new categories;
+        $category->name=$r->CategoryName;
+        $category->description=$r->discription;
+        $category->status=$r->status;
+        $cat='';
+        if($r->category==0)$cat=NULL;
+        else $cat=$r->category;
+        $category->parent_id=$cat;
+        $category->save();
+        return back();
     }
 
     /**
@@ -62,6 +78,7 @@ class adminController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        categories ::find($id)->delete();
+        return back();
     }
 }
