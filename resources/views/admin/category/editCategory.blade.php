@@ -488,24 +488,19 @@
             </header>
             <main class="h-full pb-16 overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
-                    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-
-                    </h2>
+                    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h2>
                     <!-- CTA -->
-
-
                     <!-- General elements -->
                     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
                         Add new product
                     </h4>
-                    {{-- <form action="{{ route() }}" method="post"> --}}
-                        {!! Form::open(['method'=>'POST','url'=>route('category.store')]) !!}
-                        {{-- <form method="POST" url={{ route("category.store")}}> --}}
+                    <form action="{{ route('category.update',$category->id) }}" method="post">
+                        {{-- <form url={{ route("category.update",$cate->id)}}> --}}
                         @csrf
                     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Category</span>
-                            <input type="text" name="CategoryName" value="{{ old("categoryName") }}"
+                            <input type="text" name="CategoryName" value="{{$category->name }}"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Category name" />
                                 @error('CategoryName')
@@ -515,32 +510,35 @@
 
                         <label class="block mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">
-                               Parent Category
+                               Parent category
                             </span>
-                            {!! Form::select('category',$paren_category, null, ["class" => "block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"])!!}
-
+                            {{ var_dump($paren_category[$category->parent_id]) }}
+                            {{-- {{ dd($paren_category,$category->parent_id) }} --}}
+                            {{ Form::select('category',$paren_category,$category->parent_id, ["class" => "block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"])}}
                         </label>
-
+                        {{-- {{ dd($category) }} --}}
                         <label class="block mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Description</span>
                             <textarea name="discription" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            rows="1" placeholder="Enter Discription "></textarea>
-                            @error('discription')
-                            <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
-                        @enderror
+                            rows="1" placeholder="Enter Discription ">{{ $category->description }}</textarea>
                         </label>
                         <div class="mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">
                              Status
                             </span>
                             <div class="mt-2">
+                                @php
+                                    $checked=$category->status;
+                                    $check1=$check2='';
+                                    if($checked==0)$check1="checked";
+                                    elseif($checked==1) $check2='checked';
+                                @endphp
                               <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
                                 <input
                                   type="radio"
                                   class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                                   name="status"
-                                  value="1"
-                                  checked
+                                  value="active"{{ $check1 }}
                                 />
                                 <span class="ml-2">Active</span>
                               </label>
@@ -551,7 +549,7 @@
                                   type="radio"
                                   class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                                   name="status"
-                                  value="0"
+                                  value="inActive"{{ $check2 }}
                                 />
                                 <span class="ml-2">In Active</span>
                               </label>
@@ -566,9 +564,6 @@
                     Submit
                   </button>
                     {{-- </div> --}}
-
-
-
                     </form>
             </main>
         </div>

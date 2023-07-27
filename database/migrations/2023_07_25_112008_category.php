@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('parent_id')->nullable(true);
             $table->string('name');
             $table->string('description');
-            $table->string('status');
+            $table->integer('status')->comment('1-> Active, 2->InActive, 3->Deleted');
+            $table->string('image','100');
         });
     }
 

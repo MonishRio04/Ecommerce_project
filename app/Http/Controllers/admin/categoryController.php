@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class categoryController extends Controller
@@ -14,7 +15,9 @@ class categoryController extends Controller
      */
     public function index()
     {
-        $category=categories::get();
+        $category=categories::with('parent_name')->orderBy('id','DESC')->get();
+
+        // $paren_category=categories::whereNull('parent_id')->pluck('name','id')->toArray();
         return view('admin.category.list',['category'=>$category]);
     }
 
@@ -23,7 +26,10 @@ class categoryController extends Controller
      */
     public function create()
     {
-        return view('admin.category.category');
+
+        $data['paren_category']=[''=>'Please select']+categories::whereNull('parent_id')->pluck('name','id')->toArray();
+        // dd($data);
+        return view('admin.category.category',$data);
     }
 
     /**
@@ -33,7 +39,6 @@ class categoryController extends Controller
     {
         $r->validate([
             'CategoryName'=>'required|string',
-            'discription'=>'required',
             'status'=>'required',
         ]);
         // dd($r);
@@ -41,12 +46,11 @@ class categoryController extends Controller
         $category->name=$r->CategoryName;
         $category->description=$r->discription;
         $category->status=$r->status;
-        $cat='';
         if($r->category==0)$cat=NULL;
         else $cat=$r->category;
         $category->parent_id=$cat;
         $category->save();
-        return back();
+        return redirect('/category');
     }
 
     /**
@@ -62,15 +66,32 @@ class categoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+       $paren_category=[''=>'Please select']+categories::whereNull('parent_id')->pluck('name','id')->toArray();
+        $category=categories::find($id);
+        // $data['id']=$id;
+        // dd($category);
+        return view('admin.category.editCategory',
+        ['paren_category'=>$paren_category,
+        'category'=>$category,
+    ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $r, string $id)
     {
-        //
+        dd($id);
+        $category=categories::find($id);
+        $category->name=$r->CategoryName;
+        $category->description=$r->discription;
+        $category->status=$r->status;
+        $cat='';
+        if($r->category==0)$cat=NULL;
+        else $cat=$r->category;
+        $category->parent_id=$cat;
+        $category->update();
+        return back();
     }
 
     /**
