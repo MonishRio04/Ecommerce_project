@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\adminController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\indexController;
+use App\Http\Controllers\admin\productController;
 use Illuminate\Support\Facades\Route;
 
 // Route::any('dashboard',function(){
@@ -22,7 +23,7 @@ Route::get('signout', [authController::class, 'signOut'])->name('signout');
 });
 Route::resource('admin',adminController::class);
 Route::resource('category',categoryController::class);
-// Route::any('category',function(){return view('admin.category.category');});
-// Route::post('categorySubmit',[adminController::class,'categoryForm']);
+
+Route::resource('product',productController::class);
 
 ?>

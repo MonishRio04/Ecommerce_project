@@ -499,7 +499,7 @@
                         Add new product
                     </h4>
                     {{-- <form action="{{ route() }}" method="post"> --}}
-                        {!! Form::open(['method'=>'POST','url'=>route('category.store')]) !!}
+                        {!! Form::open(['method'=>'POST','url'=>route('category.store'),'files'=>true,'enctype'=>'multipart/form-data']) !!}
                         {{-- <form method="POST" url={{ route("category.store")}}> --}}
                         @csrf
                     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -526,6 +526,13 @@
                             <textarea name="discription" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                             rows="1" placeholder="Enter Discription "></textarea>
                             @error('discription')
+                            <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
+                        @enderror
+                        </label>
+                        <label class="block mt-4 text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Add image</span>
+                            <input type="file" name="file" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                            @error('file')
                             <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                         @enderror
                         </label>

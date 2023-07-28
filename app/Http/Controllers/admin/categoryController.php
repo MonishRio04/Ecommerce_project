@@ -15,7 +15,8 @@ class categoryController extends Controller
      */
     public function index()
     {
-        $category=categories::with('parent_name')->orderBy('id','DESC')->get();
+        // ->orderBy('id','DESC')
+        $category=categories::with('parent_name')->get();
 
         // $paren_category=categories::whereNull('parent_id')->pluck('name','id')->toArray();
         return view('admin.category.list',['category'=>$category]);
@@ -37,13 +38,20 @@ class categoryController extends Controller
      */
     public function store(Request $r)
     {
+        // dd($r);
         $r->validate([
             'CategoryName'=>'required|string',
             'status'=>'required',
+            'file'=>'required|image|mimes:png,jpg'
         ]);
-        // dd($r);
+        // dd($r->  file->extension().time());
         $category=new categories;
         $category->name=$r->CategoryName;
+        $imageName=time().".".$r->file->extension();
+        // $r->file('file')->   store('public');
+        // dd($imageName);
+        $r->file('file')->storeAs('public/images',$imageName);
+        $category->image=$imageName;
         $category->description=$r->discription;
         $category->status=$r->status;
         if($r->category==0)$cat=NULL;
@@ -81,17 +89,16 @@ class categoryController extends Controller
      */
     public function update(Request $r, string $id)
     {
-        dd($id);
+        // dd($id);
         $category=categories::find($id);
         $category->name=$r->CategoryName;
         $category->description=$r->discription;
         $category->status=$r->status;
-        $cat='';
         if($r->category==0)$cat=NULL;
         else $cat=$r->category;
         $category->parent_id=$cat;
         $category->update();
-        return back();
+        return redirect('/category');
     }
 
     /**

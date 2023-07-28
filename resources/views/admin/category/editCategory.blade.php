@@ -494,8 +494,8 @@
                     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
                         Add new product
                     </h4>
-                    <form action="{{ route('category.update',$category->id) }}" method="post">
-                        {{-- <form url={{ route("category.update",$cate->id)}}> --}}
+                    {{-- <form url="{{ route('category.update',$category->id) }}" method="PUT"> --}}
+                      {{ Form::open(['id' => 'form', 'url' => route('category.update',$category->id), 'method' => 'PUT']) }}
                         @csrf
                     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <label class="block text-sm">
@@ -512,7 +512,7 @@
                             <span class="text-gray-700 dark:text-gray-400">
                                Parent category
                             </span>
-                            {{ var_dump($paren_category[$category->parent_id]) }}
+                            {{-- {{ var_dump($paren_category[$category->parent_id]) }} --}}
                             {{-- {{ dd($paren_category,$category->parent_id) }} --}}
                             {{ Form::select('category',$paren_category,$category->parent_id, ["class" => "block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"])}}
                         </label>
@@ -538,7 +538,7 @@
                                   type="radio"
                                   class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                                   name="status"
-                                  value="active"{{ $check1 }}
+                                  value="1"{{ $check1 }}
                                 />
                                 <span class="ml-2">Active</span>
                               </label>
@@ -549,7 +549,7 @@
                                   type="radio"
                                   class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                                   name="status"
-                                  value="inActive"{{ $check2 }}
+                                  value="0"{{ $check2 }}
                                 />
                                 <span class="ml-2">In Active</span>
                               </label>
