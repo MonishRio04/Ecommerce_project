@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\categories;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -14,7 +15,11 @@ class productController extends Controller
     public function index()
     {
         $product=Products::get();
-        return view('admin.product.index',['product'=>$product]);
+        // Category::where('id', $id)->pluck('name')->first();
+        // $category=categories::where('parent_id')->get();
+        $category=categories::pluck('name','id')->toArray();
+        // dd($category[1]);
+        return view('admin.product.index',['product'=>$product,'category'=>$category]);
     }
 
     /**
@@ -22,8 +27,8 @@ class productController extends Controller
      */
     public function create()
     {
-        // $data['paren_category']=[''=>'Please select']+categories::whereNull('parent_id')->pluck('name','id')->toArray();
-       return view('admin.product.createProduct');
+        $data['paren_category']=categories::pluck('name','id')->toArray();
+       return view('admin.product.createProduct',$data);
     }
 
     /**
@@ -35,15 +40,18 @@ class productController extends Controller
         $r->validate([
             'productName'=>'required|string',
             'price'=>'required',
-            'varient'=>'required',
+            'category'=>'required',
+            'file'=>'required|mimes:png,jpg',
             'discription'=>'required',
         ]);
-        // dd($r->  file->extension().time());
         $products=new Products();
+        $imgname=time().".".$r->file->extension();
+        $r->file('file')->storeAs('public/productImages',$imgname);
+        $products->image=$imgname;
         $products->name=$r->productName;
         $products->description=$r->discription;
         $products->price=$r->price;
-        $products->variant=$r->varient;
+        $products->category=$r->category;
         $products->save();
         return redirect('/product');
     }
@@ -61,15 +69,25 @@ class productController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product=Products::find($id);
+        // $paren_category=[''=>'Please select']+categories::whereNull('parent_id')->pluck('name','id')->toArray();
+        $parent_category=categories::pluck('name','id')->toArray();
+        // dd($parent_category);
+        return view('admin.product.editProduct',['product'=>$product,'parent_category'=>$parent_category]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $r, string $id)
     {
-        //
+        $products=Products::find($id);
+        $products->name=$r->productName;
+        $products->description=$r->discription;
+        $products->price=$r->price;
+        $products->category=$r->category;
+        $products->update();
+        return redirect('/product');
     }
 
     /**
@@ -77,6 +95,7 @@ class productController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Products ::find($id)->delete();
+        return back();
     }
 }

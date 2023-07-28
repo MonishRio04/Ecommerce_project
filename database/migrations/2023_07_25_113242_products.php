@@ -18,10 +18,12 @@ return new class extends Migration
             // $table->foreignId('cat_id')->references('id')->on('category');
             $table->string('name');
             $table->integer('price');
+            $table->integer('category');
+            $table->string('image',100);
             $table->string('description');
-            $table->integer('variant');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
+            $table->softDeletes();
     });
     }
     /**

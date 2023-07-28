@@ -24,12 +24,13 @@
                 </ul>
                 <ul>
                     <li class="relative px-6 py-3">
+
                         <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                             href="{{ route('category.index') }}">
                             <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
-                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
                                 </path>
                             </svg>
                             <span class="ml-4">Category</span>
@@ -38,13 +39,13 @@
                     <li class="relative px-6 py-3">
                         <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                             aria-hidden="true"></span>
-                        <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors text-gray-800 duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                             href="{{ route('product.index') }}">
                             <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
-                            </path>
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                </path>
                             </svg>
                             <span class="ml-4">Products</span>
                         </a>
@@ -195,26 +196,26 @@
                         <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                             aria-hidden="true"></span>
                         <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                            href="forms.html">
+                            href="{{ route('category.index') }}">
                             <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
                                 </path>
                             </svg>
-                            <span class="ml-4">Forms</span>
+                            <span class="ml-4">Category</span>
                         </a>
                     </li>
                     <li class="relative px-6 py-3">
                         <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                            href="cards.html">
+                            href="{{ route('product.index') }}">
                             <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
                                     d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                                 </path>
                             </svg>
-                            <span class="ml-4">Cards</span>
+                            <span class="ml-4">Products</span>
                         </a>
                     </li>
                     <li class="relative px-6 py-3">
@@ -499,13 +500,13 @@
                         Add new product
                     </h4>
                     {{-- <form action="{{ route() }}" method="post"> --}}
-                        {!! Form::open(['method'=>'POST','url'=>route('product.store'),'files'=>true,'enctype'=>'multipart/form-data']) !!}
+                        {!! Form::open(['method'=>'PUT','url'=>route('product.update',$product->id),'files'=>true,'enctype'=>'multipart/form-data']) !!}
                         {{-- <form method="POST" url={{ route("category.store")}}> --}}
                         @csrf
                     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Product:</span>
-                            <input type="text" name="productName" value="{{ old("categoryName") }}"
+                            <input type="text" name="productName" value="{{ $product->name }}"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Product name" />
                                 @error('productName')
@@ -514,7 +515,7 @@
                         </label>
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Price:</span>
-                            <input type="number" name="price" value="{{ old("categoryName") }}"
+                            <input type="number" name="price" value="{{ $product->price }}"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Price" />
                                 @error('price')
@@ -525,12 +526,12 @@
                             <span class="text-gray-700 dark:text-gray-400">
                               Category:
                             </span>
-                            {!! Form::select('category',$paren_category, null, ["class" => "block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"])!!}
+                            {!! Form::select('category',$parent_category, $parent_category[$product->category], ["class" => "block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"])!!}
                             @error('category')
                             <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                             @enderror
                         </label>
-                        <label class="block mt-4 text-sm">
+                        {{-- <label class="block mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">
                               Select image:
                             </span>
@@ -538,11 +539,11 @@
                             @error('file')
                             <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                             @enderror
-                        </label>
+                        </label> --}}
                         <label class="block mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Description:</span>
                             <textarea name="discription" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                            rows="3" placeholder="Enter Discription "></textarea>
+                            rows="3" placeholder="Enter Discription ">{{ $product->description }}</textarea>
                             @error('discription')
                             <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                         @enderror
