@@ -496,7 +496,7 @@
 
                     <!-- General elements -->
                     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                        Add new product
+                        Add new Customer
                     </h4>
                     {{-- <form action="{{ route() }}" method="post"> --}}
                         {!! Form::open(['method'=>'POST','url'=>route('customer.store'),'files'=>true,'enctype'=>'multipart/form-data']) !!}

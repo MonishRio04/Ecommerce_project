@@ -6,6 +6,7 @@ use App\Models\categories;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class productController extends Controller
 {
@@ -82,6 +83,14 @@ class productController extends Controller
     public function update(Request $r, string $id)
     {
         $products=Products::find($id);
+        $oldimg=$products->image;
+            if($r->file!=null){
+                 Storage::delete('public/productImages/' . $oldimg);
+                 $imgname=time().'.'.$r->file->extension();
+                 $r->file('file')->storeAs('public/productImages/',$imgname);
+                 $products->image=$imgname;
+            }
+
         $products->name=$r->productName;
         $products->description=$r->discription;
         $products->price=$r->price;
@@ -96,6 +105,6 @@ class productController extends Controller
     public function destroy(string $id)
     {
         Products ::find($id)->delete();
-        return back();
+        return redirect()->back()->with('dlt','Deleted successfully');
     }
 }

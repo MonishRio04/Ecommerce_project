@@ -819,6 +819,12 @@
               class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
             </h4>
+            @if(Session::has('dlt'))
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>!</strong> {{ Session::get('dlt') }}
+              </div>
+            @endif
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">

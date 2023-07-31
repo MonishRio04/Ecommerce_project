@@ -98,6 +98,7 @@ class categoryController extends Controller
         else $cat=$r->category;
         $category->parent_id=$cat;
         $category->update();
+
         return redirect('/category');
     }
 
@@ -107,6 +108,6 @@ class categoryController extends Controller
     public function destroy(string $id)
     {
         categories ::find($id)->delete();
-        return back();
+        return redirect()->back()->with('dlt','Deleted successfully');
     }
 }

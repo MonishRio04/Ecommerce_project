@@ -8,6 +8,7 @@ use App\Models\user_role;
 use App\Models\userRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class customerController extends Controller
 {
@@ -38,21 +39,27 @@ class customerController extends Controller
     {
         $r->validate([
             'name'=>'required',
-            'email'=>'required|unique:users,email|email',
+            'email'=>'required|email',//|unique:users,email
             'password'=>'required',
         ]);
         $user= new User;
-        $user->name=$r->name;
-        $user->email=$r->email;
-        $user->password=Hash::make($r->password);
-        $user->role=$r->role;
-        $imgname=time().'.'.$r->file->extension();
-        $r->file('file')->storeAs('public/customerImages',$imgname);
-        $user->image=$imgname;
-        $user->save();
+        $email=$r->email;
+        if(User::where('email',$email)->get()!=null){
+            $acc=User::withTrashed()->where('email',$email);
+            $acc->restore();
+        }
+        else{
+            $user->name=$r->name;
+            $user->email=$r->email;
+            $user->password=Hash::make($r->password);
+            $user->role=$r->role;
+            $imgname=time().'.'.$r->file->extension();
+            $r->file('file')->storeAs('public/customerImages',$imgname);
+            $user->image=$imgname;
+            $user->save();
+        }
         return redirect('/customer');
     }
-
     /**
      * Display the specified resource.
      */
@@ -78,20 +85,25 @@ class customerController extends Controller
     {
         $request->validate(
             [
-                'password'=>'required',
                 'name'=>'required',
                 'email'=>'required|email',
-                'file'=>'required|mimes:png,jpg'
+                'file'=>'mimes:png,jpg',
             ]
             );
        $user=User::find($id);
+       $oldimg=$user->image;
        $user->name=$request->name;
        $user->email=$request->email;
+       if($request->password!=null){
        $user->password=$request->password;
+        }
        $user->role=$request->role;
-       $imgname=time().'.'.$request->file->extension();
-       $request->file('file')->storeAs('public/customerImages',$imgname);
-       $user->image=$imgname;
+       if($request->file!=null){
+            Storage::delete('public/customerImages/' . $oldimg);
+            $imgname=time().'.'.$request->file->extension();
+            $request->file('file')->storeAs('public/customerImages',$imgname);
+            $user->image=$imgname;
+       }
        $user->update();
        return redirect('/customer');
     }
@@ -102,7 +114,7 @@ class customerController extends Controller
     public function destroy(string $id)
     {
         User::find($id)->delete();
-        return back();
+        return redirect()->back()->with('dlt','Deleted successfully');
 
     }
 }

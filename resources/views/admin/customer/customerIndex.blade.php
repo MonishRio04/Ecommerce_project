@@ -1,7 +1,6 @@
 @extends('admin.layout.default')
 @section('content')
-<body>
-    <body>
+
         <div
           class="flex h-screen bg-gray-50 dark:bg-gray-900"
           :class="{ 'overflow-hidden': isSideMenuOpen}"
@@ -810,7 +809,12 @@
                 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Customers
                 <a href="{{ route('customer.create') }}"class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add new</a>
             </h2>
-
+        @if(Session::has('dlt'))
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>!</strong> {{ Session::get('dlt') }}
+          </div>
+        @endif
                 {{-- <button class="btn btn-success float-right" type="submit">Submit</button> --}}
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">

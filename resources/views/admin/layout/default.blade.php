@@ -11,14 +11,14 @@
     {{-- <link rel="stylesheet" href="./assets/css/tailwind.output.css" /> --}}
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src={{ asset('js/init-alpine.js') }}></script>
+    <link rel="stylesheet" href={{ asset('css/style.css') }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
     <script src={{ asset('js/charts-lines.js') }} defer></script>
     <script src={{ asset('js/charts-pie.js')}} defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<script>
-    console.log(window.location.pathname);
-</script>
 <body>
 @yield('content')
 </body>
