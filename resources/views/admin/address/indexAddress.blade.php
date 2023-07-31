@@ -806,9 +806,10 @@
         <main class="h-full pb-16 overflow-y-auto">
             <div class="container grid px-6 mx-auto">
               <h2
-                class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Customers
-                <a href="{{ route('customer.create') }}"class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add new</a>
+                class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Address
+                <a href="{{ route('address.create',['id'=>$id]) }}"class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add new</a>
             </h2>
+            {{-- {{ dd($id) }} --}}
         @if(Session::has('dlt'))
         <div class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -823,72 +824,35 @@
                     <tr
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
-                      <th class="px-4 py-3">User Name</th>
-                      <th class="px-4 py-3">Email</th>
-                      <th class="px-4 py-3">Role</th>
-                      <th class="px-4 py-3">joining date</th>
+                      <th class="px-4 py-3">Name</th>
+                      <th class="px-4 py-3">Mobile</th>
                       <th class="px-4 py-3">Address</th>
                       <th class="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
+                  {{-- {{ dd($addresses) }} --}}
                   <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    {{-- {{ dd($product->count()<=0) }} --}}
-                    @if(($user->count()<=0))
+                    {{-- {{ dd(count($addresses)) }} --}}
+                    @if((count($addresses)<=0))
                     <tr>
-                        <td class="px-4 py-3 text-center" colspan="5">No Customers</td>
+                        <td class="px-4 py-3 text-center" colspan="5">No Address</td>
                     </tr>
                   @endif
-                  @foreach($user as $users)
+                  @foreach ($addresses as $address )
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
-                        <div class="flex items-center text-sm">
-                          <!-- Avatar with inset shadow -->
-                          <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-
-                          @if($users->image!=null)
-                          <img class="object-cover w-full h-full rounded-full"
-                          src="storage/customerImages/{{ $users->image }}"
-                            {{-- src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ" --}}
-                            alt=""
-                            loading="lazy"
-                          />
-                          <div
-                            class="absolute inset-0 rounded-full shadow-inner"
-                            aria-hidden="true"
-                          ></div>
-                        </div>
-                          </div>
-                          @endif
-                          <div>
-                            <p class="font-semibold">
-                             {{ $users->name }}
-                            </p>
-                          </div>
-                        </div>
+                        {{ $address->name }}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                      {{ $users->email }}
-                      {{-- </td> {{ var_dump($category->find($products->category\)) }} --}}
-                      <td class="px-4 py-3 text-xs">
-                       {{-- {{ dd($user_role::where($users->role)) }} --}}
-                       {{ $user_role[$users->role] }}
+                        {{ $address->mobile_no }}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                       {{$users->created_at}}
-                      </td>
-                      <td class="px-4 py-3 text-sm">
-                        <div>
-
-                            <a href={{ route("address.index",["id"=>$users->id])}}
-                            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                              Show Address
-                            </a>
-                          </div>
+                        {{ $address->address_line1 }}
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                            <a type="submit" id="editbtn" href="{{ route('customer.edit',$users->id) }}"
+                            <a type="submit" id="editbtn" href="{{ route('address.edit',$address->id) }}"
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Edit">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -898,7 +862,7 @@
                                     </path>
                                 </svg>
                             </a>
-                          <form method="post" action="{{ route('customer.destroy',$users->id )}}">
+                          <form method="post" action="{{ route('address.destroy',$address->id )}}">
                             {{ csrf_field() }}{{ method_field('DELETE') }}
                             <button type="submit" onclick="return confirm('do you want to delete')"
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"

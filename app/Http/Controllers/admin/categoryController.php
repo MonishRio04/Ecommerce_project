@@ -98,7 +98,6 @@ class categoryController extends Controller
         else $cat=$r->category;
         $category->parent_id=$cat;
         $category->update();
-
         return redirect('/category');
     }
 

@@ -41,14 +41,19 @@ class customerController extends Controller
             'name'=>'required',
             'email'=>'required|email',//|unique:users,email
             'password'=>'required',
+            'role'=>'required'
         ]);
+
         $user= new User;
         $email=$r->email;
-        if(User::where('email',$email)->get()!=null){
+        // dd(count(User::where('email',$email)->get())>0);
+        if(count(User::where('email',$email)->get())>0){
+            // dd('test');
             $acc=User::withTrashed()->where('email',$email);
             $acc->restore();
         }
         else{
+
             $user->name=$r->name;
             $user->email=$r->email;
             $user->password=Hash::make($r->password);

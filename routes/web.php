@@ -1,12 +1,13 @@
 <?php
 
-
+use App\Http\Controllers\admin\addressController;
 use App\Http\Controllers\admin\adminController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\admin\productController;
 use App\Http\Controllers\admin\customerController;
+use App\Http\Controllers\viewaddress;
 use Illuminate\Support\Facades\Route;
 
 // Route::any('dashboard',function(){
@@ -27,4 +28,6 @@ Route::resource('category',categoryController::class);
 
 Route::resource('product',productController::class);
 Route::resource('customer',customerController::class);
+Route::resource('address',addressController::class);
+// Route::get('Address',[viewaddress::class,'index'])->name('')
 ?>
