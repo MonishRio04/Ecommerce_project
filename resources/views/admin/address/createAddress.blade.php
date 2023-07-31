@@ -592,6 +592,33 @@
                                 @enderror
                             </label>
                             <br>
+                                {{-- <div>
+                                    <button onclick="getLocation()"
+                                    class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                                    >
+                                    get Location
+                                    </button>
+                                </div> --}}
+{{--
+                            <label class="block text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Latitude</span>
+                                <input type="numer" name="scode" id='lat' value="{{ old('scode') }}"
+                                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    placeholder="Latitude" />
+                                @error('scode')
+                                    <p style="color:red;font-size:12px">{{ '*' . $message }}</p>
+                                @enderror
+                            </label>
+                            <label class="block text-sm">
+                                <span class="text-gray-700 dark:text-gray-400">Longitude</span>
+                                <input type="numer" name="scode" id='long' value="{{ old('scode') }}"
+                                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                    placeholder="Longitude" />
+                                @error('scode')
+                                    <p style="color:red;font-size:12px">{{ '*' . $message }}</p>
+                                @enderror
+                            </label> --}}
+                            <br>
                         </div>
                         <button type="submit"
                             class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -602,6 +629,20 @@
             </div>
         </div>
     </body>
+    <script>
+    var lat = document.getElementById("lat");
+    var long = document.getElementById("long");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+}
+
+function showPosition(position) {
+  lat.value = "Latitude: " + position.coords.latitude ;
+  long.value="Longitude: " + position.coords.longitude;
+}
+    </script>
 @endsection
 
 </html>

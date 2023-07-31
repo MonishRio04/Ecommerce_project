@@ -51,7 +51,7 @@ class addressController extends Controller
         $address->state_code=$r->scode;
         $address->city_code=$r->citycode;
         $address->save();
-        return redirect()->back();
+        return redirect('/address');
     }
 
     /**
