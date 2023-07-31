@@ -6,6 +6,7 @@ use App\Http\Controllers\authController;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\admin\productController;
+use App\Http\Controllers\admin\customerController;
 use Illuminate\Support\Facades\Route;
 
 // Route::any('dashboard',function(){
@@ -25,5 +26,5 @@ Route::resource('admin',adminController::class);
 Route::resource('category',categoryController::class);
 
 Route::resource('product',productController::class);
-
+Route::resource('customer',customerController::class);
 ?>

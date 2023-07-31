@@ -65,14 +65,8 @@
                   </a>
                 </li>
                 <li class="relative px-6 py-3">
-                  <span
-                    class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-                    aria-hidden="true"
-                  ></span>
-                  <a
-                    class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                    href="{{ route('customer.index') }}"
-                  >
+                  <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                    href='{{ route('product.index') }}'>
                     <svg
                       class="w-5 h-5"
                       aria-hidden="true"
@@ -91,8 +85,12 @@
                   </a>
                 </li>
                 <li class="relative px-6 py-3">
+                    <span
+                    class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                    aria-hidden="true"
+                  ></span>
                   <a
-                    class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('customer.index') }}"
                   >
                     <svg
@@ -326,7 +324,7 @@
                 <li class="relative px-6 py-3">
                   <a
                     class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="{{ route('category.index') }}"
+                    href="forms.html"
                   >
                     <svg
                       class="w-5 h-5"
@@ -342,7 +340,7 @@
                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
                       ></path>
                     </svg>
-                    <span class="ml-4">Category</span>
+                    <span class="ml-4">Forms</span>
                   </a>
                 </li>
                 <li class="relative px-6 py-3">
@@ -352,7 +350,7 @@
                   ></span>
                   <a
                     class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                    href="{{ route('product.index') }}"
+                    href="cards.html"
                   >
                     <svg
                       class="w-5 h-5"
@@ -368,13 +366,13 @@
                         d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
                       ></path>
                     </svg>
-                    <span class="ml-4">Product</span>
+                    <span class="ml-4">Cards</span>
                   </a>
                 </li>
                 <li class="relative px-6 py-3">
                   <a
                     class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="{{ route('customer.index') }}"
+                    href="charts.html"
                   >
                     <svg
                       class="w-5 h-5"
@@ -391,7 +389,7 @@
                       ></path>
                       <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
                     </svg>
-                    <span class="ml-4">Customer</span>
+                    <span class="ml-4">Charts</span>
                   </a>
                 </li>
                 <li class="relative px-6 py-3">
@@ -809,16 +807,11 @@
         <main class="h-full pb-16 overflow-y-auto">
             <div class="container grid px-6 mx-auto">
               <h2
-                class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
-              >
-                Products
-                <a href="{{ route('product.create') }}"class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg
-                    active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">  Add new</a>
+                class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Customers
+                <a href="{{ route('customer.create') }}"class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add new</a>
+            </h2>
 
-              <h4
-              class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
-            >
-            </h4>
+                {{-- <button class="btn btn-success float-right" type="submit">Submit</button> --}}
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
@@ -826,61 +819,62 @@
                     <tr
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
-                      <th class="px-4 py-3">product</th>
-                      <th class="px-4 py-3">Amount</th>
-                      <th class="px-4 py-3">category</th>
-                      <th class="px-4 py-3">description</th>
+                      <th class="px-4 py-3">User Name</th>
+                      <th class="px-4 py-3">Email</th>
+                      <th class="px-4 py-3">Role</th>
+                      <th class="px-4 py-3">joining date</th>
                       <th class="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                     {{-- {{ dd($product->count()<=0) }} --}}
-                    @if(($product->count()<=0))
+                    @if(($user->count()<=0))
                     <tr>
-                        <td class="px-4 py-3 text-center" colspan="5">No Products</td>
+                        <td class="px-4 py-3 text-center" colspan="5">No Customers</td>
                     </tr>
                   @endif
-                  @foreach($product as $products)
+                  @foreach($user as $users)
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                           <!-- Avatar with inset shadow -->
+                          <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+
+                          @if($users->image!=null)
+                          <img class="object-cover w-full h-full rounded-full"
+                          src="storage/customerImages/{{ $users->image }}"
+                            {{-- src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ" --}}
+                            alt=""
+                            loading="lazy"
+                          />
                           <div
-                            class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
-                          >
-                            <img
-                              class="object-cover w-full h-full rounded-full"
-                              src="storage/productImages/{{ $products->image }}"
-                              {{-- src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ" --}}
-                              alt=""
-                              loading="lazy"
-                            />
-                            <div
-                              class="absolute inset-0 rounded-full shadow-inner"
-                              aria-hidden="true"
-                            ></div>
+                            class="absolute inset-0 rounded-full shadow-inner"
+                            aria-hidden="true"
+                          ></div>
+                        </div>
                           </div>
+                          @endif
                           <div>
                             <p class="font-semibold">
-                             {{ $products->name }}
+                             {{ $users->name }}
                             </p>
                           </div>
                         </div>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                      {{ $products->price }}
+                      {{ $users->email }}
                       {{-- </td> {{ var_dump($category->find($products->category\)) }} --}}
                       <td class="px-4 py-3 text-xs">
-                        {{$category[$products->category]}}
-
+                       {{-- {{ dd($user_role::where($users->role)) }} --}}
+                       {{ $user_role[$users->role] }}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                       {{$products->description}}
+                       {{$users->created_at}}
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                            <a type="submit" id="editbtn" href="{{ route('product.edit',$products->id) }}"
+                            <a type="submit" id="editbtn" href="{{ route('customer.edit',$users->id) }}"
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Edit">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -890,7 +884,7 @@
                                     </path>
                                 </svg>
                             </a>
-                          <form method="post" action="{{ route('product.destroy',$products->id )}}">
+                          <form method="post" action="{{ route('customer.destroy',$users->id )}}">
                             {{ csrf_field() }}{{ method_field('DELETE') }}
                             <button type="submit" onclick="return confirm('do you want to delete')"
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
