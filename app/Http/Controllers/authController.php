@@ -29,9 +29,8 @@ public function customLogin(Request $request)
     ];
 
     if (Auth::attempt($credentials)) {
-        return redirect()->intended('dashboard');
-        // view('app');
-                   // ->withSuccess('Signed in');
+        return redirect()->intended('/');
+
     }
     return redirect("login")->withSuccess('Login details are not valid');
 }
@@ -60,7 +59,7 @@ public function customRegistration(Request $request)
     $user->email=$request->email;
     $user->password=Hash::make($request->password);
     $user->save();
-    return redirect('dashboard');
+    return redirect('/');
 }
 
 // public function dashboard()

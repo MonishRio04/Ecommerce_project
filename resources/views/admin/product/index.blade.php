@@ -832,10 +832,11 @@
                     <tr
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
+                    <th class="px-4 py-3">S.no</th>
                       <th class="px-4 py-3">product</th>
                       <th class="px-4 py-3">Amount</th>
                       <th class="px-4 py-3">category</th>
-                      <th class="px-4 py-3">description</th>
+                      <th class="px-4 py-3">Stock Quantity</th>
                       <th class="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
@@ -849,6 +850,7 @@
                   @endif
                   @foreach($product as $products)
                     <tr class="text-gray-700 dark:text-gray-400">
+                        <td class="px-4 py-3">{{ $loop->iteration }}</td>
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                           <!-- Avatar with inset shadow -->
@@ -874,16 +876,22 @@
                           </div>
                         </div>
                       </td>
+                      @if($products->discount_price!=null)
                       <td class="px-4 py-3 text-sm">
-                      {{ $products->price }}
-                      {{-- </td> {{ var_dump($category->find($products->category\)) }} --}}
+                      <s>{{ $products->price }}</s><br>
+                      {{ $products->discount_price }}
+                    </td>
+                    @else
+                    <td class="px-4 py-3 text-sm">
+                       {{ $products->price }}
+                      </td>
+                      @endif
                       <td class="px-4 py-3 text-xs">
                         {{$category[$products->category]}}
-
-                      </td>
+                     </td>
                       <td class="px-4 py-3 text-sm">
-                       {{$products->description}}
-                      </td>
+                        {{$products->stock_quantity}}
+                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
                             <a type="submit" id="editbtn" href="{{ route('product.edit',$products->id) }}"

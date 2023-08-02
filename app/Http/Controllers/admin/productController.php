@@ -41,15 +41,20 @@ class productController extends Controller
         $r->validate([
             'productName'=>'required|string',
             'price'=>'required',
+            'url'=>'unique:products,urlslug',
             'category'=>'required',
             'file'=>'required|mimes:png,jpg',
             'discription'=>'required',
+            'stock_quantity'=>'required',
         ]);
         $products=new Products();
         $imgname=time().".".$r->file->extension();
         $r->file('file')->storeAs('public/productImages',$imgname);
         $products->image=$imgname;
         $products->name=$r->productName;
+        $products->discount_price=$r->discount;
+        $products->urlslug=$r->url;
+        $products->stock_quantity=$r->stock_quantity;
         $products->description=$r->discription;
         $products->price=$r->price;
         $products->category=$r->category;
@@ -82,6 +87,14 @@ class productController extends Controller
      */
     public function update(Request $r, string $id)
     {
+        $r->validate([
+            'productName'=>'required|string',
+            'price'=>'required',
+            // 'url'=>'unique:products,urlslug',
+            'category'=>'required',
+            'discription'=>'required',
+            'stock_quantity'=>'required',
+        ]);
         $products=Products::find($id);
         $oldimg=$products->image;
             if($r->file!=null){
@@ -93,6 +106,9 @@ class productController extends Controller
 
         $products->name=$r->productName;
         $products->description=$r->discription;
+        $products->discount_price=$r->discount;
+        $products->stock_quantity=$r->stock_quantity;
+        $products->urlslug=$r->url;
         $products->price=$r->price;
         $products->category=$r->category;
         $products->update();
@@ -104,7 +120,10 @@ class productController extends Controller
      */
     public function destroy(string $id)
     {
-        Products ::find($id)->delete();
+        $oldimg=Products ::find($id);
+        Storage::delete('public/productImages/'.$oldimg->image);
+        $oldimg->delete();
         return redirect()->back()->with('dlt','Deleted successfully');
     }
 }
+

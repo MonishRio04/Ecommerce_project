@@ -4,18 +4,18 @@ use App\Http\Controllers\admin\addressController;
 use App\Http\Controllers\admin\adminController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\admin\categoryController;
-use App\Http\Controllers\indexController;
+use App\Http\Controllers\Front\indexController;
 use App\Http\Controllers\admin\productController;
 use App\Http\Controllers\admin\customerController;
-use App\Http\Controllers\viewaddress;
 use Illuminate\Support\Facades\Route;
 
 // Route::any('dashboard',function(){
 //     return view('welcome');
 // })->middleware('auth');
-Route::group(['middleware'=>'auth'],function(){
-Route::resource('dashboard',indexController::class)->middleware('auth');
-});
+//Route::group(['middleware'=>'auth'],function(){
+Route::get('/',[indexController::class,'index']);
+Route::get('/product/{slug}',[indexController::class,'show']);
+//});
 Route::group([],function(){
 Route::get('login', [authController::class, 'index'])->name('login');
 Route::any('registered-information', [authController::class, 'customLogin'])->name('login.custom');

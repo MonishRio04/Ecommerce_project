@@ -506,7 +506,7 @@
                     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Product:</span>
-                            <input type="text" name="productName" value="{{ $product->name }}"
+                            <input type="text" name="productName" id='productName' oninput="getSlug()" value="{{ $product->name }}"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Product name" />
                                 @error('productName')
@@ -519,6 +519,15 @@
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Price" />
                                 @error('price')
+                                <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
+                            @enderror
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Discount:</span>
+                            <input type="number" name="discount" value="{{ old("categoryName") }}"
+                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                placeholder="Discount" />
+                                @error('discount')
                                 <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                             @enderror
                         </label>
@@ -548,6 +557,23 @@
                             <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                         @enderror
                         </label>
+                        <label class="block mt-4 text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Stock Quantity:</span>
+                            <input type="number"name="stock_quantity" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                             placeholder="Enter Stock Quantity "value='{{ $product->stock_quantity }}'/>
+                            @error('stock_quantity')
+                            <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
+                        @enderror
+                        </label><br>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Search Engine URL:</span>
+                            <input type="text" name="url" value="{{ $product->urlslug }}" id="urlslug"
+                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                />
+                                @error('URL')
+                                <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
+                            @enderror
+                        </label>
 
                     </div>
                     <button type="submit"
@@ -562,6 +588,14 @@
             </main>
         </div>
     </div>
+    <script>
+        function getSlug(){
+            var name=$('#productName').val();
+            var slug=name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+            $('#urlslug').val(slug);
+            console.log(slug);
+        }
+    </script>
 </body>
 @endsection
 </html>

@@ -505,7 +505,7 @@
                     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Product:</span>
-                            <input type="text" name="productName" value="{{ old("categoryName") }}"
+                            <input type="text" name="productName" id="productName" oninput="getSlug()" value="{{ old("categoryName") }}"
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Product name" />
                                 @error('productName')
@@ -518,6 +518,15 @@
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                 placeholder="Price" />
                                 @error('price')
+                                <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
+                            @enderror
+                        </label>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Discount:</span>
+                            <input type="number" name="discount" value="{{ old("categoryName") }}"
+                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                placeholder="Discount" />
+                                @error('discount')
                                 <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                             @enderror
                         </label>
@@ -547,7 +556,23 @@
                             <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
                         @enderror
                         </label>
-
+                        <label class="block mt-4 text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Stock Quantity:</span>
+                            <input type="number"name="stock_quantity" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                             placeholder="Enter Stock Quantity "value=0/>
+                            @error('stock_quantity')
+                            <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
+                        @enderror
+                        </label><br>
+                        <label class="block text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Search Engine URL:</span>
+                            <input type="text" name="url" value="" id="urlslug"
+                                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                />
+                                @error('URL')
+                                <p style="color:red;font-size:12px">{{ '*'.$message }}</p>
+                            @enderror
+                        </label>
                     </div>
                     <button type="submit"
                     class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -561,6 +586,14 @@
             </main>
         </div>
     </div>
+    <script>
+        function getSlug(){
+            var name=$('#productName').val();
+            var slug=name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+            $('#urlslug').val(slug);
+            console.log(slug);
+        }
+    </script>
 </body>
 @endsection
 </html>
