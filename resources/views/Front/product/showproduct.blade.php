@@ -63,37 +63,30 @@
     <div class="offcanvas-body">
       <div class="order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-primary">Your cart</span>
-          <span class="badge bg-primary rounded-pill">3</span>
+          <span class="text-primary">{{ Auth::user()->name}}</span>
+          <span class="badge bg-primary rounded-pill">
+            {{ count($cartitems) }}
+        </span>
         </h4>
         <ul class="list-group mb-3">
+        @php $price=0 @endphp
+        @foreach($cartitems as $cart)
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
-              <h6 class="my-0">Growers cider</h6>
-              <small class="text-body-secondary">Brief description</small>
+              <h6 class="my-0">{{ $cart->product_name }}</h6>
+              {{-- <small class="text-body-secondary">Brief description</small> --}}
             </div>
-            <span class="text-body-secondary">$12</span>
+            <span class="text-body-secondary">{{ $cart->product_price*$cart->quantity}}
+                <a class="text-decoration-none" href="{{ url('cartdelete/'.$cart->id) }}">x</a></span>
           </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Fresh grapes</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Heinz tomato ketchup</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$5</span>
-          </li>
+            @php $price+=$cart->product_price*$cart->quantity;
+            @endphp
+          @endforeach
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (USD)</span>
-            <strong>$20</strong>
+            <strong>{{ $price }}</strong>
           </li>
         </ul>
-
         <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
       </div>
     </div>
@@ -182,8 +175,12 @@
 
           <div class="cart text-end d-none d-lg-block dropdown">
             <button class="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-              <span class="fs-6 text-muted dropdown-toggle">Your Cart</span>
-              <h5 class="mb-0"><span class="cart-total">$1290.00</span></h5>
+              <span class="fs-6 text-muted dropdown-toggle">{{ Auth::user()->name}}</span>
+              <h5 class="mb-0"><svg style="height:25px;width:25px"
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bucket" viewBox="0 0 16 16">
+                <path d="M2.522 5H2a.5.5 0 0 0-.494.574l1.372 9.149A1.5 1.5 0 0 0 4.36 16h7.278a1.5 1.5 0 0 0 1.483-1.277l1.373-9.149A.5.5 0 0 0 14 5h-.522A5.5 5.5 0 0 0 2.522 5zm1.005 0a4.5 4.5 0 0 1 8.945 0H3.527zm9.892 1-1.286 8.574a.5.5 0 0 1-.494.426H4.36a.5.5 0 0 1-.494-.426L2.58 6h10.838z"/>
+              </svg><h5 id="cartitemscount"> {{ count($cartitems) }}</h5></h5>
+              {{-- Rs.{{ $price }} --}}
             </button>
           </div>
 
@@ -191,7 +188,7 @@
     </div>
     </div>
   </header>
-
+{{-- {{ dd(Auth::user()->id) }} --}}
   <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
@@ -211,64 +208,72 @@
                         <span>{{ $product->price }}</span>
                     @endif
                 </div>
-                <p class="lead">{{ $product->description }}</p>
+                {{-- {{ dd($product->stock_quantity) }} --}}
+                {!! Form::open(['method'=>'POST','data-action'=>'/cart']) !!}
+
                 <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        Add to cart
-                    </button>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="input-group product-qty">
+                            <span class="input-group-btn">
+                                <button type="button"
+                                    class="quantity-left-minus btn btn-danger btn-number" style="margin-right: 17px"
+                                    data-type="minus" data-field="">
+                                    <svg width="16" height="16">
+                                        <use xlink:href="#minus"></use>
+                                    </svg>
+                                </button>
+                            </span>
+                             <input name="quantity"  value="1" class="form-control text-center me-3" id="quantity" oninput="addStock()" type="num" value="1" style="max-width: 3rem" />
+                            <span class="input-group-btn">
+                                <button type="button"
+                                    class="quantity-right-plus btn btn-success btn-number"
+                                    data-type="plus" data-field="">
+                                    <svg width="16" height="16">
+                                        <use xlink:href="#plus"></use>
+                                    </svg>
+                                </button>
+                            </span>
+                        </div><br>
+                    </div>
+                <button type="button" id="button" class="add-to-cart btn btn-outline-dark m-5" >@if(Session::has('added'))Added to cart @else Add to cart @endif </button>
                 </div>
+                <p class="lead">{{ $product->description }}</p>
+                <p style="color:red" id="oos"></p>
             </div>
         </div>
     </div>
+    {!! Form::hidden('product_id',$product->id,['id'=>'product_id'])!!}
+    {!! Form::hidden('customer_id',Auth::user()->id,['id'=>'customer_id'])!!}
+    {!! Form::close() !!}
+    {{-- <a href="{{ route('cart',Auth::user()->id,$product->id,1) }}">hello</a> --}}
 </section>
-    {{-- <div class="main">
-        <div class="row">
-            <div class="column">
-                <div id="img-holder"></div>
-            </div>
-            <div class="column">
-                <h1>{{ $product->name }}</h1>
-                <p>film from mascara 8.5g/0.29 oz</p>
-                <!-- <button class="top-rate-button">Top Rated</button><br /> -->
-                <h1 style="font-size: 0.8em; display: block; padding-top: 8px">Extensions without extensions</h1><br />
-                <p style="padding-bottom: 50px"><b>What it is</b>: The perfect everyday black mascara</p><br /><br />
-                <p><b>Why it's special:</b></p>
-                <ul>
-                    <li>
-                        Curls and sculpts as it lengthens, creating a natural “baby
-                        extension” effect without clumping
-                    </li>
-                    <li>
-                        Teeny-tiny fibers coat lashes from root to tip, while flexible
-                        film-forming polymers lift and lock each fiber into place
-                    </li>
-                    <li>
-                        Water-resistant (not waterproof), so it washes off easily with
-                        warm water or Milky Oil at the end of your day
-                    </li>
-                </ul>
-                <p style="margin-left: 10px"><b>Good to know:</b> cruelty free, paraben free, fragrance free,
-                    hypoallergenic, allergy tested, dermatologist tested,
-                    ophthalmologist tested, suitable for sensitive eyes and contact lens
-                    wearers, non-irritating</p>
-                <br /><br /><br />
-                <div class="icon-box">
-                    <div>
-                        <img src="https://www.svgrepo.com/show/27705/tree.svg" id="flex-icon" />
-                    </div>
-                    <div>
-                        <img src="https://www.svgrepo.com/show/113439/poinsettia.svg" id="flex-icon" />
-                    </div>
-                    <div>
-                        <img src="https://www.svgrepo.com/show/37019/umbrella.svg" id="flex-icon" />
-                    </div>
-                </div>
-                <button class="price-button">Add to cart-$16</button>
-            </div>
-        </div>
-    </div> --}}
+<p id="test"></p>
+<script>
+    $('.add-to-cart').click(function(){
+        var quantity = $('#quantity').val();
+        var product_id = $('#product_id').val();
+        var customer_id = $('#customer_id').val();
+        $.ajax({
+            url:"{{ route('cart') }}",
+            type:'POST',
+            data:{
+                'quantity':quantity,
+                'product_id':product_id,
+                'customer_id':customer_id,
+                _token:'{{ csrf_token() }}',
+            },
+            success:function(responce){
+                $('#button').text('Added to cart');
+            // for(var i=0;i<=responce.length();i++)
+            console.log(responce.length);
+                // var old=$('#cartitemscount').val();
+                $('#cartitemscount').html(responce.length);
+            }
+                });
+
+});
+
+</script>
         <footer class="py-5">
             <div class="container-fluid">
               <div class="row">
@@ -398,3 +403,16 @@
             </div>
           </footer>
     @endsection
+    {{-- {!! Form::hidden('quantity',$product->stock_quantity, ['id'=>'quantity']) !!} --}}
+    <script>
+        function addStock(){
+            var inp=$('#quantity').val();
+            var stockQuantity={{ $product->stock_quantity }};//$('#quantity').val();
+            console.log(stockQuantity);
+            if(stockQuantity!=0&&inp>stockQuantity){
+                $('#oos').text("*"+"Out off stock")
+            }else{
+                $('#oos').text('');
+            }
+        }
+        </script>

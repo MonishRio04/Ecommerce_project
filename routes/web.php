@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 //Route::group(['middleware'=>'auth'],function(){
 Route::get('/',[indexController::class,'index']);
 Route::get('/product/{slug}',[indexController::class,'show']);
+Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
+Route::get('/cartdelete/{id}',[indexController::class,'delete']);
+// Route::get('/cartget',[indexController::class,'ajaxupdate'])->name('ajaxget');
 //});
 Route::group([],function(){
 Route::get('login', [authController::class, 'index'])->name('login');

@@ -41,7 +41,8 @@ class customerController extends Controller
             'name'=>'required',
             'email'=>'required|email',//|unique:users,email
             'password'=>'required',
-            'role'=>'required'
+            'role'=>'required',
+            'file'=>'required',
         ]);
 
         $user= new User;
@@ -61,6 +62,7 @@ class customerController extends Controller
             $imgname=time().'.'.$r->file->extension();
             $r->file('file')->storeAs('public/customerImages',$imgname);
             $user->image=$imgname;
+            dd($user);
             $user->save();
         }
         return redirect('/customer');
