@@ -1,5 +1,6 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
+
 <section class="bg-light my-5 bg-white">
     <div class="container">
       <div class="row">
@@ -32,18 +33,18 @@
                 <div class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
                   <div class="">
                     <h6>Qty</h6>
-                    <h4 class="text-info">{{ $cart->quantity }}</h4>
+                    <h4>{{ $cart->quantity }}</h4>
                     {{-- <input type="num" value="{{ $cart->quantity }}" class="form-control text-center"id="quantity" oninput="addStock()" type="num" style="max-width: 3rem; margin-right: 12px;margin-top: 5px;"> --}}
                 </div>
                   <div style="margin-left: 15px;margin-top:19px">
-                    <text class="h6">&#8377; {{ $price=(int)$cart->product_price * $cart->quantity}}</text> <br />
+                    <text class="h6">&#8377;{{ $price=(int)$cart->product_price * $cart->quantity}}</text> <br />
                     @if($cart->discount!=null)
-                    <small class="text-muted text-nowrap">&#8377;<s>{{ $cart->product_price }} </s>
-                        {{ $cart->discount }} / per item  <p class="text-success">
-                            &#8377; {{ $cart->product_price-$cart->discount }} Discount applied on this item
+                    <small class="text-muted">&#8377;<s>{{ $cart->product_price }} </s>
+                        {{ $cart->discount }} / per item  <p style="color:green">
+                            &#8377;{{ $cart->product_price-$cart->discount }} Discount applied on this item
                         </p></small>
                     @else
-                      <small class="text-muted text-nowrap">&#8377; {{ $cart->product_price }}/ per item </small>
+                      <small class="text-muted text-nowrap">&#8377;{{ $cart->product_price }}/ per item </small>
                       @endif
                   </div>
                 </div>
@@ -67,9 +68,20 @@
               @endphp
               @endforeach
             </div>
+            <div class="d-none emptycart" id="emptycart">
+            <div class="text-center">
+                <div class="border-top pt-4 mx-4 mb-4">
+                  <p><i class="fas fa-truck"></i> No items in the cart</p>
+                  <p class="text-muted text-center">
+                    <a href="{{ url('/') }}" class="btn btn-primary">Add products</a>
+                  </p>
+                </div>
+            </div>
+            </div>
+            {!! Form::hidden('cartcount',count($cartitems), ['id'=>'cartcount']) !!}
             @if(count($cartitems)==0)
                 <script>$('#col').addClass("col-lg-12");</script>
-            <div class="text-center">
+            <div class="text-center" id="">
             <div class="border-top pt-4 mx-4 mb-4">
               <p><i class="fas fa-truck"></i> No items in the cart</p>
               <p class="text-muted text-center">
@@ -92,7 +104,7 @@
 
         <!-- cart -->
         <!-- summary -->
-        <div class="col-lg-3">
+        <div class="col-lg-3" id="coupon">
           <div class="card mb-3 border shadow-0">
             <div class="card-body">
               <form>
@@ -110,16 +122,16 @@
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <p class="mb-2">Total price:</p>
-                <p class="mb-2" id="total">{{ $total }}</p>
+                <p style="margin-left: auto">&#8377;</p><p class="mb-2" id="total">{{ $total }}</p>
               </div>
               <div class="d-flex justify-content-between">
                 <p class="mb-2">Discount:</p>
-                <p class="mb-2 text-success"id="discount">{{ $discount }}</p>
+                <p style="margin-left: auto">&#8377;</p><p class="mb-2"style="color:green"id="discount">{{ $discount }}</p>
               </div>
               <hr />
               <div class="d-flex justify-content-between">
                 <p class="mb-2">Total price:</p>
-                <p class="mb-2 fw-bold text-primary"id="overalltotal">&#8377; {{ $total-$discount }}</p>
+                <p class="mb-2" style="color:#17a2b8 !important"id="overalltotal">&#8377;{{ $total-$discount }}</p>
               </div>
 
               <div class="mt-3">
@@ -149,23 +161,30 @@
             success:function(response){
                var id="#item"+response;
                $(id).slideUp();
-               var value=parseInt($('#cartitemscount').text()-1).toString();
+               var value=parseInt($('#cartitemscount').text()-1);
                $('#cartitemscount').html(value);
-               var total=parseInt($('#total').text());
-               var productprice=parseInt($('.price'+response).val());
-               var discount=parseInt($('#discount').text());
-               $('#total').text(total-productprice);
-               var minus=0;
-                if($('.discount'+response).val()!=''){
-                    var minus=productprice-$('.discount'+response).val();
-                    this.minus=minus*$('.quan'+response).val();
-                    $('#discount').text(discount-minus).val();
+               console.log(parseInt(value));
+               if(parseInt(value)>=1){
+                    var total=parseInt($('#total').text());
+                    var productprice=parseInt($('.price'+response).val());
+                    var discount=parseInt($('#discount').text());
+                    $('#total').text(total-productprice);
+                    var minus=0;
+                        if($('.discount'+response).val()!=''){
+                            var minus=productprice-$('.discount'+response).val();
+                            this.minus=minus*$('.quan'+response).val();
+                            $('#discount').text(discount-minus).val();
+                        }
+                        total=parseInt($('#total').text());
+                        var discount=parseInt($('#discount').text());
+                        $('#overalltotal').text(total-discount);
+                }else{
+                    $('#col').removeClass("col-lg-9").addClass("col-lg-12");
+                    $('#coupon').hide();
+                    $('.emptycart').removeClass('d-none');
                 }
-                total=parseInt($('#total').text());
-                var discount=parseInt($('#discount').text());
-                $('#overalltotal').text(total-discount);
-    }});
-            });
+            }});
+        });
 
 
 </script>

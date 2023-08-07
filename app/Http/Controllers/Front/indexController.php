@@ -30,6 +30,7 @@ class indexController extends Controller
                 $data["cartitems"] =[];
             $data['quantity']=[];
             }
+            $data['categorylist']=["All Categories"]+categories::get()->pluck('name','id')->toArray();
             return $data;
 }
 

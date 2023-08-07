@@ -1,5 +1,6 @@
 @extends('Front.layout.default')
 @section('content')
+<link rel="stylesheet" type="text/css" href={{ asset('css/Front_css/style.css') }}>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <defs>
             <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
@@ -68,42 +69,6 @@
         <div class="preloader">
         </div>
     </div>
-
-    {{-- <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
-        <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        @if (Auth::check())
-            <div class="offcanvas-body">
-                <div class="order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">{{ Auth::user()->name }}</span>
-                        <span class="badge bg-primary rounded-pill">{{ count($cartitems) }}</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        @php $price=0 @endphp
-                        @foreach ($cartitems as $cart)
-                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0" id="pname">{{ $cart->product_name }}</h6>
-                                </div>
-                                <span class="text-body-secondary" id="price"> {{ $cart->product_price * $cart->quantity }}
-                                    <a class="text-decoration-none" href="{{ url('cartdelete/'.$cart->id) }}">x</a></span>
-
-                            </li>
-                            @php $price+=$cart->product_price*$cart->quantity @endphp
-                        @endforeach
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (INR)</span>
-                            <strong>{{ $price }}</strong>
-                        </li>
-                    </ul>
-                    <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-                </div>
-            </div>
-        @endif
-    </div> --}}
-
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
         aria-labelledby="Search">
         <div class="offcanvas-header justify-content-center">
@@ -141,12 +106,7 @@
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
                     <div class="search-bar row bg-light p-2 my-2 rounded-4">
                         <div class="col-md-4 d-none d-md-block">
-                            <select class="form-select border-0 bg-transparent">
-                                <option>All Categories</option>
-                                <option>Groceries</option>
-                                <option>Drinks</option>
-                                <option>Chocolates</option>
-                            </select>
+                            {!! Form::select('category', $categorylist, $category[0], ['class'=>'form-select border-0 bg-transparent']) !!}
                         </div>
                         <div class="col-11 col-md-7">
                             <form id="search-form" class="text-center" action="" method="">
