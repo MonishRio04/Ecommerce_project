@@ -17,6 +17,7 @@ Route::get('/',[indexController::class,'index']);
 Route::get('/product/{slug}',[indexController::class,'show']);
 Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
 Route::get('/cartdelete/{id}',[indexController::class,'delete']);
+Route::get('/cartpage',[indexController::class,'cartpage']);
 // Route::get('/cartget',[indexController::class,'ajaxupdate'])->name('ajaxget');
 //});
 Route::group([],function(){
@@ -31,6 +32,6 @@ Route::resource('category',categoryController::class);
 
 Route::resource('product',productController::class);
 Route::resource('customer',customerController::class);
-Route::resource('address',addressController::class);
+Route::resource('   ',addressController::class);
 // Route::get('Address',[viewaddress::class,'index'])->name('')
 ?>
