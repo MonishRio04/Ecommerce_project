@@ -79,6 +79,7 @@
         var quantity = $('#quantity').val();
         var product_id = $('#product_id').val();
         var customer_id = $('#customer_id').val();
+        // console.log(customer_id);
         $.ajax({
             url:"{{ route('cart') }}",
             type:'POST',
@@ -88,10 +89,14 @@
                 'customer_id':customer_id,
                 _token:'{{ csrf_token() }}',
             },
-            success:function(responce){
-                $('#button').text('Added to cart').css('color','green');
-                $('#cartitemscount').html(responce.length);
-            }
+            success:function(response){
+                // console.log(response.length);
+                $('#button').text('Added to cart').css('color','black');
+                $('#cartitemscount').html(response.length);
+            },
+                fail:function(){
+                    console.log('failed');
+                }
                 });
 
 });

@@ -48,7 +48,7 @@ public function customRegistration(Request $request)
     // dd($request);
     $request->validate([
         'name' => 'required',
-        'email' => 'required|email|unique:users',
+        'email' => 'required|email|unique:users,email',
         'password' => 'min:6|required_with:confirmPassword|same:confirmPassword',
         'confirmPassword' => 'min:6'
     ]);
@@ -67,11 +67,4 @@ public function customRegistration(Request $request)
 //  return view('app');
 // }
 
-
-public function signOut() {
-    Session::flush();
-    Auth::logout();
-
-    return Redirect('login');
-}
 }

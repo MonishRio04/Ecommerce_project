@@ -8,14 +8,14 @@
         <div id="col">
           <div class="card border shadow-0">
             {{-- {{ dd($cartitems) }} --}}
-            <div class="m-4">
+            <div class="m-4 cart-items">
               <h4 class="card-title mb-4">Your shopping cart</h4>
               @php
                     $total=0;
                    $discount=0;
               @endphp
               @foreach ($cartitems as $cart)
-              <div class="row gy-3 mb-4" id="{{ 'item'.$cart->id }}">
+              <div class="row gy-3 mb-4 cartlist" id="{{ 'item'.$cart->id }}">
                 <div class="col-lg-5">
                   <div class="me-lg-5">
                     <div class="d-flex">
@@ -48,8 +48,9 @@
                       @endif
                   </div>
                 </div>
+                {{-- {{ dd('price-'.$cart->id) }} --}}
                 {!! Form::hidden('quantity', $cart->quantity, ['class'=>'quan'.$cart->id]) !!}
-                {!! Form::hidden('price', $cart->product_price, ['class'=>'price'.$cart->id]) !!}
+                {!! Form::hidden('price', $cart->product_price, ['class'=>'price-'.$cart->id]) !!}
                 {!! Form::hidden('discount',$cart->discount,['class'=>'discount'.$cart->id]) !!}
                 <div class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                   <div class="float-md-end">
@@ -57,6 +58,7 @@
                     <button  data-id="{{ $cart->id }}" class="btn btn-danger deleteRecord"> Remove</button>
                   </div>
                 </div>
+
               </div>@php
                   $total+=(int)$price;
                   if($cart->discount!=null){
@@ -145,47 +147,52 @@
         <!-- summary -->
       </div>
     </div>
-  </section>
-  <!-- cart + summary -->
-  <script>
-    $('.deleteRecord').click(function(){
-        var id=$(this).data("id");
-        // console.log(id);
-        $.ajax({
-            url:'cartdelete/'+id,
-            type:'GET',
-            data:{
-                id:'id',
-            _token:"{{ csrf_token() }}",
-            },
-            success:function(response){
-               var id="#item"+response;
-               $(id).slideUp();
-               var value=parseInt($('#cartitemscount').text()-1);
-               $('#cartitemscount').html(value);
-               console.log(parseInt(value));
-               if(parseInt(value)>=1){
-                    var total=parseInt($('#total').text());
-                    var productprice=parseInt($('.price'+response).val());
-                    var discount=parseInt($('#discount').text());
-                    $('#total').text(total-productprice);
-                    var minus=0;
-                        if($('.discount'+response).val()!=''){
-                            var minus=productprice-$('.discount'+response).val();
-                            this.minus=minus*$('.quan'+response).val();
-                            $('#discount').text(discount-minus).val();
-                        }
-                        total=parseInt($('#total').text());
+    <script>
+        $(document).ready(function(){
+        // $('.deleteRecord').click(function(){
+            $(document).on('click','.deleteRecord',function() {
+
+            var id=$(this).data("id");
+            // console.log(id);
+
+            $.ajax({
+                url:"{{ url('cartdelete') }}" + '/' + id,
+                type:'GET',
+                data:{
+                    id:'id',
+                _token:"{{ csrf_token() }}",
+                },
+                success:function(response){
+                  var response=response.id;
+                  var id='#item'+response;
+                  $(id).slideUp();
+                   var value=parseInt($('#cartitemscount').text()-1);
+                   $('#cartitemscount').html(value);
+                   if(parseInt(value)>=1){
+                        var total=parseFloat($('#total').text());
+                        var productprice=parseFloat($('.price-'+response).val());
                         var discount=parseInt($('#discount').text());
-                        $('#overalltotal').text(total-discount);
-                }else{
-                    $('#col').removeClass("col-lg-9").addClass("col-lg-12");
-                    $('#coupon').hide();
-                    $('.emptycart').removeClass('d-none');
-                }
-            }});
+                        $('#total').text(total-productprice);
+                        var minus=0;
+                            if($('.discount'+response).val()!=''){
+                                var minus=productprice-$('.discount'+response).val();
+                                this.minus=minus*$('.quan'+response).val();
+                                $('#discount').text(discount-minus).val();
+                            }
+                            total=parseInt($('#total').text());
+                            var discount=parseInt($('#discount').text());
+                            $('#overalltotal').text(total-discount);
+                    }else{
+                        $('#col').removeClass("col-lg-9").addClass("col-lg-12");
+                        $('#coupon').hide();
+                        $('.emptycart').removeClass('d-none');
+                    }
+                }});
+            });
         });
 
+    </script>
+  </section>
+  <!-- cart + summary -->
 
-</script>
 @endsection

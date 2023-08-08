@@ -1,5 +1,6 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
+{{-- {{ dd(category()) }} --}}
 <link rel="stylesheet" type="text/css" href={{ asset('css/Front_css/style.css') }}>
     <div class="container-fluid">
         <div class="row py-3">
@@ -404,6 +405,7 @@
                                                     _token: '{{ csrf_token() }}',
                                                 },
                                                 success: function(response) {
+
                                                     parent.find('.add-to-cart').html('<i>✔ Added to cart</i>').css('color','green');
                                                     $('#cartitemscount').text(response.length);
                                                 }

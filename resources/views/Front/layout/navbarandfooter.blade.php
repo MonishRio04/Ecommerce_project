@@ -106,7 +106,8 @@
                 <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
                     <div class="search-bar row bg-light p-2 my-2 rounded-4">
                         <div class="col-md-4 d-none d-md-block">
-                            {!! Form::select('category', $categorylist, $category[0], ['class'=>'form-select border-0 bg-transparent']) !!}
+                            @php $categorylist=category()@endphp
+                            {!! Form::select('category', $categorylist['categorylist'], null, ['class'=>'form-select border-0 bg-transparent']) !!}
                         </div>
                         <div class="col-11 col-md-7">
                             <form id="search-form" class="text-center" action="" method="">
@@ -165,7 +166,7 @@
                         </div>
                     @else
                         <div class="cart text-end d-none d-lg-block dropdown">
-                            <a href={{ route('login') }} class="fs-6 text-muted text-decoration-none">Login</a>
+                            <a href={{ url('userlogin') }} class="fs-6 text-muted text-decoration-none">Login</a>
                             </button>
                         </div>
                     @endif
