@@ -154,7 +154,6 @@
                                     <use xlink:href="#search"></use>
                                 </svg>
                             </a>
-                        </li>
                     </ul>
                     @if (Auth::check())
                         <div class="cart text-end d-none d-lg-block dropdown">

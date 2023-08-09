@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\cart;
 use App\Models\categories;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class UserAuthController extends Controller
 {
     public function index()
     {
-    return view('Front.UserAuthentication.login');
+    $cartitems=cart::where('customer_id',Auth::user()->id)->get();
+    return view('Front.UserAuthentication.login',['cartitems'=>$cartitems]);
     }
     public function loginvalidate(Request $r){
 

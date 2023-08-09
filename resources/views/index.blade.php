@@ -377,7 +377,7 @@
                                                         {!! Form::hidden('customer_id', Auth::user()->id, ['id' => 'customer_id']) !!}
                                                     @else
                                                         <a type="button" id="button_{{ $product->id }}"
-                                                            href="{{ route('login') }}" class="add-to-cart nav-link">Add
+                                                            href="{{ url('userlogin') }}" class="add-to-cart nav-link">Add
                                                             to Cart
                                                             <iconify-icon icon="uil:shopping-cart"></a>
                                                     @endif

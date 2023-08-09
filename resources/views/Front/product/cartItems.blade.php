@@ -106,43 +106,43 @@
 
         <!-- cart -->
         <!-- summary -->
-        <div class="col-lg-3" id="coupon">
-          <div class="card mb-3 border shadow-0">
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <label class="form-label">Have coupon?</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control border" name="" placeholder="Coupon code" />
-                    <button class="btn btn-light border">Apply</button>
-                  </div>
+            <div class="col-lg-3" id="coupon">
+            <div class="card mb-3 border shadow-0">
+                <div class="card-body">
+                {{-- <form>
+                    <div class="form-group">
+                    <label class="form-label">Have coupon?</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control border" name="" placeholder="Coupon code" />
+                        <button class="btn btn-light border">Apply</button>
+                    </div>
+                    </div>
+                </form> --}}
                 </div>
-              </form>
             </div>
-          </div>
-          <div class="card shadow-0 border">
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <p class="mb-2">Total price:</p>
-                <p style="margin-left: auto">&#8377;</p><p class="mb-2" id="total">{{ $total }}</p>
-              </div>
-              <div class="d-flex justify-content-between">
-                <p class="mb-2">Discount:</p>
-                <p style="margin-left: auto">&#8377;</p><p class="mb-2"style="color:green"id="discount">{{ $discount }}</p>
-              </div>
-              <hr />
-              <div class="d-flex justify-content-between">
-                <p class="mb-2">Total price:</p>
-                <p class="mb-2" style="color:#17a2b8 !important"id="overalltotal">&#8377;{{ $total-$discount }}</p>
-              </div>
+            <div class="card shadow-0 border">
+                <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="mb-2">Total price:</p>
+                    <p style="margin-left: auto">&#8377;</p><p class="mb-2" id="total">{{ $total }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="mb-2">Discount:</p>
+                    <p style="margin-left: auto">&#8377;</p><p class="mb-2"style="color:green"id="discount">{{ $discount }}</p>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between">
+                    <p class="mb-2">Total price:</p>
+                    <p class="mb-2" style="color:#17a2b8 !important"id="overalltotal">&#8377;{{ $total-$discount }}</p>
+                </div>
 
-              <div class="mt-3">
-                <a href="#" class="btn btn-success w-100 shadow-0 mb-2"> Make Purchase </a>
-                <a href="{{ url('/') }}" class="btn btn-light w-100 border mt-2"> Back to shop </a>
-              </div>
+                <div class="mt-3">
+                    <a href="{{ url('checkout') }}" class="btn btn-success w-100 shadow-0 mb-2"> Make Purchase </a>
+                    <a href="{{ url('/') }}" class="btn btn-light w-100 border mt-2"> Back to shop </a>
+                </div>
+                </div>
             </div>
-          </div>
-        </div>
+            </div>
         @endif
         <!-- summary -->
       </div>
@@ -193,6 +193,6 @@
 
     </script>
   </section>
-  <!-- cart + summary -->
+  <!--   cart + summary -->
 
 @endsection

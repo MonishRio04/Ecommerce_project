@@ -19,7 +19,9 @@ Route::get('/',[indexController::class,'index']);
 Route::get('/product/{slug}',[indexController::class,'show']);
 Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
 Route::get('/cartdelete/{id}',[indexController::class,'delete']);
-Route::get('/cartpage',[indexController::class,'cartpage']);
+Route::get('/cartpage',[indexController::class,'cartpage'])->middleware('auth');
+Route::get('/checkout',[indexController::class,"checkout"])->middleware('auth');
+Route::post('/placeorder',[indexController::class,"placeorder"]);
 // Route::get('/cartget',[indexController::class,'ajaxupdate'])->name('ajaxget');
 //});
 Route::group([],function(){

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\cart;
 use App\Models\categories;
+use App\Models\orders;
+use App\Models\order_items;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,4 +83,43 @@ class indexController extends Controller
         return view('Front.product.cartItems',$this->data());
 
    }
+   public function checkout(){
+
+    $address=Address::where('customer_id',Auth::user()->id)->get();
+    $addre[0]="Select Address";
+    // $addre[0]='' ;
+     foreach($address as $addr){
+    $addre[$addr->id]=$addr->name." ".$addr->mobile_no." ".$addr->address_line1." ".$addr->post_code;;
+
+    }
+    //  dd($addre);
+        return view('Front.product.checkout',$this->data(),['addre'=>$addre]);
+    }
+
+    public function placeorder(Request $r){
+       $r->validate([
+            'address'=>'required'
+       ]);
+
+       $cartitems=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
+        ->select('products.price as product_price','cart.*')->get();
+        $orders=new orders;
+        $orders->customer_id=Auth::user()->id;
+        $orders->total=$r->total;
+        $orders->billing_address=$r->address;
+        $orders->payment_type=$r->paymentMethod;
+        $orders->order_code='ORD'.date('Ymd').'-'.count($cartitems);
+        $orders->save();
+
+        foreach($cartitems as $cart){
+            $ordered_items=new order_items;
+            $ordered_items->order_id=$orders->id;
+            $ordered_items->item_id=$cart->product_id;
+            $ordered_items->item_quantity=$cart->quantity;
+            $ordered_items->price=$cart->product_price;
+            $ordered_items->save();
+        }
+        cart::where('customer_id',Auth::user()->id)->delete();
+        return back();
+    }
 }
