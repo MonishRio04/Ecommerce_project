@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\productController;
 use App\Http\Controllers\admin\customerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\UserAuthController;
+use App\Http\Controllers\Front\orderitems;
 use App\Http\Middleware\EnsureUserRole;
 
 // Route::any('dashboard',function(){
@@ -19,9 +20,13 @@ Route::get('/',[indexController::class,'index']);
 Route::get('/product/{slug}',[indexController::class,'show']);
 Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
 Route::get('/cartdelete/{id}',[indexController::class,'delete']);
-Route::get('/cartpage',[indexController::class,'cartpage'])->middleware('auth');
+Route::get('/cart',[indexController::class,'cartpage'])->middleware('auth');
 Route::get('/checkout',[indexController::class,"checkout"])->middleware('auth');
 Route::post('/placeorder',[indexController::class,"placeorder"]);
+
+
+Route::get('/orders',[orderitems::class,'orderitems']);
+Route::get('/show-order/{id}',[orderitems::class,'showorder']);
 // Route::get('/cartget',[indexController::class,'ajaxupdate'])->name('ajaxget');
 //});
 Route::group([],function(){

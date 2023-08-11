@@ -17,9 +17,9 @@
                     {{-- {{ dd($product->discount_price!=null) }} --}}
                     @if($product->discount_price!=null)
                     <span class="text-decoration-line-through">{{ $product->price }}</span>
-                    <span>{{ $product->discount_price }}</span>
+                    <span>&#8377;{{ $product->discount_price }}</span>
                     @else
-                        <span>{{ $product->price }}</span>
+                        <span>&#8377;{{ $product->price }}</span>
                     @endif
                 </div>
                 {{-- {{ dd($product->stock_quantity) }} --}}

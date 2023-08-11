@@ -54,9 +54,11 @@
             <h4 class="mb-3">Billing address</h4>
                 <label for="adr"><i class="fa fa-address-card-o text-center"></i> Address</label>
                 <select name="address" id="adr" class="form-control">
+                <option name="address" disabled selected>Select Address </option>
                   @foreach($addre as $addr)
-                  <option name="address">{{ $addr }}</option>
+                  <option name="address" value="{{ array_search($addr,$addre) }}" >{{ $addr }}</option>
                   @endforeach
+
                 </select>
                 {{-- <hr class="mb-4 mt-4">
                 <div class="custom-control custom-checkbox">
@@ -83,7 +85,7 @@
                         <label class="custom-control-label" for="paypal">PayPal</label>
                     </div>
 					  <div class="custom-control custom-radio">
-                        <input id="cod" name="paymentMethod" value="3" type="radio" class="custom-control-input" required="">
+                        <input id="cod" name="paymentMethod" checked value="3" type="radio" class="custom-control-input" required="">
                         <label class="custom-control-label" for="cod">Cash on delievery</label>
                     </div>
                 </div>

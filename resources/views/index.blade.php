@@ -338,7 +338,7 @@
                                                 @else
                                                     <span class="qty"></span>
                                                 @endif
-                                                <span class="price">Rs.{{ $product->price }}</span>
+                                                <span class="price">&#8377;{{ $product->price }}</span>
 
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="input-group product-qty">

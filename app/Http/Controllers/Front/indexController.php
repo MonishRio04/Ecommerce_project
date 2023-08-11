@@ -45,7 +45,7 @@ class indexController extends Controller
     public function show(string $slug){
         $data["product"]=Products::where('urlslug',$slug)->get()->first();
         // dd($data['product']);
-        return view('Front.product.showproduct',$this->data(),$data);
+        return view('Front.showproduct.showproduct',$this->data(),$data);
     }
     public function addToCart(Request $r){
         $carts=new cart;
@@ -80,36 +80,38 @@ class indexController extends Controller
     }
      public function cartPage(){
 
-        return view('Front.product.cartItems',$this->data());
+        return view('Front.cart.cartItems',$this->data());
 
    }
    public function checkout(){
 
     $address=Address::where('customer_id',Auth::user()->id)->get();
-    $addre[0]="Select Address";
+    $addre=null;
     // $addre[0]='' ;
      foreach($address as $addr){
-    $addre[$addr->id]=$addr->name." ".$addr->mobile_no." ".$addr->address_line1." ".$addr->post_code;;
-
-    }
-    //  dd($addre);
-        return view('Front.product.checkout',$this->data(),['addre'=>$addre]);
+        $addre[$addr->id]=$addr->name." ".$addr->mobile_no." ".$addr->address_line1." ".$addr->post_code;
+        }
+        //  dd($addre);
+        // dd($addr-   );
+        return view('Front.cart.checkout',$this->data(),['addre'=>$addre]);
     }
 
     public function placeorder(Request $r){
        $r->validate([
             'address'=>'required'
        ]);
-
+    //    dd((int)$r->address);
        $cartitems=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
         ->select('products.price as product_price','cart.*')->get();
         $orders=new orders;
         $orders->customer_id=Auth::user()->id;
         $orders->total=$r->total;
-        $orders->billing_address=$r->address;
+        $orders->billing_address=(int)$r->address;
         $orders->payment_type=$r->paymentMethod;
-        $orders->order_code='ORD'.date('Ymd').'-'.count($cartitems);
         $orders->save();
+        $ordercode='ORD'.date('Y').'0000'.$orders->id;
+    //    dd($ordercode);
+        orders::where('id',$orders->id)->update(['order_code'=>$ordercode]);
 
         foreach($cartitems as $cart){
             $ordered_items=new order_items;

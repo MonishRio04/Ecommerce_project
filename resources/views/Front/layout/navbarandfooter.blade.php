@@ -130,14 +130,37 @@
                         <span class="fs-6 text-muted">For Support?</span>
                         <h5 class="mb-0">+980-34984089</h5>
                     </div>
-
+{{-- <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div> --}}
                     <ul class="d-flex justify-content-end list-unstyled m-0">
                         <li>
-                            <a href="{{ route('signout') }}" class="rounded-circle bg-light p-2 mx-1 text-dark">
+                            <div class="dropdown">
+                            <button class="btn btn-light rounded-circle bg-light p-2 mx-1 text-dark"
+                            type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <svg width="24" height="24" viewBox="0 0 24 24">
                                     <use xlink:href="#user"></use>
                                 </svg>
-                            </a>
+                            </button>
+                            @if(Auth::check())
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ url('signout') }}">Logout</a>
+                                <a class="dropdown-item" href="{{ url('orders') }}">Orders</a>
+                                <a class="dropdown-item" href="#">My profile</a>
+                              </div>
+                              @else
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ url('userlogin') }}">Login</a>
+                              </div>
+                              @endif
+                            </div>
                         </li>
                         <li class="d-lg-none">
                             <a href="#" class="rounded-circle bg-light p-2 mx-1 text-dark" data-bs-toggle="offcanvas"
@@ -157,10 +180,12 @@
                     </ul>
                     @if (Auth::check())
                         <div class="cart text-end d-none d-lg-block dropdown">
-                            <a class="border-0 bg-transparent text-decoration-none text-dark" href="{{ url('cartpage') }}" >
+                            <a class="border-0 bg-transparent text-decoration-none text-dark" href="{{ url('cart') }}" >
                                 <span class="fs-6 text-muted dropdown-toggle"> {{ Auth::user()->name }}</span>
                                 <h5 class="mb-0"><span class="cart-total"> <i class="fa fa-shopping-cart" style="font-size:36px"></i>
-                                   <h5 id="cartitemscount"> {{ count($cartitems) }}</span></h5>
+                                    @if(function_exists('cartitems'))
+                                   <h5 id="cartitemscount"> {{ count(cartitems()['cartitems']) }}</span></h5>
+                                   @endif
                                 </a>
                         </div>
                     @else

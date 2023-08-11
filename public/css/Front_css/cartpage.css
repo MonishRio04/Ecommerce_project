@@ -15,3 +15,13 @@
     color: #dc4c64 !important;
   }
 
+    #orderstatus1{
+        background-color: green;
+        color: white;
+        padding: 3px !important;
+    }
+    #orderstatus2{
+        background-color: red;
+        color: white;
+        padding: 3px !important;
+    }

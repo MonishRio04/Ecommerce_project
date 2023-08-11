@@ -15,8 +15,8 @@ class UserAuthController extends Controller
 {
     public function index()
     {
-    $cartitems=cart::where('customer_id',Auth::user()->id)->get();
-    return view('Front.UserAuthentication.login',['cartitems'=>$cartitems]);
+    // $cartitems=cart::where('customer_id',Auth::user()->id)->get();
+    return view('Front.UserAuthentication.login');
     }
     public function loginvalidate(Request $r){
 
