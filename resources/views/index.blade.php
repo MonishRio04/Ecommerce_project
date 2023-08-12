@@ -210,7 +210,7 @@
                         <h2 class="section-title">Categorys</h2>
 
                         <div class="d-flex align-items-center">
-                            <a href="#" class="btn-link text-decoration-none">View All Categories →</a>
+                            <a href="{{ url('all-categories') }}" class="btn-link text-decoration-none">View All Categories →</a>
                             <div class="swiper-buttons">
                                 <button class="swiper-prev category-carousel-prev btn btn-yellow">❮</button>
                                 <button class="swiper-next category-carousel-next btn btn-yellow">❯</button>
@@ -247,13 +247,13 @@
 
                         <h2 class="section-title">Newly Arrived Brands</h2>
 
-                        <div class="d-flex align-items-center">
+                        {{-- <div class="d-flex align-items-center">
                             <a href="#" class="btn-link text-decoration-none">View All Categories →</a>
                             <div class="swiper-buttons">
                                 <button class="swiper-prev brand-carousel-prev btn btn-yellow">❮</button>
                                 <button class="swiper-next brand-carousel-next btn btn-yellow">❯</button>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>

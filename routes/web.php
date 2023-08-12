@@ -30,9 +30,9 @@ Route::get('/orders',[orderitems::class,'orderitems']);
 Route::get('/show-order/{id}',[orderitems::class,'showorder']);
 // Route::get('/cartget',[indexController::class,'ajaxupdate'])->name('ajaxget');
 //});
-
-Route::get('/all-categories',[usercategoryController::class,'allcategory']);
-Route::get('/categories/{category}',[usercategoryController::class,'categories']);
+Route::post('/search',[indexController::class,'search']);
+Route::get('/all-categories',[usercategoryController::class,'allcategories']);
+Route::get('/categories/{category}',[usercategoryController::class,'category']);
 
 
 Route::group([],function(){

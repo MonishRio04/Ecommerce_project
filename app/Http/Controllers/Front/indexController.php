@@ -124,4 +124,17 @@ class indexController extends Controller
         cart::where('customer_id',Auth::user()->id)->delete();
         return redirect('orders')->with('success','Ordered Successfully');
     }
+
+
+    public function search(Request $r){
+        // dd((int)$r->category);
+        if(empty($r->category)){
+            $searchproducts=Products::where('name','like','%'.$r->searchquery.'%')->get();
+        }
+        else{
+            $searchproducts=Products::where('category',$r->category)->where('name','like','%'.$r->searchquery.'%')->get();
+        }
+        // dd($searchproducts);
+        return view('Front.layout.search',['products'=>$searchproducts]);
+    }
 }

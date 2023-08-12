@@ -18,7 +18,8 @@ class usercategorycontroller extends Controller
 
     }
     public function allcategories(){
-        $categories=categories::latest()->get();
+        $categories=categories::get();
+        // dd($categories);
         return view('Front.category.category',['category'=>$categories]);
     }
 }
