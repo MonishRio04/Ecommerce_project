@@ -9,13 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class orderitems extends Controller
+class   orderitems extends Controller
 {
    public function orderitems(){
     $data=new indexController;
     $data=$data->data();
     $data['orders']=orders::where('customer_id',Auth::user()->id)->latest()->get();
-    $data['order_items']=orders::get();
     return view('Front.order-info.orders',$data);
    }
 

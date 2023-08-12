@@ -59,6 +59,9 @@
                   @endforeach
 
                 </select>
+                @error('address')
+                    <p style="color:red;font-size:12px">*{{ $message }}</p>
+                @enderror
                 {{-- <hr class="mb-4 mt-4">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="same-address">

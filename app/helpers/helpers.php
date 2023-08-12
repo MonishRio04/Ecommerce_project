@@ -1,6 +1,7 @@
 <?php
 use App\Models\cart;
 use App\Models\categories;
+use App\Models\order_items;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -28,5 +29,12 @@ if(!function_exists('cartitems')){
         $data['categorylist']=["All Categories"]+categories::get()->pluck('name','id')->toArray();
         // dd($data);
         return $data;
+    }
+    if(!function_exists('qutycount')){
+        function qutycount(string $orderid){
+            $count=order_items::where('order_id',$orderid)->get();
+            $count=count($count);
+            return $count;
+        }
     }
 }
