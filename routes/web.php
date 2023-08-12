@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\customerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\UserAuthController;
 use App\Http\Controllers\Front\orderitems;
+use App\Http\Controllers\Front\usercategorycontroller;
 use App\Http\Middleware\EnsureUserRole;
 
 // Route::any('dashboard',function(){
@@ -29,6 +30,11 @@ Route::get('/orders',[orderitems::class,'orderitems']);
 Route::get('/show-order/{id}',[orderitems::class,'showorder']);
 // Route::get('/cartget',[indexController::class,'ajaxupdate'])->name('ajaxget');
 //});
+
+Route::get('/all-categories',[usercategoryController::class,'allcategory']);
+Route::get('/categories/{category}',[usercategoryController::class,'categories']);
+
+
 Route::group([],function(){
 Route::get('login', [authController::class, 'index'])->name('login');
 Route::any('registered-information', [authController::class, 'customLogin'])->name('login.custom');

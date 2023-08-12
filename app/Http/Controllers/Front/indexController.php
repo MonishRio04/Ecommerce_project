@@ -122,6 +122,6 @@ class indexController extends Controller
             $ordered_items->save();
         }
         cart::where('customer_id',Auth::user()->id)->delete();
-        return back();
+        return redirect('orders')->with('success','Ordered Successfully');
     }
 }

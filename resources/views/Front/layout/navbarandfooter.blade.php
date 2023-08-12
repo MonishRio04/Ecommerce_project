@@ -162,14 +162,25 @@
                               @endif
                             </div>
                         </li>
+                        @if(Auth::check())
                         <li class="d-lg-none">
-                            <a href="#" class="rounded-circle bg-light p-2 mx-1 text-dark" data-bs-toggle="offcanvas"
+                            <a href="{{ url('cart') }}" class="rounded-circle bg-light p-2 mx-1 text-dark" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                 <svg width="24" height="24" viewBox="0 0 24 24">
                                     <use xlink:href="#cart"></use>
                                 </svg>
                             </a>
                         </li>
+                        @else
+                        <li class="d-lg-none">
+                            <a href="{{ url('userlogin') }}" class="rounded-circle bg-light p-2 mx-1 text-dark" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                                <svg width="24" height="24" viewBox="0 0 24 24">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        @endif
                         <li class="d-lg-none">
                             <a href="#" class="rounded-circle bg-light p-2 mx-1 text-dark" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">

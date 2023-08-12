@@ -2,7 +2,6 @@
 @section('main')
 <link rel="stylesheet" href="{{ asset('css/Front_css/checkout.css') }}">
 <div class="container">
-
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">

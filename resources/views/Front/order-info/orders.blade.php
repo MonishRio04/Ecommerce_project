@@ -1,6 +1,7 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
 <link rel="stylesheet" href="{{ asset('css/Front_css/cartpage.css') }}">
+
 <div class="container">
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-white">
@@ -64,6 +65,7 @@
                             @php
                                 $order_items=$order_items->where('order_id',$order->id);
                             @endphp
+                                {{-- {{ dd($order_items[0]) }} --}}
                             <div class="card-body">
                                 <h5 class="d-inline p-2 card-title">Placed On:{{ $order->created_at }}</h5>
                                 <h6 class="d-inline p-2 card-title" style="float:right">Qty :{{ count($order_items) }}</h6>
@@ -73,7 +75,7 @@
 
                           </div>
                           @endforeach
-                    </li>
+                         </li>
                   </ul>
             </div>
         </div>

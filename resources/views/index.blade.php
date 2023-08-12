@@ -225,7 +225,7 @@
                     <div class="category-carousel swiper">
                         <div class="swiper-wrapper">
                             @foreach ($category as $cate)
-                                <a href="category.html" class="nav-link category-item swiper-slide">
+                                <a href="{{ url('categories/'.$cate->name) }}" class="nav-link category-item swiper-slide">
                                     <img src="storage/images/{{ $cate->image }}">
                                     <h3 class="category-title">{{ $cate->name }}</h3>
                                 </a>
@@ -330,13 +330,12 @@
                                                             class="tab-image">
                                                     </a>
                                                 </figure>
-                                                <h3>{{ $product->name }}</h3>
+
                                                 @if ($product->stock_quantity != null)
                                                 {!! Form::hidden('stockquantity', $product->stock_quantity,['id'=>'stockquantity']) !!}
-                                                    <span
-                                                        class="qty">{{ $product->stock_quantity . ' Unit' }}</span>{{-- <span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span> --}}
+                                                <h3>{{ $product->name }}<span class="qty">{{ '('.$product->stock_quantity . ' Unit)' }}</span></h3>
                                                 @else
-                                                    <span class="qty"></span>
+                                                <h3>{{ $product->name }}</h3><span class="qty"></span>
                                                 @endif
                                                 <span class="price">&#8377;{{ $product->price }}</span>
 

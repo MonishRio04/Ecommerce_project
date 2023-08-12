@@ -86,31 +86,7 @@
                   </div>
                 </div>
               </div>
-                {{-- <ul class="list-group">
-                    <li class="list-group-item">
-                         @foreach($orders as $order)
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                <div class="d-inline p-2 card-title"> Order Code:#{{ $order->order_code }}
-                                &nbsp;&nbsp;&nbsp; <b>Status : </b></div>
-                                <div  class="d-inline p-2 card-title rounded" id="orderstatus{{ $order->status }}">
-                                    {{$status=$order->status==1?'To be approved':'Rejected'}}</div>
-                            </div>
-                            @php
-                                $order_items=$order_items->where('order_id',$order->id);
-                            @endphp
-                            <div class="card-body">
-                                <h5 class="d-inline p-2 card-title">Placed On:{{ $order->created_at }}</h5>
-                                <h6 class="d-inline p-2 card-title" style="float:right">Qty{{ count($order_items)+1 }}</h6>
-                              <p class="card-text">Total : &#8377;{{ $order->total }}</p>
-                              <a href="" class="btn btn-primary"><i class="fa-solid fa-eye"></i>View</a>
-                            </div>
-
-                          </div>
-                          @endforeach
-                    </li>
-                  </ul> --}}
-                  <div class="mt-5 p-3 order-table">
+                  <div class="mt-5 p-3 order-table table-responsive">
                     @php
                         $total=0;
                     @endphp
