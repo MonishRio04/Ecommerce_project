@@ -79,7 +79,7 @@
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-primary">Search</span>
                 </h4>
-                <form role="search" method="get" class="d-flex">
+                <form role="search" method="POST" class="d-flex">
                     <form class="d-flex mt-3 gap-0" role="newsletter">
                         <input class="form-control form-control-lg rounded-start rounded-0 bg-light" type="email"
                             placeholder="What are you looking for?" aria-label="What are you looking for?">

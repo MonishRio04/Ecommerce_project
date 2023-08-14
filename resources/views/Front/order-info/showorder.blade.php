@@ -2,52 +2,11 @@
 @section('main')
 <link rel="stylesheet" href="{{ asset('css/Front_css/cartpage.css') }}">
 <div class="container">
+<script>$('#orders').css({'color':'#FFC43F'});</script>
     <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-white">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-black text-decoration-none">
-                    <span class="fs-5 d-none d-sm-inline">Menu</span>
-                </a>
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-0 text-black">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle text-primary" style="color:">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
-                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-black">
-                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
-                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle text-black">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
-                    </li>
-                </ul>
-                <hr>
-
-            </div>
-        </div>
+        @include('Front.layout.usersidebar')
         <div class="col py-3">
-            <h3 class="d-inline p-2 text-dark">Order-</h3>
+            <h3 class="d-inline p-2 text-dark">Order-Items</h3>
             <button onclick="history.back()" class="d-inline btn text-decoration-none p-2" style="float:right">
                <i class="fa fa-angle-double-left"></i> Back</button>
                <div class="container">
@@ -106,10 +65,10 @@
                       <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $orders->pname }}</td>
-                        <td>{{ $orders->price }}</td>
+                        <td>&#8377;{{ $orders->price }}</td>
                         <td>{{ !empty($orders->discount)?$orders->discount:'N/A' }}</td>
                         <td>{{ $orders->item_quantity }}</td>
-                        <td>{{ $totals=!empty($orders->discount)?$orders->discount:$orders->price }}</td>
+                        <td>&#8377;{{ $totals=!empty($orders->discount)?$orders->discount:$orders->price }}</td>
                         @php
                             $total+=$totals*$orders->item_quantity;
                         @endphp
@@ -123,7 +82,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>Total:{{ $total }}</td>
+                            <td>&#8377;{{ $total }}:    Total</td>
                         </tr>
                     </tfoot>
                   </table>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\order_items;
 use App\Models\orders;
+use App\Models\orders_status;
 use Illuminate\Http\Request;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,8 @@ class   orderitems extends Controller
     $data=new indexController;
     $data=$data->data();
     $data['orders']=orders::where('customer_id',Auth::user()->id)->latest()->get();
+    $data['orderstatus']=orders_status::pluck('status_name','id');
+    // dd($data['orderstatus'][1]);
     return view('Front.order-info.orders',$data);
    }
 
