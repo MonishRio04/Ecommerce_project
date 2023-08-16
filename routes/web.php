@@ -46,6 +46,7 @@ Route::group([],function(){   //User=Orders
 
 Route::group([],function(){
     Route::get('/view-profile',[profilecontroller::class,'viewprofile']);
+    Route::post('/profile-update',[profilecontroller::class,'updateprofile'])->name('update');
 
 });
 

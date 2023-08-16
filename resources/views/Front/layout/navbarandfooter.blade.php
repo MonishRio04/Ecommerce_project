@@ -155,7 +155,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ url('signout') }}">Logout</a>
                                 <a class="dropdown-item" href="{{ url('orders') }}">Orders</a>
-                                <a class="dropdown-item" href="#">My profile</a>
+                                <a class="dropdown-item" href="{{ url('view-profile') }}">My profile</a>
                               </div>
                               @else
                               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

@@ -29,20 +29,16 @@
                                 <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Address</span> </a>
                         </li>
                         <li>
-                            <a href="#" id="address" class="nav-link px-0 align-middle text-dark">
-                                <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">prodcuts</span> </a>
+                            <a href="#" id="address" class="nav-link px-0 align-middle {{ Request::is('view-profile')?'text-primary':'' }}">
+                                <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Profile</span> </a>
                         </li>
                     </ul>
                     <hr>
 
                 </div>
             </div>
-
-
-    {{-- <script>
-        var location=window.location.pathname;
-        console.log(location);
-        if(location=='/add-new-address'){
-            $('#address').addClass('text-primary').removeClass('text-dark').css('font-weight','bold');
-        }
-    </script> --}}
+<style>
+    .nav-link{
+        font-weight:bold;
+    }
+</style>
