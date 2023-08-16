@@ -17,19 +17,20 @@ class profilecontroller extends Controller
             // dd($r->image);
             $r->validate([
                 'name'=>'required',
-                'email'=>'required|email',//|unique:users,email
-                'password'=>'required',
+                'email'=>'required|email',//|unique:users,email               
             ]);
 
-                 $user=User::where('id',Auth::user()->id)->first();
-            // dd(count(User::where('email',$email)->get())>0);
+                $user=User::where('id',Auth::user()->id)->first();                
                 $user->name=$r->name;
                 $user->email=$r->email;
-                $user->password=Hash::make($r->password);
+                if($r->password!=null)$user->password=Hash::make($r->password);                 
                 if($r->image!=null){
-                $imgname=time().'.'.$r->image->extension();
-                $r->file('image')->storeAs('public/customerImages',$imgname);
-                $user->image=$imgname;
+                    if($user->image!=null){
+                     Storage::delete('public/customerImages/' . $user->image);
+                    }
+                    $imgname=time().'.'.$r->image->extension();               
+                    $r->file('image')->storeAs('public/customerImages',$imgname);
+                    $user->image=$imgname;
                 }
                 // dd($user);
                 $user->update();

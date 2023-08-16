@@ -164,6 +164,8 @@
             </div>
         </div>
     </div>
+</div>
+</div>
     <script>
         $(document).on('click', '.edit', function() {
             var id = this.value;
@@ -280,6 +282,5 @@
                 });
             }
         }
-    </script>
-    </div>
+    </script>   
 @endsection

@@ -1,10 +1,7 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
 <link rel="stylesheet" href="{{ asset('css/Front_css/cartpage.css') }}">
-
-<div class="container">
-    <div class="row flex-nowrap">
-        @include('Front.layout.usersidebar')
+ @include('Front.layout.usersidebar')
         <div class="col py-3">
             <h3 class="d-inline p-2 text-dark">All Orders</h3>
             <button onclick="history.back()" class="d-inline btn text-decoration-none p-2" style="float:right">

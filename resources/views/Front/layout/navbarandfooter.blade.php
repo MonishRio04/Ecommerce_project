@@ -144,17 +144,26 @@
 </div> --}}
                     <ul class="d-flex justify-content-end list-unstyled m-0">
                         <li>
-                            <div class="dropdown">
-                            <button class="btn btn-light rounded-circle bg-light p-2 mx-1 text-dark"
+                            <div class="dropdown">                               
+                            <button class="btn btn-light rounded-circle bg-light p-2 mx-1 text-dark"style="width:50px"
                             type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             @if(Auth::check()&&Auth::user()->image!=null)
+                             <img src="{{asset('storage/customerImages/'.Auth::user()->image) }}"
+                                 class="rounded-circle"
+                                 style="width: 34px;height: 33px;" 
+                            >
+                             @else
                                 <svg width="24" height="24" viewBox="0 0 24 24">
                                     <use xlink:href="#user"></use>
                                 </svg>
+                            @endif                            
                             </button>
+
                             @if(Auth::check())
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ url('signout') }}">Logout</a>
                                 <a class="dropdown-item" href="{{ url('orders') }}">Orders</a>
+                                <a class="dropdown-item" href="{{ url('view-wishlist') }}">Wishlist</a>
                                 <a class="dropdown-item" href="{{ url('view-profile') }}">My profile</a>
                               </div>
                               @else

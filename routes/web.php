@@ -14,6 +14,7 @@ use App\Http\Controllers\Front\profilecontroller;
 use App\Http\Controllers\Front\usercategorycontroller;
 use App\Http\Middleware\EnsureUserRole;
 use App\Http\Controllers\Front\UserAddrerss;
+use App\Http\Controllers\Front\wishlistcontroller;
 
 Route::group([],function(){   //User=Flow Details
     Route::get('/',[indexController::class,'index']);
@@ -47,7 +48,12 @@ Route::group([],function(){   //User=Orders
 Route::group([],function(){
     Route::get('/view-profile',[profilecontroller::class,'viewprofile']);
     Route::post('/profile-update',[profilecontroller::class,'updateprofile'])->name('update');
+});
 
+Route::group([],function(){
+    Route::get('/view-wishlist',[wishlistcontroller::class,'viewlist']);
+     Route::get('/add-wishlist/{id}',[wishlistcontroller::class,'addlist']);
+      Route::get('/wishlist-delete/{id}',[wishlistcontroller::class,'wishdelete']);
 });
 
 

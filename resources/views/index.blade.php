@@ -1,7 +1,8 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
 {{-- {{ dd(category()) }} --}}
-<link rel="stylesheet" type="text/css" href={{ asset('css/Front_css/style.css') }}>
+<script src="{{asset('js/front_js/wishlist.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('css/Front_css/style.css') }}">
     <div class="container-fluid">
         <div class="row py-3">
             <div class="d-flex  justify-content-center justify-content-sm-between align-items-center">
@@ -309,6 +310,7 @@
                   </div> --}}
                             </nav>
                         </div>
+    
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-all" role="tabpanel"
                                 aria-labelledby="nav-all-tab">
@@ -319,10 +321,11 @@
                                     @foreach ($products as $product)
                                         <div class="col">
                                             <div class="product-item">
-                                                <a href="#" class="btn-wishlist"><svg width="24"
+                                                <button  type="button" class="wish btn-wishlist" id="{{'btn'.$product->id }}">
+                                                <svg width="24"
                                                         height="24">
                                                         <use xlink:href="#heart"></use>
-                                                    </svg></a>
+                                                    </svg></button>
                                                 <figure>
                                                     <a href="{{ url('product/' . $product->urlslug) }}"
                                                         title="Product Title">
@@ -330,7 +333,7 @@
                                                             class="tab-image">
                                                     </a>
                                                 </figure>
-
+                                                                                                       
                                                 @if ($product->stock_quantity != null)
                                                 {!! Form::hidden('stockquantity', $product->stock_quantity,['id'=>'stockquantity']) !!}
                                                 <h3>{{ $product->name }}<span class="qty">{{ '('.$product->stock_quantity . ' Unit)' }}</span></h3>
@@ -422,6 +425,27 @@
                                                 $('#oos').text('');
                                             }
                                         }
+                                                           
+                                                $('.wish').click(function(){
+                                                    // var id=$('.ids').val();
+                                                     var product_id = $(this).parents('.product-item').find('#product_id').val();
+                                                      $.ajax({
+                                                        url:"/add-wishlist/"+product_id,
+                                                        type:'GET',
+                                                        data:{
+                                                        _token:"{{csrf_token()}}",
+                                                        },  
+                                                        success:function(response){
+                                                            console.log('#btn'+response.id);
+                                                            var id='#btn'+response.id;
+                                                            $(id).css('background-color','#F03838')
+                                                            .css('color','white');                                                         
+                                                        },
+                                                            fail:function(){
+                                                                console.log('failed');
+                                                            }
+                                                        });
+                                                 });                                                
                                     </script>
 
                                 </div>

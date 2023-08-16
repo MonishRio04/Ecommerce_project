@@ -49,7 +49,6 @@ class customerController extends Controller
         $email=$r->email;
         // dd(count(User::where('email',$email)->get())>0);
         if(count(User::where('email',$email)->get())>0){
-            // dd('test');
             $acc=User::withTrashed()->where('email',$email);
             $acc->restore();
         }
@@ -62,7 +61,7 @@ class customerController extends Controller
             $imgname=time().'.'.$r->file->extension();
             $r->file('file')->storeAs('public/customerImages',$imgname);
             $user->image=$imgname;
-            dd($user);
+            // dd($user);
             $user->save();
         }
         return redirect('/customer');

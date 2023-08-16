@@ -37,4 +37,10 @@ if(!function_exists('cartitems')){
             return $count;
         }
     }
+                if(!function_exists('rupee')){
+                        function rupee()
+                {
+                    return   $rupee='&#8377;';
+                }
+            }
 }

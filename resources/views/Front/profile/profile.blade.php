@@ -25,7 +25,7 @@
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
     </div>
       </form>
-    </div>
+   </div>
 </div>
 <style>
     .in{
