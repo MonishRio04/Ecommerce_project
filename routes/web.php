@@ -15,6 +15,9 @@ use App\Http\Controllers\Front\usercategorycontroller;
 use App\Http\Middleware\EnsureUserRole;
 use App\Http\Controllers\Front\UserAddrerss;
 use App\Http\Controllers\Front\wishlistcontroller;
+use App\Http\Controllers\admin\orderscontroller;
+
+
 
 Route::group([],function(){   //User=Flow Details
     Route::get('/',[indexController::class,'index']);
@@ -70,6 +73,8 @@ Route::group([],function(){     //Admin=operations
     Route::resource('product',productController::class);
     Route::resource('customer',customerController::class);
     Route::resource('address',addressController::class);
+    Route::get('orders-controller',[orderscontroller::class,'index']);
+    Route::post('orders-status-update',[orderscontroller::class,'update']);
 });
 
 

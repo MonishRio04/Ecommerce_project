@@ -43,4 +43,10 @@ if(!function_exists('cartitems')){
                     return   $rupee='&#8377;';
                 }
             }
+            if(!function_exists('orderscount')){
+                function orderscount($orderid){
+                    $order=order_items::where('order_id',$orderid)->get();
+                    return count($order);
+                }
+            }
 }
