@@ -29,7 +29,7 @@ class   orderitems extends Controller
         select('address.name as adrname',
         'address.mobile_no as adrmobileno',
         'address.address_line1 as address','orders.*',
-        'address.post_code as pincode')->get()->toArray();
+        'address.post_code as pincode')->get()->toArray();        
         $order=$order[0];
         $orderitems=order_items::where('order_id',$id)->join('products','order_items.item_id','=','products.id')
         ->select('products.name as pname','products.discount_price as discount','order_items.*')->get();

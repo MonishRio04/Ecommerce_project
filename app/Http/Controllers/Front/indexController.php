@@ -11,6 +11,10 @@ use App\Models\order_items;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mail;
+use App\Models\orders_status;
+use App\Models\user_role;
+use App\Models\User;
 
 class indexController extends Controller
 {
@@ -112,7 +116,7 @@ class indexController extends Controller
         $ordercode='ORD'.date('Y').'0000'.$orders->id;
     //    dd($ordercode);
         orders::where('id',$orders->id)->update(['order_code'=>$ordercode]);
-
+        $orderid=$orders->id;
         foreach($cartitems as $cart){
             $ordered_items=new order_items;
             $ordered_items->order_id=$orders->id;
@@ -121,6 +125,38 @@ class indexController extends Controller
             $ordered_items->price=$cart->product_price;
             $ordered_items->save();
         }
+         $data = array('name'=>Auth::user()->id);   
+        $orders['maildata']=orders::where('orders.customer_id',Auth::user()->id)
+        ->where('orders.id',$orderid)->
+        join('address','orders.billing_address','=','address.id')->
+        select('address.name as adrname',
+        'address.mobile_no as adrmobileno',
+        'address.address_line1 as address','orders.*',
+        'address.post_code as pincode')->first()->toArray();                
+        $orders['items']=order_items::where('order_id',$orderid)->join('products','order_items.item_id','=','products.id')
+        ->select('products.name as pname','products.discount_price as discount','order_items.*')->get()->toArray();       
+        $orders['status']=orders_status::pluck('status_name','id');    
+            Mail::send("Front.test",json_decode(json_encode($orders),true),function($message) 
+            {
+                 $message->to(Auth::user()->email, 'Order Placed')->subject
+                    ('Order Placed');                 
+            });         
+        $user_role=user_role::pluck('id','role');
+        // dd($user_role['customer']);
+        $userforemail=User::whereIn('role',[$user_role['admin'],$user_role['subadmin']])->get();
+        // dd($userforemail);
+        // function sendemail($orders){
+        foreach($userforemail as $sendemail)
+                {
+
+                     Mail::send("Front.test",json_decode(json_encode($orders),true),function($message) use($sendemail) 
+                    {
+                         $message->to($sendemail->email, 'Order Placed')->subject
+                            ('Order Placed');                 
+                    }   );
+                }
+        
+        // sendemail($orders);
         cart::where('customer_id',Auth::user()->id)->delete();
         return redirect('orders')->with('success','Ordered Successfully');
     }

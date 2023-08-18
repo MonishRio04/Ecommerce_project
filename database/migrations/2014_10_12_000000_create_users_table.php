@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             // $table->string('role')->nullable(true);
             // $table->integer('status');
-            $table->integer('role')->default(2);
+            $table->integer('role')->default(3);
             $table->string('image')->nullable(true);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
