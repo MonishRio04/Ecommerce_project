@@ -20,9 +20,15 @@ class UserAuthController extends Controller
     }
     public function loginvalidate(Request $r){
 
+        $r->validate([
+        'email' => 'required',
+        'password' => 'required',
+         ]);
+
         $credentials = [
             'email' => $r['email'],
             'password' => $r['password'],
+            'role'=>3
         ];
         // $category=category();
         // dd($category);

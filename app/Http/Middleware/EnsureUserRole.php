@@ -23,7 +23,8 @@ class EnsureUserRole
         $user=User::where('email',$request->email)->first();
         if((int)$user->role==1){
             return redirect('userlogin')->with('admin',"*Invalid login details");
-        }else{
+        }      
+        else{
         return $next($request);
         }
     }

@@ -26,15 +26,16 @@ public function customLogin(Request $request)
     $credentials = [
         'email' => $request['email'],
         'password' => $request['password'],
+        // 'role'=>1,2
     ];
-
-    if (Auth::attempt($credentials)) {
-        return redirect()->intended('/');
-
+    $user=User::where('email',$request->email)->first();
+        if((int)$user->role==1||(int)$user->role==2){        
+            if (Auth::attempt($credentials)) {
+                return redirect('/admin');
     }
-    return redirect("login")->withSuccess('Login details are not valid');
 }
-
+    return redirect("login");
+}   
 
 
 public function registration()

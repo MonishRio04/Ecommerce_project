@@ -145,7 +145,7 @@
                     <ul class="d-flex justify-content-end list-unstyled m-0">
                         <li>
                             <div class="dropdown">                               
-                            <button class="btn btn-light rounded-circle bg-light p-2 mx-1 text-dark"style="width:50px"
+                            <button class="btn btn-light rounded-circle bg-light p-2 mx-1 text-dark"style="width:45px"
                             type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                              @if(Auth::check()&&Auth::user()->image!=null)
                              <img src="{{asset('storage/customerImages/'.Auth::user()->image) }}"
@@ -212,7 +212,7 @@
                         </div>
                     @else
                         <div class="cart text-end d-none d-lg-block dropdown">
-                            <a href={{ url('userlogin') }} class="fs-6 text-muted text-decoration-none">Login</a>
+                            <a href="{{ url('userlogin') }}" class="fs-6 text-muted text-decoration-none">Login</a>
                             </button>
                         </div>
                     @endif

@@ -16,10 +16,10 @@ use App\Http\Middleware\EnsureUserRole;
 use App\Http\Controllers\Front\UserAddrerss;
 use App\Http\Controllers\Front\wishlistcontroller;
 use App\Http\Controllers\admin\orderscontroller;
+use App\Http\Middleware\isAdmin;
 
 
-
-Route::group([],function(){   //User=Flow Details
+Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::get('/',[indexController::class,'index']);
     Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
     Route::get('/cartdelete/{id}',[indexController::class,'delete']);
@@ -67,7 +67,7 @@ Route::group([],function(){  //AdminLogin
     Route::post('custom-registration', [authController::class, 'customRegistration'])->name('register.custom');
 });
 
-Route::group([],function(){     //Admin=operations
+Route::group(['middleware'=>'isadmin'],function(){     //Admin=operations
     Route::resource('admin',adminController::class);
     Route::resource('category',categoryController::class);
     Route::resource('product',productController::class);

@@ -9,7 +9,13 @@
             <div class="container"style="padding:inherit;">
                 <ul class="list-group">
                     <li class="list-group-item">
-                         @foreach($orders as $order)
+                        @if(count($orders)==0)
+                             <div class="card-header text-center" style="background-color: #F2DEDE;">
+                                <div class="d-inline p-2 card-title" style="color:#A94442;"><b>No Orders </b></div>
+                            </div>
+                        
+                        @endif
+                         @foreach($orders as $order)                        
                         <div class="card mb-3">
                             <div class="card-header">
                                 <div class="d-inline p-2 card-title"> Order Code:#{{ $order->order_code }}
