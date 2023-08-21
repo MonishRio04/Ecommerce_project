@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\orders_status;
 use App\Models\orders;
 use Auth;
+use Excel;
+use App\Exports\ExportOrders;
 
 class orderscontroller extends Controller
 {
@@ -26,5 +28,13 @@ class orderscontroller extends Controller
        $order->status=$r->status;
        $order->update();
        return response(['id'=>$r->orderid]);
+    }
+    public function exportorders(){
+        // dd($data);
+        
+        $responce=Excel::download(new ExportOrders, 'Orders.xlsx');
+        ob_end_clean();
+
+        return $responce;
     }
 }

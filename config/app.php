@@ -168,7 +168,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class, 
+        Maatwebsite\Excel\ExcelServiceProvider::class,       
     ])->toArray(),
 
     /*
@@ -186,6 +187,7 @@ return [
     'Form'=>Collective\Html\HtmlServiceProvider::class,
     'html'=>Collective\Html\HtmlServiceProvider::class,
         // 'Example' => App\Facades\Example::class,
+    'Excel' =>Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];

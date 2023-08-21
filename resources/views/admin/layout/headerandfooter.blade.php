@@ -19,7 +19,7 @@
                          @else
                           <a class="inline-flex items-center w-full text-sm font-semibold
                     transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                        href="route{{'admin.index'}}">
+                        href="{{route('admin.index')}}">
                      @endif
                         <!-- text-gray-800  -->
                         <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
