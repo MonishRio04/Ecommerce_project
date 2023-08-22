@@ -1,5 +1,7 @@
 @extends('admin.layout.headerandfooter')
 @section('admincontent')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <main class="h-full pb-16 overflow-y-auto">
   <div class="container grid px-6 mx-auto">    
     <div class="flex bg-green-200 p-4 mx-16 ">
@@ -7,7 +9,7 @@
         </div>
         <a href="{{url('export-orders')}}" style="margin: 10px;" 
        class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-        <span><i class="fa fa-download"></i> Export Orders</span>
+        <span><i class="fa fa-download"></i> Export Excel</span>
       </a>
     </div>     
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
@@ -23,6 +25,7 @@
             <th class="px-4 py-3">Status</th>
             <th class="px-4 py-3">Total <br>amount</th>                     
             <th class="px-4 py-3">Payment type </th>
+            <th class="px-4 py-3">View</th>
           </tr>
         </thead>
         <tbody
@@ -33,7 +36,7 @@
           <td class="px-4 py-3">
             <div class="flex items-center text-sm">                         
               <div>
-               {{date($order->created_at)}}
+               {{$order->created_at->format('Y.m.d H:i a')}}
 
              </div>
            </div>
@@ -56,14 +59,23 @@
       </td><?php
       $type=[0=>'Credit card',1=>'Debit card',2=>'PayPal',3=>'COD'];
       ?>
-      <td class="px-4 py-3 text-sm">
+      <td class="px-4 py-3 text-sm text-center">
         {{$type[$order->payment_type]}}
+      </td>
+      <td class="px-4 py-3 text-sm">
+         <a
+         href="{{url('view-order/'.$order->id) }}"
+                  class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                >
+                  <i class="fa fa-eye"></i>
+                </a>
+                 
+                
       </td>
     </tr>
     @endforeach
   </div>
 </main>
-
 <style type="text/css">
   #status{
     width:150px;

@@ -6,17 +6,25 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\orders;
 use App\Models\orders_status;
 // use App\Models\orders;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
 
-class ExportOrders implements FromCollection
+class ExportOrders implements FromCollection,ShouldAutoSize,WithHeadings,WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-    
-   
-    public function collection()
+     public function styles(Worksheet $sheet)
     {
-        $data['headings']= [
+        return [
+            // Style the first row as bold text.
+            1    => ['font' => ['bold' => true]],           
+        ];
+    }
+   public function headings():array{
+      return $data['headings']= [
             'Order Date',
             'Order Code',
             'Customer Name',
@@ -24,6 +32,10 @@ class ExportOrders implements FromCollection
             'Total Amount',
             'Payment Type',
         ];
+   }
+    public function collection()
+    {
+      
         $type=['credit','debit','paypal','COD' ];
         $data['orders']=orders::join(
             'users','orders.customer_id','=','users.id')->join(

@@ -76,6 +76,7 @@ Route::group(['middleware'=>'isadmin'],function(){     //Admin=operations
     Route::get('orders-controller',[orderscontroller::class,'index']);
     Route::post('orders-status-update',[orderscontroller::class,'update']);
     Route::get('export-orders',[orderscontroller::class,'exportorders']);
+    Route::get('view-order/{id}',[orderscontroller::class,'vieworder']);
 });
 
 

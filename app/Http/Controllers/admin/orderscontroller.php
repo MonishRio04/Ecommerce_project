@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\orders_status;
 use App\Models\orders;
+use App\Models\order_items;
 use Auth;
 use Excel;
 use App\Exports\ExportOrders;
@@ -36,5 +37,19 @@ class orderscontroller extends Controller
         ob_end_clean();
 
         return $responce;
+    }
+    public function vieworder(string $id){
+         $orders['maildata']=orders::where('orders.id',$id)->
+        join('address','orders.billing_address','=','address.id')->
+        select('address.name as adrname',
+        'address.mobile_no as adrmobileno',
+        'address.address_line1 as address','orders.*',
+        'address.post_code as pincode')->first()->toArray();                
+        // dd($orders['maildata']->toArray());
+        $orders['items']=order_items::where('order_id',$id)->join('products','order_items.item_id','=','products.id')
+        ->select('products.name as pname','products.discount_price as discount','order_items.*')->get()->toArray();       
+        $orders['status']=orders_status::pluck('status_name','id');    
+           // dd($id);
+        return view('admin.orders.show-order',$orders);
     }
 }
