@@ -55,7 +55,7 @@
     }
 
     .items-table {
-      width: 80%;
+      width: 100%;
       border-collapse: collapse;
       margin-top: 30px;
       text-align: center;
@@ -72,6 +72,17 @@
       font-size: 14px;
       padding: 50px 15px 0 15px;
     }
+    .details{
+      display:inline-flex;
+    }
+    .btn{
+       text-align: right !important; 
+       width: fit-content;
+      background-color: #6C2BD9;
+      color: #f2f2f2;
+      padding: 10px;
+      border-radius: 8px;
+    }
   </style>
   <main class="h-full pb-16 overflow-y-auto">
   <div class="container grid px-6 mx-auto"style="background-color: white;">    
@@ -82,27 +93,33 @@
        class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
         <span><i class="fa fa-download"></i> Export Excel</span>
       </a> -->
-    </div>     
- <p class="date" style="text-align: right !important;">Date: {{ '20' . substr($maildata['created_at'], 2, 8) }}</p>
+    </div>
+    <div class="header">
+      
+    <p class="date">Date: {{date('Y-m-d H:s a',strtotime($orderdetails['created_at']))}}</p>
+    <a href="{{url('generate-pdf/'.$orderdetails['id'].'/'.$orderdetails['order_code'])}}" class="btn">Export pdf</a>
+    </div>
     <div class="details">
-      <p><span class="status">Order status: {{ $status[$maildata['status']] }}</span></p>
-      <p>Order ID: #{{ $maildata['order_code'] }}</p>
-      <p>Payment type: {{ $maildata['payment_type'] == 3 ? 'Cash on delivery' : 'online payment' }}</p>
+      <p style="margin-right:150px;"><span class="status">Order status: {{ $status[$orderdetails['status']] }}</span></p>
+      <p style="margin-right:140px">Order ID: #{{ $orderdetails['order_code'] }}</p>
+      <p style=>Payment type: {{ $orderdetails['payment_type'] == 3 ? 'Cash on delivery' : 'online payment' }}</p>
     </div>
     <div class="address-section">
       <div class="address-column">
-        <p><span>Name:</span> {{ $maildata['adrname'] }}</p>
-        <p><span>Mobile:</span> {{ $maildata['adrmobileno'] }}</p>
-        <p><span>PIN Code:</span> {{ $maildata['pincode'] }}</p>
-      </div>
-      <div class="address-column">
-        <p><span>Address:</span> {{ $maildata['address'] }}</p>
+        <p><span>Name:</span> {{ $orderdetails['adrname'] }}</p>
+        <p><span>Mobile:</span> {{ $orderdetails['adrmobileno'] }}</p>
+        <p><span>PIN Code:</span> {{ $orderdetails['pincode'] }}</p>
+      <!-- </div>
+      <div class="address-column"> -->
+        <p><span>Address:</span> {{ $orderdetails['address'] }}</p>
         <p><span>No of items:</span> {{ count($items) }}</p>
       </div>
-    </div>
-    <h2>Items</h2>
-    <table class="items-table">
+    </div>    
+    <table class="items-table table-auto ml-4">      
       <thead>
+        <tr>
+        <th colspan="3"><h1 class="text-left">Order Items</h1></th>
+      </tr>
         <tr>
           <th style="width:50%;text-align: left;">Product Name</th>
           <th style="width:20%;text-align:center">Quantity</th>
@@ -130,13 +147,13 @@
         </tr>
       </tbody>
     </table>
-    <div class="footer">
-      <strong>Regards,</strong><br>
+    <!-- <div class="footer text-center"> -->
+     <!--  <strong>Regards,</strong><br>
       Authorselvi<br>
       Vellore, Sathuvacheri - 735221, TN, India<br><br>
       <b>Phone:</b> 987654322345<br>
-      <b>Email:</b> contact@authorselvi.com
-    </div>
+      <b>Email:</b> contact@authorselvi.com -->
+    <!-- </div> -->
   </div>
 </main>
 @endsection

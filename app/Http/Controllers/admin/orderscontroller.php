@@ -10,46 +10,74 @@ use App\Models\order_items;
 use Auth;
 use Excel;
 use App\Exports\ExportOrders;
-
+use PDF;
 class orderscontroller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {        
+        {        
         $data['status']=orders_status::pluck('status_name','id');
         $data['orders']=orders::join(
             'users','orders.customer_id','=','users.id')->select(
                 'users.name as username','orders.*')->get();
-        return view('admin.orders.index',$data);
-    }
+            return view('admin.orders.index',$data);
+        }
+
+
     public function update(Request $r){
-       $order=orders::where('id',$r->orderid)->first();
-       $order->status=$r->status;
-       $order->update();
-       return response(['id'=>$r->orderid]);
-    }
-    public function exportorders(){
-        // dd($data);
-        
+         $order=orders::where('id',$r->orderid)->first();
+         $order->status=$r->status;
+         $order->update();
+         return response(['id'=>$r->orderid]);
+        }
+
+
+     public function exportorders(){
         $responce=Excel::download(new ExportOrders, 'Orders.xlsx');
         ob_end_clean();
-
         return $responce;
     }
+
+
     public function vieworder(string $id){
-         $orders['maildata']=orders::where('orders.id',$id)->
-        join('address','orders.billing_address','=','address.id')->
-        select('address.name as adrname',
+       $orders['orderdetails']=orders::where('orders.id',$id)->
+       join('address','orders.billing_address','=','address.id')->
+       select('address.name as adrname',
         'address.mobile_no as adrmobileno',
         'address.address_line1 as address','orders.*',
         'address.post_code as pincode')->first()->toArray();                
         // dd($orders['maildata']->toArray());
+       $orders['items']=order_items::where('order_id',$id)->join('products','order_items.item_id','=','products.id')
+       ->select('products.name as pname','products.discount_price as discount','order_items.*')->get()->toArray();       
+       $orders['status']=orders_status::pluck('status_name','id');    
+           // dd($id);
+       return view('admin.orders.view-order',$orders);
+   }
+
+
+   public function generateorderpdf(string $id,string $ordercode){        
+        $orders['orderdetails']=orders::where('orders.id',$id)->
+        join('address','orders.billing_address','=','address.id')->
+        select('address.name as adrname',
+            'address.mobile_no as adrmobileno',
+            'address.address_line1 as address','orders.*',
+            'address.post_code as pincode')->first()->toArray();                
+            // dd($orders['maildata']->toArray());
         $orders['items']=order_items::where('order_id',$id)->join('products','order_items.item_id','=','products.id')
         ->select('products.name as pname','products.discount_price as discount','order_items.*')->get()->toArray();       
         $orders['status']=orders_status::pluck('status_name','id');    
-           // dd($id);
-        return view('admin.orders.show-order',$orders);
+
+        $pdf=PDF::loadView('templates.pdftemplate',$orders);
+        return $pdf->download($ordercode.'.pdf');
+    }
+
+    public function allorderspdf(){
+      $data['status']=orders_status::pluck('status_name','id');
+        $data['orders']=orders::join(
+            'users','orders.customer_id','=','users.id')->select(
+                'users.name as username','orders.*')->get();            
+            return PDF::loadView('templates.allorders',$data)->download('All Orders.pdf');
     }
 }

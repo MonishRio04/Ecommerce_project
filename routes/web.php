@@ -75,10 +75,13 @@ Route::group(['middleware'=>'isadmin'],function(){     //Admin=operations
     Route::resource('address',addressController::class);
     Route::get('orders-controller',[orderscontroller::class,'index']);
     Route::post('orders-status-update',[orderscontroller::class,'update']);
-    Route::get('export-orders',[orderscontroller::class,'exportorders']);
-    Route::get('view-order/{id}',[orderscontroller::class,'vieworder']);
+    Route::get('orders-controller/view-order/{id}',[orderscontroller::class,'vieworder']);
 });
-
+Route::group([],function(){
+    Route::get('export-orders',[orderscontroller::class,'exportorders']);
+    Route::get('generate-pdf/{id}/{code}',[orderscontroller::class,'generateorderpdf']);
+    Route::get('allorders-pdf',[orderscontroller::class,'allorderspdf']);
+});
 
 Route::group([],function(){     //User=login
     Route::get('userlogin',[UserAuthController::class,'index']);
@@ -86,7 +89,7 @@ Route::group([],function(){     //User=login
     Route::get('register',[UserAuthController::class,'register']);
     Route::post('registervalidate',[UserAuthController::class,'registervalidate']);
     Route::get('signout', [UserAuthController::class, 'signOut'])->name('signout');
-});
+}); 
 
 ?>
 

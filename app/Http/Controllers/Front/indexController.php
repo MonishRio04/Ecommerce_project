@@ -141,7 +141,7 @@ class indexController extends Controller
         $orders['items']=order_items::where('order_id',$orderid)->join('products','order_items.item_id','=','products.id')
         ->select('products.name as pname','products.discount_price as discount','order_items.*')->get()->toArray();       
         $orders['status']=orders_status::pluck('status_name','id');    
-            Mail::send("Front.mailtemplate",json_decode(json_encode($orders),true),function($message) 
+            Mail::send("templates.mailtemplate",json_decode(json_encode($orders),true),function($message) 
             {
                  $message->to(Auth::user()->email, 'Order Placed')->subject
                     ('Order Placed');                 
@@ -154,7 +154,7 @@ class indexController extends Controller
         foreach($userforemail as $sendemail)
                 {
 
-                     Mail::send("Front.mailtemplate",json_decode(json_encode($orders),true),function($message) use($sendemail) 
+                     Mail::send("templates.mailtemplate",json_decode(json_encode($orders),true),function($message) use($sendemail) 
                     {
                          $message->to($sendemail->email, 'Order Placed')->subject
                             ('Order Placed');                 

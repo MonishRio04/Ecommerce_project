@@ -7,6 +7,9 @@
     <div class="flex bg-green-200 p-4 mx-16 ">
         <div class="flex-1 bg-green-500 rounded-lg"><h4 class="mb-4 mt-4 text-lg font-semibold text-gray-600 dark:text-gray-300">Order list</h4>
         </div>
+        <a href="{{url('allorders-pdf')}}" style="margin: 10px;" 
+       class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        <span><i class="fa fa-download"></i> Export Pdf</span>
         <a href="{{url('export-orders')}}" style="margin: 10px;" 
        class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
         <span><i class="fa fa-download"></i> Export Excel</span>
@@ -25,7 +28,7 @@
             <th class="px-4 py-3">Status</th>
             <th class="px-4 py-3">Total <br>amount</th>                     
             <th class="px-4 py-3">Payment type </th>
-            <th class="px-4 py-3">View</th>
+            {{-- <th class="px-4 py-3">View</th> --}}
           </tr>
         </thead>
         <tbody
@@ -36,13 +39,15 @@
           <td class="px-4 py-3">
             <div class="flex items-center text-sm">                         
               <div>
-               {{$order->created_at->format('Y.m.d H:i a')}}
+               {{$order->created_at->format('d.m.Y H:i a')}}
 
              </div>
            </div>
          </td>
          <td class="px-4 py-3 text-sm">
-          {{$order->order_code}}
+          <a style="color:#6C2BD9" 
+           href="{{url('orders-controller/view-order/'.$order->id) }}"> 
+          {{$order->order_code}}</a>
         </td>                      
         <td class="px-4 py-3 text-xs parentstatus">  
          <p class="font-semibold">{{$order->username}}</p>
@@ -62,16 +67,16 @@
       <td class="px-4 py-3 text-sm text-center">
         {{$type[$order->payment_type]}}
       </td>
-      <td class="px-4 py-3 text-sm">
+      {{--<td class="px-4 py-3 text-sm">
          <a
-         href="{{url('view-order/'.$order->id) }}"
+         href="{{url('orders-controller/view-order/'.$order->id) }}"
                   class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
                 >
                   <i class="fa fa-eye"></i>
                 </a>
                  
                 
-      </td>
+      </td>--}}
     </tr>
     @endforeach
   </div>

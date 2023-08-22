@@ -96,7 +96,7 @@
                     </a>
                 </li>
                 <li class="relative px-6 py-3">
-                    @if(Request::is('orders-controller'))                   
+                    @if(Request::is('orders-controller'){{--||Request::is('orders-controller/view-order/'.$orders['id'])--}})                   
                     <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                         aria-hidden="true"></span>                                           
                     <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800
