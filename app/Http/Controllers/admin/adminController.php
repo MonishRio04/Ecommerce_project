@@ -5,6 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\categories;
 use Illuminate\Http\Request;
+use App\Models\orders;
+use Carbon\Carbon;
+use App\Models\User;
 
 class adminController extends Controller
 {
@@ -12,8 +15,24 @@ class adminController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('admin.index');
+    {             
+        $data['totalorders']=count(orders::get());
+        $data['totalcustomers']=count(User::get());
+        $ordercount=orders::whereMonth('created_at',Carbon::now()->month)->select('created_at')->get()->toArray();        
+        $data['days']=date('t');       
+        // dd(date('d',strtotime($ordercount[0]['created_at'])));
+        $chartdata=[];
+        for( $i=0; $i<=$data['days']; $i++){
+          $chartdata[$i]=0;
+          foreach($ordercount as $count){
+            $day=date('d',strtotime($count['created_at']));
+           if($i==$day){ 
+                $chartdata[$i]+=1;                           
+                }
+             }  
+        }         
+        $data['chart']=$chartdata;
+        return view('admin.index',$data);
     }
 
     /**

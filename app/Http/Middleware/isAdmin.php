@@ -24,7 +24,7 @@ class isAdmin
                 return back();
             }
         }
-        return back();
+        return redirect('login');
 
     }
 }
