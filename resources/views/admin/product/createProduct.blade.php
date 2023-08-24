@@ -13,7 +13,7 @@
                         Add new product
                     </h4>
                     {{-- <form action="{{ route() }}" method="post"> --}}
-                        {!! Form::open(['method'=>'POST','url'=>route('product.store'),'files'=>true,'enctype'=>'multipart/form-data']) !!}
+                        {!! Form::open(['method'=>'POST','url'=>route('products.store'),'files'=>true,'enctype'=>'multipart/form-data']) !!}
                         {{-- <form method="POST" url={{ route("category.store")}}> --}}
                         @csrf
                     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">

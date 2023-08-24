@@ -51,7 +51,7 @@ const lineConfig = {
      * See examples in charts.html to add your own legends
      *  */
     legend: {
-      display: false,
+      display: true,
     },
     tooltips: {
       mode: 'index',

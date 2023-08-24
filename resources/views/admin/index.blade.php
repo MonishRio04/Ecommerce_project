@@ -1,5 +1,6 @@
 @extends('admin.layout.headerandfooter')
 @section('admincontent')
+    <script src="{{ asset('js/charts-lines.js') }}" defer></script>
 <main class="h-full overflow-y-auto">
             <div class="container px-6 grid">
                 <h2 class="mt-4 text-xl font-semibold text-gray-700 dark:text-gray-200">

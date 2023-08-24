@@ -17,6 +17,7 @@ use App\Http\Controllers\Front\UserAddrerss;
 use App\Http\Controllers\Front\wishlistcontroller;
 use App\Http\Controllers\admin\orderscontroller;
 use App\Http\Middleware\isAdmin;
+use App\Http\Controllers\admin\CouponController;
 
 
 Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
@@ -40,11 +41,11 @@ Route::group([],function(){   //User=Orders
     Route::get('/show-order/{id}',[orderitems::class,'showorder']);
     Route::get('/customer-address',[UserAddrerss::class,'useraddress']);
     Route::group([],function(){ //address controllers
-        Route::post('/create-new-address',[UserAddrerss::class,'createaddress']);
-        Route::delete('/destroy/{id}',[UserAddrerss::class,'destroy']);
-        Route::get('/editaddress/{id}',[UserAddrerss::class,'edit']);
-        Route::post('/getstate',[UserAddrerss::class,'getState']);
-        Route::post('/getcity',[UserAddrerss::class,'getCity']);
+    Route::post('/create-new-address',[UserAddrerss::class,'createaddress']);
+    Route::delete('/destroy/{id}',[UserAddrerss::class,'destroy']);
+    Route::get('/editaddress/{id}',[UserAddrerss::class,'edit']);
+    Route::post('/getstate',[UserAddrerss::class,'getState']);
+    Route::post('/getcity',[UserAddrerss::class,'getCity']);
     });
 });
 
@@ -70,12 +71,13 @@ Route::group([],function(){  //AdminLogin
 Route::group(['middleware'=>'isadmin'],function(){     //Admin=operations
     Route::resource('admin',adminController::class);
     Route::resource('category',categoryController::class);
-    Route::resource('product',productController::class);
+    Route::resource('products',productController::class);
     Route::resource('customer',customerController::class);
     Route::resource('address',addressController::class);
     Route::get('orders-controller',[orderscontroller::class,'index']);
     Route::post('orders-status-update',[orderscontroller::class,'update']);
     Route::get('orders-controller/view-order/{id}',[orderscontroller::class,'vieworder']);
+    Route::resource('coupon',CouponController::class);
 });
 Route::group([],function(){
     Route::get('export-orders',[orderscontroller::class,'exportorders']);
