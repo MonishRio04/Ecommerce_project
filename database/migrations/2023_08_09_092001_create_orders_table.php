@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('customer_id');
             $table->string('order_code')->unique();
+            $table->string('coupon_code')->unique();
             $table->integer('total');
             $table->string('billing_address');
             $table->string('shipping_address')->nullable();

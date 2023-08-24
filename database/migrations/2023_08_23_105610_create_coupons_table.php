@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('max_uses')->comment('maximum limit');
             $table->integer('discount_amount');
             $table->integer('status')->comment('1=>active 2->inactive');
+            $table->integer('minimum_purchase')->comment('minimum_purchase for coupon eligible');
             $table->timestamp('expires_at');
             $table->softDeletes();
             $table->timestamps();

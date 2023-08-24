@@ -15,6 +15,7 @@ use Mail;
 use App\Models\orders_status;
 use App\Models\user_role;
 use App\Models\User;
+use App\Models\coupon;
 
 class indexController extends Controller
 {
@@ -101,7 +102,7 @@ class indexController extends Controller
                 }
                 //  dd($addre);
                 // dd($addr-   );
-                return view('Front.cart.checkout',$this->data(),['addre'=>$addre]);
+                 return view('Front.cart.checkout',$this->data(),['addre'=>$addre]);
             }
         }
 
@@ -109,12 +110,21 @@ class indexController extends Controller
        $r->validate([
             'address'=>'required'
        ]);
-    //    dd((int)$r->address);
+       // dd($r->all());
+       $coupon_update=coupon::where('id',$r->couponid)->first();
+       $coupon_update->uses=$coupon_update->uses+1;
+       $coupon_update->update();
+       // dd($couponupdate->uses);
        $cartitems=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
         ->select('products.price as product_price','cart.*')->get();
         $orders=new orders;
         $orders->customer_id=Auth::user()->id;
-        $orders->total=$r->total;
+        if($r->coupontotal!=null){
+            $orders->total=$r->coupontotal;
+            $orders->coupon_id=$r->couponid;
+        }else{
+            $orders->total=$r->total;
+        }
         $orders->billing_address=(int)$r->address;
         $orders->payment_type=$r->paymentMethod;
         $orders->save();
@@ -177,5 +187,11 @@ class indexController extends Controller
         }
         // dd($searchproducts);
         return view('Front.layout.search',['products'=>$searchproducts]);
+    }
+    public function applycoupon(Request $r){
+           $coupon=coupon::where('coupon_code',$r->coupon_code)->first();
+           $coupon=$coupon!=null?$coupon->toArray():null;
+           // dd($coupon);
+            return $coupon;
     }
 }

@@ -61,17 +61,26 @@
           @enderror
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-2">
-        
-        <div class="w-full md:w-1/3 px-3 mb-2 md:mb-0">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="amount">
+      <div class="flex flex-wrap -mx-3 mb-2 w-full">
+        <div class="px-3 w-1/2" style="width:50%">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="discount_amount">
             Discount Amount
           </label>
-          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="discount_amount" name="discount_amount" type="number" placeholder="2000">
+          <input class="appearance-none block w-96 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="discount_amount" name="discount_amount"type="text" placeholder="1000" style="width:100%">
           @error('discount_amount')
           <p style="color" class="text-red-50 text-xs italic">*{{$message}}</p>
           @enderror
         </div>
+      <div class="px-3" style="width:50%">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="limit">Minimum Purchase
+          </label>
+          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="mini_purc" name="mini_purc" type="tel" placeholder="25000">
+          @error('mini_purc')
+          <p style="color" class="text-red-50 text-xs italic">*{{$message}}</p>
+          @enderror
+        </div>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-2">       
         <div class="w-full md:w-1/3 px-3 mb-2 md:mb-0">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
             Expired Date
@@ -163,14 +172,15 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
-                    <th class="px-4 py-3">Coupon Code</th>
-                    <th class="px-4 py-3">Coupon Name</th>
-                    <th class="px-4 py-3">No of uses</th>
-                    <th class="px-4 py-3">Maximum limit</th>
-                    <th class="px-4 py-3">Discount Amount</th>
-                    <th class="px-4 py-3">Expires</th>
-                    <th class="px-4 py-3">status</th>
-                    <th class="px-4 py-3">Action</th>
+                    <th class="px-4 py-2">Coupon Code</th>
+                    {{-- <th class="px-4 py-2">Coupon Name</th> --}}
+                    <th class="px-4 py-2">No of uses</th>
+                    <th class="px-4 py-2">Maximum limit</th>
+                    <th class="px-4 py-2">Discount Amount</th>
+                    <th class="px-4 py-2">Expires</th>
+                    <th class="px-4 py-2">status</th>
+                    <th class="px-4 py-2">minimum purchase</th>
+                    <th class="px-4 py-2">Action</th>
                   </tr>
                 </thead>
                 <tbody style="text-align:center" 
@@ -181,13 +191,13 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                   <td class="px-4 py-3 text-center" colspan="5">No coupons</td>
                 </tr>
                 @endif
-
+                {{-- {{dd($coupons)}} --}}
                 @foreach($coupons as $coupon)
                 <tr class="text-gray-700 dark:text-gray-400">
                   <td class="px-4 py-3">{{ $coupon->coupon_code }}</td>
-                  <td class="px-4 py-3 text-sm">
+                 {{--  <td class="px-4 py-3 text-sm">
                        {{ $coupon->coupon_name }}
-               </td>
+               </td> --}}
                <td class="px-4 py-3 text-sm">
                 {{ $coupon->uses!=null?$coupon->uses:0 }}
               </td>
@@ -202,6 +212,9 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             </td>
             <td class="px-4 py-3 text-sm">  
                             {{$coupon->status==1?"active":'inActive'}}
+            </td>
+            <td class="px-4 py-3 text-sm">  
+                            {{$coupon->minimum_purchase==null?'Applicable for All':$coupon->minimum_purchase}}
             </td>
             <td class="px-4 py-3">
               <div class="flex items-center space-x-4 text-sm">
@@ -254,8 +267,8 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             $('#expire').click(function(){
               $(this).attr('type','date');
               });
+            $('#mini_purc').val(response.minimum_purchase);
             $('#datetime').val(response.expires_at);
-            // console.log(response.date)
             $('#edit').text('Edit');
             if(response.status==0) $('#inactive').prop('checked',true) 
               else $('#active').prop('checked',true);

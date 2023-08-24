@@ -25,7 +25,8 @@ Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
     Route::get('/cartdelete/{id}',[indexController::class,'delete']);
     Route::get('/cart',[indexController::class,'cartpage'])->middleware('auth');
-    Route::get('/checkout',[indexController::class,"checkout"])->middleware('auth');
+    Route::get('checkout',[indexController::class,"checkout"])->middleware('auth');
+    Route::post('apply-coupon',[indexController::class,"applycoupon"]);
     Route::post('/placeorder',[indexController::class,"placeorder"]);
 });
 

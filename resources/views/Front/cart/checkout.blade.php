@@ -32,22 +32,78 @@
                 @endforeach
                 <li class="list-group-item d-flex justify-content-between" style="color:green">
                     <span>Discount</span>
-                    <strong>&#8377;{{ $discount }}</strong>
+                    <strong>-&#8377;<b id="discount">{{ $discount }}</b></strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total</span>
-                    <strong class="text-dark">&#8377;{{ $overalltotal=$total-$discount }}</strong>
+                    <strong class="text-dark">&#8377;<b id="totalamount">{{ $overalltotal=$total-$discount }}</b></strong>
                 </li>
             </ul>
-            <form class="card p-2">
+            <form class="card p-2" method="POST"  >
+                @csrf
                 <div class="input-group">
-                    <input type="text" style="border-color:lightgrey" class="form-control" placeholder="Promo code">
+                    <input type="text" style="border-color:lightgrey" id="code" class="form-control" name="coupon_code" placeholder="Promo code">                   
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                        <button type="button" id="coupon" class="btn btn-secondary">Redeem</button>
+                       
                     </div>
                 </div>
             </form>
+              <p style="color:red;font-size:small" class="" id="err"></p>
         </div>
+        <script>
+            var protect=0;
+            // action="{{url('apply-coupon')}}"
+            $('#coupon').click(function(){
+                var coupon_code=$('#code').val();
+                // alert(coupon_code);
+                $.ajax({
+                    url:"{{url('apply-coupon')}}",
+                    type:"POST",
+                    data:{
+                         coupon_code:coupon_code,
+                        _token:"{{ csrf_token() }}",
+                    },
+                    success:function(response){
+                        console.log(response.length);                        
+                        var total=$('#totalamount').text();
+                        // alert(total<response.discount_amount);
+                        $('#couponid').val(response.id);
+                        if(response<=1){
+                                $('#err').text('* Enter correct coupon code');
+                        }else{
+                        if(protect==0){
+                            if(total>response.discount_amount){
+                                if(response.minimum_purchase!=null){
+                                    if(parseInt(total)<response.minimum_purchase){
+                                        $('#err').text('* purchase atleast '+response.minimum_purchase+' to redeem the coupon')        
+                                    }else{
+                                        $('#err').text('');
+                                        protect+=1;
+                                        $('#discount').text( parseInt($('#discount').text())+response.discount_amount);
+                                        $('#totalamount').text(parseInt(total)-response.discount_amount);
+                                        $('#coupontotal').val(parseInt(total)-response.discount_amount)
+                                    }   
+                                }else{
+                                    protect+=1;
+                                    $('#err').text('');
+                                    $('#discount').text(response.discount_amount);
+                                    $('#totalamount').text(parseInt(total)-response.discount_amount);                        
+                                    $('#coupontotal').val(parseInt(total)-response.discount_amount)                                
+                                }
+                            }else{
+
+                                $('#err').text('* purchase atleast '+response.minimum_purchase+' to redeem the coupon')        
+                            }
+                        }
+                        else{
+                            $('#err').text('* coupon is applicable for only once');
+                        }
+                    }
+                    }
+                });
+            })
+        </script>
         <div class="col-md-8 order-md-1">
             {!! Form::open(['method'=>'POST','url'=>url('placeorder')]) !!}
             <h4 class="mb-3">Billing address</h4>
@@ -62,6 +118,8 @@
                 @error('address')
                     <p style="color:red;font-size:12px">*{{ $message }}</p>
                 @enderror
+                <input type="hidden" name="coupontotal" value="" id="coupontotal">
+                <input type="hidden" name="couponid" value="" id="couponid">
                 {{-- <hr class="mb-4 mt-4">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="same-address">
