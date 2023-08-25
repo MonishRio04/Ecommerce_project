@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\coupon;
+use Carbon\Carbon;
 
 class CouponController extends Controller
 {
@@ -15,7 +16,12 @@ class CouponController extends Controller
     {
 
         $data['coupons']=coupon::get();
-        // dd($data);
+        $date=Carbon::now()->format('Y-m-d');
+        foreach($data['coupons'] as $coupon){
+            if($coupon->expires_at==$date){
+                $coupon->delete();
+            }
+        }
         return view('admin.coupon.index',$data);
     }
 

@@ -24,12 +24,18 @@ class   orderitems extends Controller
 
    public function showorder(string $id){
         $order=orders::where('orders.customer_id',Auth::user()->id)
-        ->where('orders.id',$id)->
-        join('address','orders.billing_address','=','address.id')->
-        select('address.name as adrname',
+        ->where('orders.id',$id)
+        ->join('address','orders.billing_address','=','address.id')
+        ->leftJoin('coupons','orders.coupon_id','=','coupons.id')
+        ->select('address.name as adrname',
         'address.mobile_no as adrmobileno',
         'address.address_line1 as address','orders.*',
-        'address.post_code as pincode')->get()->toArray();        
+        'address.post_code as pincode',
+        'coupons.coupon_name as couponname',
+        'coupons.coupon_code as couponcode',
+        'coupons.discount_amount as couponamount'
+     )->get()->toArray();        
+        // dd($order);
         $order=$order[0];
         $orderitems=order_items::where('order_id',$id)->join('products','order_items.item_id','=','products.id')
         ->select('products.name as pname','products.discount_price as discount','order_items.*')->get();

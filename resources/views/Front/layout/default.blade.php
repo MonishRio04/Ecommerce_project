@@ -25,7 +25,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
   </head>
-  <body>
+  <body style="width:99%">
     @yield('content')
     {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> --}}
     <script src={{ asset('js/front_js/jquery-1.11.0.min.js')}}></script>

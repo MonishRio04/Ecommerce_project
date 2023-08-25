@@ -93,7 +93,8 @@
                                 }
                             }else{
 
-                                $('#err').text('* purchase atleast '+response.minimum_purchase+' to redeem the coupon')        
+                                $('#err').text('* purchase atleast ' + ((response.minimum_purchase != null) ? response.minimum_purchase : response.discount_amount) + ' to redeem the coupon');
+      
                             }
                         }
                         else{

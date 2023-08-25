@@ -72,15 +72,20 @@
                         @endphp
                       </tr>
                       @endforeach
+                      @if($order['couponname']!=null&&$order['couponcode']!=null&&$order['couponamount']!=null)
+                      <tr>
+                          <th scope="col">Coupon Details</th>
+                            <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col" style="color:green">{{$order['couponname']}}</th>
+                        <th scope="col"style="color:green">{{$order['couponcode']}}</th>
+                        <th scope="col"style="color:green">&#8377;{{$order['couponamount']}}</th>
+                      </tr>
+                      @endif
                     </tbody>
                     <tfoot class="bg-light">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>&#8377;{{ $total }}:    Total</td>
+                        <tr>                           
+                            <td colspan="6" style="text-align:right;color:red">Total : &#8377;{{$total-$order['couponamount'] }}   &nbsp;  &nbsp;  &nbsp;  &nbsp;  </td>
                         </tr>
                     </tfoot>
                   </table>

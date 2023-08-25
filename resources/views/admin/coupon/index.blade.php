@@ -185,8 +185,8 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                 </thead>
                 <tbody style="text-align:center" 
                 class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                {{-- {{ dd($coupon->count()<=0) }} --}}
-                @if(($coupons->count()<=0))
+                {{-- {{ dd($coupons) }} --}}
+                @if($coupons->count()<=0)
                 <tr>
                   <td class="px-4 py-3 text-center" colspan="5">No coupons</td>
                 </tr>
