@@ -114,6 +114,7 @@
                             class="fas fa-map-marker-alt"></i> Allow Location</button>
                 </div>
                 <div class="modal-footer">
+                    <button type="reset" hidden id="clearbtn"></button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
@@ -128,10 +129,15 @@
                     <h1>Shopping Cart</h1>
                 </div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-info " data-bs-toggle="modal"
+                    <button type="button" class="btn btn-info " data-bs-toggle="modal" id="addbtn" 
                         data-bs-target="#exampleModal">Add new Address</button>
                 </div>
             </div>
+            <script>
+                $('#addbtn').click(function(){
+                    $('#clearbtn').trigger('click');
+                })
+            </script>
             <div class="cart-table">
                 <table class="table" id="dataTable">
                     <thead>

@@ -1,7 +1,7 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
 <link rel="stylesheet" href="{{ asset('css/Front_css/checkout.css') }}">
-<div class="container">
+  <div class="container">
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -38,12 +38,15 @@
                     <span>Total</span>
                     <strong class="text-dark">&#8377;<b id="totalamount">{{ $overalltotal=$total-$discount }}</b></strong>
                 </li>
-            </ul>
+            </ul>            
             <form class="card p-2" method="POST"  >
                 @csrf
                 <div class="input-group">
-                    <input type="text" style="border-color:lightgrey" id="code" class="form-control" name="coupon_code" placeholder="Promo code">                   
+                    <input type="text" style="border-color:lightgrey" id="code" class="form-control" name="coupon_code" 
+                    value="{{ $freecoupon!=null?$freecoupon:''; }}"
+                    placeholder="Promo code">                   
                     <div class="input-group-append">
+                        {{-- {{dd($freecoupon)}} --}}
                         <button type="button" id="coupon" class="btn btn-secondary">Redeem</button>
                        
                     </div>
@@ -65,12 +68,15 @@
                         _token:"{{ csrf_token() }}",
                     },
                     success:function(response){
-                        console.log(response.length);                        
+                        // console.log();                        
                         var total=$('#totalamount').text();
                         // alert(total<response.discount_amount);
-                        $('#couponid').val(response.id);
+                        $('#couponid').val(response.id);                        
+                        if(response.coupon=='used'){
+                                $('#err').text('* You already apply this coupon');
+                        }else{
                         if(response<=1){
-                                $('#err').text('* Enter correct coupon code');
+                                $('#err').text('* Coupon code is not applicable read discription');
                         }else{
                         if(protect==0){
                             if(total>response.discount_amount){
@@ -93,7 +99,7 @@
                                 }
                             }else{
 
-                                $('#err').text('* purchase atleast ' + ((response.minimum_purchase != null) ? response.minimum_purchase : response.discount_amount) + ' to redeem the coupon');
+                                $('#err').text('* purchase atleast ' + response.discount_amount + ' to redeem the coupon');
       
                             }
                         }
@@ -102,6 +108,7 @@
                         }
                     }
                     }
+                }
                 });
             })
         </script>

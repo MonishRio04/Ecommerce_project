@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('discount_amount');
             $table->integer('status')->comment('1=>active 2->inactive');
             $table->integer('minimum_purchase')->comment('minimum_purchase for coupon eligible');
+            $table->integer("coupon_detail")->comment('coupon detail');
+            $table->integer("coupon_condition")->comment('coupon condion');
             $table->timestamp('expires_at');
             $table->softDeletes();
             $table->timestamps();

@@ -18,6 +18,11 @@
                                 <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
                             </a>
                         </li>
+                         <li class="nav-item">
+                            <a href="{{url('view-coupons')}}" class="nav-link align-middle px-0 align-middle {{ Request::is('view-coupons')?'text-primary':'' }}">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Coupon</span>
+                            </a>
+                        </li>
                         <li>
                             <a href="{{url('view-profile')}}" id="address" class="nav-link px-0 align-middle {{ Request::is('view-profile')?'text-primary':'' }}">
                                 <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Profile</span> </a>

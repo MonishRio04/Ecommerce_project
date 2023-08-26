@@ -17,17 +17,22 @@ use App\Http\Controllers\Front\UserAddrerss;
 use App\Http\Controllers\Front\wishlistcontroller;
 use App\Http\Controllers\admin\orderscontroller;
 use App\Http\Middleware\isAdmin;
-use App\Http\Controllers\admin\CouponController;
-
+use App\Http\Controllers\admin\CouponController as admincoupon;
+use App\Http\Controllers\Front\CouponController;
+use App\Http\Controllers\Front\CommentController;
 
 Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::get('/',[indexController::class,'index']);
     Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
     Route::get('/cartdelete/{id}',[indexController::class,'delete']);
     Route::get('/cart',[indexController::class,'cartpage'])->middleware('auth');
-    Route::get('checkout',[indexController::class,"checkout"])->middleware('auth');
-    Route::post('apply-coupon',[indexController::class,"applycoupon"]);
+    Route::get('checkout',[indexController::class,"checkout"])->middleware('auth');    
     Route::post('/placeorder',[indexController::class,"placeorder"]);
+});
+
+Route::group([],function(){
+    Route::post('apply-coupon',[indexController::class,"applycoupon"]);
+    Route::get('view-coupons',[CouponController::class,'viewcoupon']);
 });
 
 Route::group([],function(){
@@ -78,7 +83,7 @@ Route::group(['middleware'=>'isadmin'],function(){     //Admin=operations
     Route::get('orders-controller',[orderscontroller::class,'index']);
     Route::post('orders-status-update',[orderscontroller::class,'update']);
     Route::get('orders-controller/view-order/{id}',[orderscontroller::class,'vieworder']);
-    Route::resource('coupon',CouponController::class);
+    Route::resource('/coupon',admincoupon::class);
 });
 Route::group([],function(){
     Route::get('export-orders',[orderscontroller::class,'exportorders']);
@@ -93,6 +98,8 @@ Route::group([],function(){     //User=login
     Route::post('registervalidate',[UserAuthController::class,'registervalidate']);
     Route::get('signout', [UserAuthController::class, 'signOut'])->name('signout');
 }); 
-
+Route::group([],function(){
+    Route::post('add-comment',[CommentController::Class,'addcmnt']);
+})
 ?>
 

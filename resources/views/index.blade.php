@@ -82,7 +82,7 @@
 
                 </nav>
                 <div class="d-none d-lg-block">
-                    <a href="#" class="nav-link btn-coupon-code">
+                    <a href="{{url('view-coupons')}}" class="nav-link btn-coupon-code">
                         <img src={{ asset('images/gift.svg') }}>
                         <strong class="ms-2">Get your coupon code</strong>
                     </a>

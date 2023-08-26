@@ -80,34 +80,58 @@
           @enderror
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 mb-2">       
-        <div class="w-full md:w-1/3 px-3 mb-2 md:mb-0">
+        <div class="flex flex-wrap mb-2 w-full">
+    <div class="px-3 w-1/4" style="display: inline-block; width: 33%;">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="coupon_type">
+           Coupon type
+        </label>        
+          <select name="coupon_type"
+          style="background-color:transparent" 
+           id="coupon_type" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option name="coupon_type" disabled selected>Select Type </option>
+                  @foreach(couponlist() as $coupon)
+                  <option name="coupon_type" value="{{$coupon}}" >{{ $coupon }}</option>
+                  @endforeach
+                </select>         
+        @error('coupon_type')
+        <p style="color" class="text-red-50 text-xs italic">*{{$message}}</p>
+        @enderror
+    </div>
+    <div class="px-3 w-1/4" style="display: inline-block; width: 33%;">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="limit">
+        Coupon condition</label>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="coupon_condition" name="coupon_condition" type="tel" placeholder="25000">
+        @error('coupon_condition')
+        <p style="color" class="text-red-50 text-xs italic">*{{$message}}</p>
+        @enderror
+    </div>
+   <div class="px-3 w-1/4" style="display: inline-block; width: 34%;">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-            Expired Date
+            Expiry Date
           </label>
           <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="expire" name="expire"type="date">   
           @error('expire')
           <p style="color" class="text-red-50 text-xs italic">*{{$message}}</p>
           @enderror
         </div>
-        <div class="w-full md:w-1/3 px-3 md:mb-0">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-            Coupon Code 
+</div>
+
+      <div class="flex flex-wrap -mx-3 mb-2">       
+        
+        <div class="px-3 w-1/2" style="width:50%">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="coupon_code">
+           Coupon Code
           </label>
-          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="coupon_code" id="coupon_code" type="text">
-{{-- id --}}
-          <input type="hidden" id="copid" name="id" value="">
-          <input type="hidden" id="datetime" name="datetime" value="">
-{{--  --}}
+          <input class="appearance-none block w-96 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="coupon_code" name="coupon_code"type="text" placeholder="1000" style="width:100%">
           @error('coupon_code')
           <p style="color" class="text-red-50 text-xs italic">*{{$message}}</p>
           @enderror
-        </div>  
-        <div class="w-full md:w-1/3 px-3 mt-2 md:mb-0">
+        </div>
+      <div class="w-full md:w-1/3 px-3 mt-2 md:mb-0" style="width:50%">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
             Status 
           </label>
-         <div class="flex items-center mb-4">
+         <div class="flex items-center ">
             <input id="active" type="radio" value="1" name="status" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Active</label>
         </div>
@@ -116,7 +140,22 @@
             <label for="inactive" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Inactive</label>
         </div>
         </div>
-      </div>
+{{-- id --}}
+          <input type="hidden" id="copid" name="id" value="">
+          <input type="hidden" id="datetime" name="datetime" value="">
+{{--  --}}
+          
+        </div>
+        <div class="px-3 w-1/2" style="width:100%">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="description">
+           Description
+          </label>
+          <textarea cols="1" rows="1" class="appearance-none block w-96 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="description" name="description"type="text" placeholder="1000" style="width:100%"></textarea>
+          @error('description')
+          <p style="color" class="text-red-50 text-xs italic">*{{$message}}</p>
+          @enderror
+        </div>
+
    
   </p>
 </div>
@@ -129,6 +168,9 @@ class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 t
 >
 Cancel
 </button>
+{{-- clear --}}
+<button type="reset" id="clearbtn"  hidden></button>
+{{--  --}}
 <button type="submit" id="edit"
 class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
 >
@@ -146,10 +188,15 @@ Create
     >
   Coupons</h2>
 
-  <button style="margin:20px;margin-left:auto"  @click="openModal" id="clear" 
+  <button style="margin:20px;margin-left:auto"  @click="openModal" id="addnew" 
   {{-- type="reset"  --}}
   class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"> Add new</button>
 </div>
+<script>
+  $('#addnew').click(function(){
+    $('#clearbtn').trigger('click');
+  })
+</script>
 <h4
 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
 >
@@ -175,12 +222,14 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     <th class="px-4 py-2">Coupon Code</th>
                     {{-- <th class="px-4 py-2">Coupon Name</th> --}}
                     <th class="px-4 py-2">No of uses</th>
-                    <th class="px-4 py-2">Maximum limit</th>
-                    <th class="px-4 py-2">Discount Amount</th>
+                    <th class="px-4 py-2">Maximum <br>limit</th>
+                    <th class="px-4 py-2">Discount <br> Amount</th>
                     <th class="px-4 py-2">Expires</th>
                     <th class="px-4 py-2">status</th>
-                    <th class="px-4 py-2">minimum purchase</th>
-                    <th class="px-4 py-2">Action</th>
+                    <th class="px-4 py-2">minimum <br>purchase</th>                    
+                     <th class="px-4 py-2">Coupon <br>condition</th>
+                     <th class="px-4 py-2">Action</th>
+                      {{-- <th class="px-4 py-2"></th> --}}
                   </tr>
                 </thead>
                 <tbody style="text-align:center" 
@@ -215,6 +264,9 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             </td>
             <td class="px-4 py-3 text-sm">  
                             {{$coupon->minimum_purchase==null?'Applicable for All':$coupon->minimum_purchase}}
+            </td>
+            <td class="px-4 py-3 text-sm">  
+                            {{$coupon->coupon_type}}<br>{{$coupon->coupon_condition}}
             </td>
             <td class="px-4 py-3">
               <div class="flex items-center space-x-4 text-sm">
@@ -261,6 +313,9 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             $('#coupon_code').val(response.coupon_code);
             $('#coupon_name').val(response.coupon_name);
             $('#coupon_limit').val(response.max_uses );
+            $('#coupon_type').val(response.coupon_type);
+            $('#coupon_condition').val(response.coupon_condition);
+            $('#description').val(response.description);
             $('#copid').val(response.id);
             $('#discount_amount').val(response.discount_amount);
             $('#expire').attr('type','text').val(response.date);
