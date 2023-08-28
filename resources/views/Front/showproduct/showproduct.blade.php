@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href={{ asset('css/style.css') }}>
 
 {{-- {{ dd(Auth::user()->id) }} --}}
-<section class="py-5">
+<section class="py-2">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6">
@@ -41,7 +41,8 @@
                             @if(isset($quantity[$product->id]))
                             <input name="quantity"  value={{ $quantity[$product->id] }} class="form-control text-center me-3" id="quantity" oninput="addStock()" type="num"  style="max-width: 3rem" />
                             @else
-                            <input name="quantity"  value='1' class="form-control text-center me-3" id="quantity" oninput="addStock()" type="num" style="max-width: 3rem" />
+                            <input name="quantity" value='1' class="form-control text-center me-3" id="quantity" oninput="addStock()" type="number" style="max-width: 3rem; border-color: red;" />
+
                             @endif
                             <p style="color:red" id="oos"></p>
                             <span class="input-group-btn">
@@ -55,14 +56,17 @@
                         </span>
                     </div><br>
                 </div>
+            </div>  
+            <div class="d-flex mt-4 mb-4">
                 @if(Auth::check())
-                <button type="button" id="button" class="add-to-cart btn btn-outline-dark m-5" >Add to cart</button>
+                <button type="button" id="button" class="add-to-cart btn btn-outline-dark m-2" >Add to cart</button>
+                <button type="button"  class="btn btn-success m-2" >Buy now</button>
                 @else
-                <a href="{{ route('login') }}"class="add-to-cart btn btn-outline-dark m-5" >Add to cart</a>
+                <a href="{{ route('login') }}"class="add-to-cart btn btn-outline-dark m-2" >Add to cart</a>
+                <a href="{{ route('login') }}"class="add-to-cart btn btn-success m-2" >Buy now</a>
                 @endif
             </div>
             <p class="lead">{{ $product->description }}</p>
-{{-- {{dd($product)}} --}}
         </div>
     </div>
 </div>
@@ -73,7 +77,7 @@
 @endif
 {{-- <a href="{{ route('cart',Auth::user()->id,$product->id,1) }}">hello</a> --}}
 </section>
-<section class="py-5" id="comments">
+<section class="" id="reviews">
     <div class="container mt-5 mb-5">
 
         <div class="row height d-flex justify-content-center align-items-center">
@@ -84,7 +88,7 @@
 
               <div class="p-3">
 
-                <h6>Comments</h6>
+                <h6>Reviews</h6>
 
             </div>
             <form method="POST">
@@ -92,7 +96,7 @@
             <div class="mt-3 d-flex flex-row align-items-center p-3 form-color">
 
                 {{-- <img src="https://i.imgur.com/zQZSWrt.jpg" width="50" class="rounded-circle mr-2"> --}}
-                <input type="text" class="form-control" id="cmnd"placeholder="Enter your comment...">
+                <input type="text" class="form-control" id="cmnd"placeholder="Add Review...">
                 <button class="btn btn-default" id="commentbtn" type="button" 
                 style="background-color:#35B69F;color:white">submit</button>
             </div>  
@@ -100,18 +104,18 @@
             </form>
             <script>
                 $('#commentbtn').click(function(){
-                var comment=$('#cmnd').val();
+                var review=$('#cmnd').val();
                 $.ajax({
                     url:"{{url('add-comment')}}",
                     type:'POST',
                     data:{
-                        'comment':comment,
+                        'review':review,
                         'productslug':"{{$product->urlslug}}",
                         '_token':"{{csrf_token()}}"
                     },
                     success:function(response){
                         var newComment = `
-                    <div class="d-flex flex-row p-3">
+                    <div class="d-flex flex-row p-3 mb-2" style="border:1px solid lightgrey;border-radius:4px;">
                         <div class="w-100">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex flex-row align-items-center">
@@ -119,7 +123,7 @@
                                 </div>
                                 <small>${response.created_at}</small>
                             </div>
-                            <p class="text-justify comment-text mb-0">${response.comments}</p>
+                            <p class="text-justify comment-text mb-0">${response.reviews}</p>
                             <div class="d-flex flex-row user-feed">
                                 <span class="wish"><i class="fa fa-heartbeat mr-2"></i></span>
                             </div>
@@ -132,8 +136,8 @@
                 })
             </script>
             <div class="mt-2">
-                @foreach($comments as $comment)
-                <div class="d-flex flex-row p-3">
+                @foreach($reviews as $review)
+                <div class="d-flex flex-row p-3 mb-2" style="border:1px solid lightgrey;border-radius:4px;">
 
                   {{-- <img src="https://i.imgur.com/zQZSWrt.jpg" width="40" height="40" class="rounded-circle mr-3"> --}}
 
@@ -141,21 +145,22 @@
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex flex-row align-items-center">
-                          <span class="mr-2">{{$comment->name}}</span>
+                          <span class="mr-2">{{$review->name}}</span>
                           {{-- <small class="c-badge">{{$comment->comment}}</small> --}}
                       </div>
-                      <small>{{$comment->created_at}}</small>
+                      <small>{{$review->created_at}}</small>
                   </div>
 
-                  <p class="text-justify comment-text mb-0">{{$comment->comments}}</p>
+                  <p class="text-justify comment-text mb-0">{{$review->comments}}</p>
 
                   <div class="d-flex flex-row user-feed">
-
-                    <span class="wish"><i class="fa fa-heartbeat mr-2"></i>{{$comment->likes}}</span>
+                    <label>
+                    <input type="checkbox" hidden id="like">
+                    <span class="wish"><i class="fa fa-heartbeat mr-2 like"></i>{{$review->likes}}</span>
                     {{-- <span class="ml-3"><i class="fa fa-comments-o mr-2"></i>Reply</span> --}}
+                    </label>
 
-
-                </div>
+                </div>                
 
             </div>
 
@@ -163,6 +168,16 @@
         </div>
 
 @endforeach
+<script>
+                $('.like').css('color','grey');
+        $(document).on('change','#like',function(){
+            if(!$(this).prop('checked')){
+                $('.like').css('color','grey');
+            }else{
+                $('.like').css('color','#35B69F');
+            }
+        });
+                </script>
 
     </div>
 
@@ -190,7 +205,7 @@
             },
             success:function(response){
                 // console.log(response.length);
-                $('#button').text('Added to cart').css('color','black');
+                $('#button').text('Added to cart').css('color','white').css('background-color','#212529');
                 $('#cartitemscount').html(response.length);
             },
             fail:function(){

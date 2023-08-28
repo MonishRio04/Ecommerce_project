@@ -2,96 +2,7 @@
 @section('main')
 {{-- {{ dd(category()) }} --}}
 <script src="{{asset('js/front_js/wishlist.js')}}"></script>
-<link rel="stylesheet" type="text/css" href="{{ asset('css/Front_css/style.css') }}">
-    <div class="container-fluid">
-        <div class="row py-3">
-            <div class="d-flex  justify-content-center justify-content-sm-between align-items-center">
-                <nav class="main-menu d-flex navbar navbar-expand-lg">
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-                        aria-controls="offcanvasNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel">
-
-                        <div class="offcanvas-header justify-content-center">
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-
-                        <div class="offcanvas-body">
-
-                            <select class="filter-categories border-0 mb-0 me-5">
-                                <option>Shop by Departments</option>
-                                <option>Groceries</option>
-                                <option>Drinks</option>
-                                <option>Chocolates</option>
-                            </select>
-
-                            <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
-                                <li class="nav-item active">
-                                    <a href="#women" class="nav-link">Women</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a href="#men" class="nav-link">Men</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#kids" class="nav-link">Kids</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#accessories" class="nav-link">Accessories</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" role="button" id="pages"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-                                    <ul class="dropdown-menu" aria-labelledby="pages">
-                                        <li><a href="about.html" class="dropdown-item">About Us</a></li>
-                                        <li><a href="shop.html" class="dropdown-item">Shop<span
-                                                    class="badge bg-success text-dark ms-2">PRO</span></a></li>
-                                        <li><a href="single-product.html" class="dropdown-item">Single
-                                                Product<span class="badge bg-success text-dark ms-2">PRO</span></a>
-                                        </li>
-                                        <li><a href="cart.html" class="dropdown-item">Cart<span
-                                                    class="badge bg-success text-dark ms-2">PRO</span></a></li>
-                                        <li><a href="checkout.html" class="dropdown-item">Checkout<span
-                                                    class="badge bg-success text-dark ms-2">PRO</span></a></li>
-                                        <li><a href="blog.html" class="dropdown-item">Blog</a></li>
-                                        <li><a href="single-post.html" class="dropdown-item">Single Post</a></li>
-                                        <li><a href="styles.html" class="dropdown-item">Styles</a></li>
-                                        <li><a href="contact.html" class="dropdown-item">Contact<span
-                                                    class="badge bg-success text-dark ms-2">PRO</span></a></li>
-                                        <li><a href="thank-you.html" class="dropdown-item">Thank You</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#brand" class="nav-link">Brand</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#sale" class="nav-link">Sale</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#blog" class="nav-link">Blog</a>
-                                </li>
-                            </ul>
-
-                        </div>
-
-                    </div>
-
-                </nav>
-                <div class="d-none d-lg-block">
-                    <a href="{{url('view-coupons')}}" class="nav-link btn-coupon-code">
-                        <img src={{ asset('images/gift.svg') }}>
-                        <strong class="ms-2">Get your coupon code</strong>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    </header>
-
+<link rel="stylesheet" type="text/css" href="{{ asset('css/Front_css/style.css') }}">   
     <section class="py-3"
         style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
         <div class="container-fluid">
@@ -259,20 +170,27 @@
 
                 </div>
             </div>
+            <style type="text/css">
+                @media only screen and (max-width: 600px) {
+          #slider  {
+                width:100% !important;
+          }
+        }
+                    </style>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 col-sm-12">
 
                     <div class="brand-carousel swiper">
                         <div class="swiper-wrapper">
                             @foreach ($newItems as $newItem)
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" id="slider">
                                     <div class="card mb-3 p-3 rounded-4 shadow border-0">
                                         <div class="row g-0">
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 col-sm-4">
                                                 <img src='storage/productImages/{{ $newItem->image }}'
                                                     class="img-fluid rounded" alt="Card title">
                                             </div>
-                                            <div class="col-md-8">
+                                            <div class="col-md-8 col-sm-8">
                                                 <div class="card-body py-0">
                                                     <p class="text-muted mb-0">{{ $newItem->name }}</p>
                                                     <h5 class="card-title">{{ $newItem->description }}</h5>
@@ -408,7 +326,8 @@
                                                 },
                                                 success: function(response) {
 
-                                                    parent.find('.add-to-cart').html('<i>✔ Added to cart</i>').css('color','green');
+                                                    parent.find('.add-to-cart').html('<i>✔</i> Added to cart').css('color','green')
+                                                    .css('font-size','smaller');
                                                     $('#cartitemscount').text(response.length);
                                                 }
                                             });

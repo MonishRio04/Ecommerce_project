@@ -19,7 +19,7 @@ use App\Http\Controllers\admin\orderscontroller;
 use App\Http\Middleware\isAdmin;
 use App\Http\Controllers\admin\CouponController as admincoupon;
 use App\Http\Controllers\Front\CouponController;
-use App\Http\Controllers\Front\CommentController;
+use App\Http\Controllers\Front\ReviewController;
 
 Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::get('/',[indexController::class,'index']);
@@ -99,7 +99,7 @@ Route::group([],function(){     //User=login
     Route::get('signout', [UserAuthController::class, 'signOut'])->name('signout');
 }); 
 Route::group([],function(){
-    Route::post('add-comment',[CommentController::Class,'addcmnt']);
+    Route::post('add-comment',[ReviewController::Class,'addcmnt']);
 })
 ?>
 

@@ -16,7 +16,7 @@ use App\Models\orders_status;
 use App\Models\user_role;
 use App\Models\User;
 use App\Models\coupon;
-use App\Models\Comments;
+use App\Models\Reviews;
 use App\Http\Controllers\Front\CouponController;
 
 class indexController extends Controller
@@ -51,10 +51,11 @@ class indexController extends Controller
 
     public function show(string $slug){
         $data["product"]=Products::where('urlslug',$slug)->get()->first();
-        $data['comments']=Comments::where('product_slug',$slug)
-        ->join('users','comments.customer_id','=','users.id')->select('name','comments.*')->latest()->get();        
+        $data['reviews']=Reviews::where('product_slug',$slug)
+        ->join('users','reviews.customer_id','=','users.id')->select('name','reviews.*')->latest()->get();        
         return view('Front.showproduct.showproduct',$this->data(),$data);
     }
+
     public function addToCart(Request $r){
         $carts=new cart;
         $sameproduct=cart::where('product_id',$r->product_id)->where('customer_id',Auth::user()->id)->first();
@@ -195,14 +196,16 @@ class indexController extends Controller
         return view('Front.layout.search',['products'=>$searchproducts]);
     }
     public function applycoupon(Request $r){
-        // firstorder
+        // firstorder        
         $coupon=null;
-        $orders=orders::where('customer_id',Auth::user()->id);
+        $orders=$singleorder=orders::where('customer_id',Auth::user()->id);
+
         $couponcontroller=new CouponController;
         // 
-        $firstorder=$orders->first();
-        // 
-        $totalorders=$orders->get();
+        $firstorder=$singleorder->first();
+        $totalorders=$orders->count();
+
+        // dd($totalorders);
         // 
         $total_order_amount=$orders->select('total')->sum('total');
          // 
@@ -213,11 +216,12 @@ class indexController extends Controller
                     // dd('test');                
                 $coupon_order_count=coupon::where('coupon_code',$r->coupon_code)->select('coupon_condition')->first()->coupon_condition;
                     // $coupon=false;
-                if(count($totalorders)>=$coupon_order_count){
+                if($totalorders>=$coupon_order_count){
                     $coupon=$couponcontroller->isFirst($r->coupon_code);
                 }
             }
-            elseif(coupon::where('coupon_code',$r->coupon_code)->select('coupon_type')->first()->coupon_type=='Total Orders Amount'){
+            elseif(coupon::where('coupon_code',$r->coupon_code)->select('coupon_type')->first()->coupon_type=='Total Order Amount'){
+                // dd("TESt");
                 $coupon_total_amount=coupon::where('coupon_code',$r->coupon_code)->select('coupon_condition')->first()->coupon_condition;
                 if($total_order_amount>=$coupon_total_amount){
                     $coupon=$couponcontroller->isFirst($r->coupon_code);   

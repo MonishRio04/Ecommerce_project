@@ -39,7 +39,7 @@
                     <strong class="text-dark">&#8377;<b id="totalamount">{{ $overalltotal=$total-$discount }}</b></strong>
                 </li>
             </ul>            
-            <form class="card p-2" method="POST"  >
+            <form class="card p-2" id="coupon_form" method="POST"  >
                 @csrf
                 <div class="input-group">
                     <input type="text" style="border-color:lightgrey" id="code" class="form-control" name="coupon_code" 
@@ -55,17 +55,23 @@
               <p style="color:red;font-size:small" class="" id="err"></p>
         </div>
         <script>
+
+        $("#coupon_form").on("keypress", function (event) {
+                    var keyPressed = event.keyCode || event.which;
+                    if (keyPressed === 13) {
+                        event.preventDefault();
+                        return false;
+                    }
+                });        
             var protect=0;
-            // action="{{url('apply-coupon')}}"
             $('#coupon').click(function(){
                 var coupon_code=$('#code').val();
-                // alert(coupon_code);
                 $.ajax({
                     url:"{{url('apply-coupon')}}",
                     type:"POST",
                     data:{
                          coupon_code:coupon_code,
-                        _token:"{{ csrf_token() }}",
+                        _token:"{{ csrf_token() }}",    
                     },
                     success:function(response){
                         // console.log();                        
@@ -190,7 +196,8 @@
             {!! Form::close() !!}
         </div>
     </div>
-
+</div>
+</div>
 </div>
 <script>
     $('#hiddenpart').hide();
@@ -209,4 +216,5 @@
         }
 });
 </script>
+<div style="margin-top:50px">
 @endsection

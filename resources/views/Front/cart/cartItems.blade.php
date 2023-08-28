@@ -1,6 +1,17 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
-
+<style type="text/css">
+    @media only screen and (max-width: 600px) {
+    .cartlist{
+        border:1px solid lightgrey;
+        border-radius:5px;
+        text-align:center
+    }.mview{
+        margin-top:10px;
+        padding-left:170px;
+    }
+}
+</style>
 <section class="bg-light my-5 bg-white">
     <div class="container">
       <div class="row">

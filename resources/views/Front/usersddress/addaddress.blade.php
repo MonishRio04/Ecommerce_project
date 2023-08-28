@@ -1,4 +1,4 @@
-@extends('Front.layout.navbarandfooter')
+    @extends('Front.layout.navbarandfooter')
 <!-- Modal -->
 @section('main')
     <style>
@@ -128,7 +128,7 @@
                 <div class="col-md-8">
                     <h1>Shopping Cart</h1>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-right">
                     <button type="button" class="btn btn-info " data-bs-toggle="modal" id="addbtn" 
                         data-bs-target="#exampleModal">Add new Address</button>
                 </div>
@@ -143,22 +143,22 @@
                     <thead>
                         <tr>
                             <th scope="col">S.no</th>
-                            <th scope="col">S.no</th>
+                            <th scope="col">Name</th>
                             <th scope="col">Address</th>
                             <th scope="col">Mobile</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" style="width: 10px;">Action</th>
                         </tr>
                     </thead>
                     @foreach ($address as $adr)
                         <tbody>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $adr->name }}</td>
+                            <td >
+                            <button class="btn edit" type="button" value="{{ $adr->id }}" style="color:#31D2F2">
+                            <u>{{ $adr->name }}</u></button></td>
                             <td>{{ $adr->address_line1 }}</td>
                             <td>{{ $adr->mobile_no }}</td>
                             <td>
                                 <form method="post" action="{{ url('/destroy', $adr->id) }}">
-                                    <button class="btn edit" type="button" value="{{ $adr->id }}"><i
-                                            style="padding:4px;margin:6px"class="fas fa-edit"></i></button>
                                     {{ csrf_field() }}{{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-default">
                                         <i style="padding:4px;margin:6px"class="fas fa-trash"></i></button>
@@ -191,17 +191,12 @@
                     $('#Address1').val(adr.address_line1);
                     $('#Address2').val(adr.address_line2);
                     $('#Pincode').val(adr.post_code);
-
                     $('#country').val(response.address.country_code);
-
                     state(response.address.country_code, response.address.state_code);
                     $('#state').val(response.address.state_code);
-
                     city(response.address.state_code, adr.city_code);
                     $('#city').val(adr.city_code);
-
                     $('#adrtype').val(adr.address_type);
-
                     $('#exampleModal').modal('show');
                 }
 

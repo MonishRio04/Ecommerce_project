@@ -4,21 +4,25 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Comments;
+use App\Models\Reviews;
 use Auth;
 use Carbon\Carbon;
-class CommentController extends Controller
+class ReviewController extends Controller
 {
    public function addcmnt(Request $r){
-    $comments=new Comments;
-    $comments->product_slug=$r->productslug;
-    $comments->customer_id=Auth::user()->id;
-    $comments->comments=$r->comment;
-    $comments->save();
+      // dd($r->all());
+    $reviews=new Reviews;
+    $reviews->product_slug=$r->productslug;
+    $reviews->customer_id=Auth::user()->id;
+    $reviews->comments=$r->review;
+    $reviews->save();
     $response['name']=Auth::user()->name;
-    $response['comments']=$r->comment;
+    $response['reviews']=$r->review;
     $response['created_at']=Carbon::now()->format('Y-m-d H:i:s');
     // dd($response);
     return response($response);
+   }
+   public function addlike(boolean ){
+
    }
 }
