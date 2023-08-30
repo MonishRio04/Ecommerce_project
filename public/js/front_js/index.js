@@ -16,13 +16,14 @@ $('.add-to-cart').click(function() {
         },
         success: function(response) {
                                                     // $("#trendingproducts").load(location.href + " #trendingproducts")
-            parent.find('.add-to-cart').click(function(){
-                window.location.href =$('#cartlink').val();
-            }).html('<i>✔</i> view cart').css('color','green')
-            .css('font-size','smaller');
-                                                    // html('<i>✔</i> view cart').css('color','green')
-                                                    // .css('font-size','smaller');
-
+            parent.find('.add-to-cart').remove();
+            parent.children('.justify-content-between').
+            append(`<a href="${ $('#cartlink').val() }" style="color:green;font-size:smaller" class='btn btn-default nav-link'
+                >✔ View cart</a>`)
+            // click(function(){
+            //     window.location.href =$('#cartlink').val();
+            // }).html('<i>✔</i> view cart').css('color','green')
+            // .css('font-size','smaller');
             $('#cartitemscount').text(response.length);
         },
         error:function(response){
@@ -68,3 +69,21 @@ $('.wish').click(function(){
     }
 });
 });                                                
+
+// $(document).on('click','.plus',function(){
+//     var quantity=$(this).siblings('.quantity').val();
+//     quantity=parseInt(quantity)+1;
+//     var productprice=$(this).siblings('.productprice').val();
+//     $(this).siblings('.quantity').val(quantity);
+//     $(this).siblings('.quantity').css('border','1px solid transparent');
+// });
+// $(document).on('click','.minus',function(){
+//     var quantity=$(this).siblings('.quantity').val();
+//     if(parseInt(quantity)<2){
+//         $(this).siblings('.quantity').val(1).css('border','1px solid rgb(240, 56, 56)');
+//     }else{        
+//         quantity=parseInt(quantity)-1;
+//         $(this).siblings('.quantity').val(quantity);
+//     }
+// });
+// // });

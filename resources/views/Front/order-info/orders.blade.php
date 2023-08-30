@@ -27,7 +27,8 @@
                                 <h5 class="d-inline p-2 card-title">Placed On:{{ $order->created_at->format('Y.m.d H:i a')}}</h5>
                                 <h6 class="d-inline p-2 card-title" style="float:right">Qty :{{qutycount($order->id) }}</h6>
                               <p class="card-text">Total : &#8377;{{ $order->total }}</p>
-                              <a href="{{ url('show-order/'.$order->id) }}" class="btn btn-primary"><i class="fa-solid fa-eye"></i>View</a>
+                              <a href="{{ url('show-order/'.$order->id) }}" class="btn btn-primary text-dark"><i class="fa-solid fa-eye"></i>View</a>
+                              <a href="{{url('download-invoice/'.$order->id)}}" class="btn btn-info"><i class="fa fa-download"></i> Download Invoice</a>
                             </div>
 
                           </div>

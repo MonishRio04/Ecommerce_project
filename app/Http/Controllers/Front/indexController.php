@@ -18,7 +18,7 @@ use App\Models\User;
 use App\Models\coupon;
 use App\Models\Reviews;
 use App\Http\Controllers\Front\CouponController;
-
+use Session;
 class indexController extends Controller
 {
 
@@ -252,5 +252,23 @@ class indexController extends Controller
             }
             // dd($coupon);
             return $coupon;
+    }
+
+
+    public function cartqty(int $cal,int $cartid){
+        if($cal==1){            
+            $cart=cart::where('customer_id',Auth::user()->id)->where('id',$cartid)->first();
+            $cart->quantity+=1;
+            $cart->update();            
+        }else{
+            $cart=cart::where('customer_id',Auth::user()->id)->where('id',$cartid)->first();
+            if($cart->quantity<=1){
+                Session::flash('err', $cartid);
+            }else{
+                $cart->quantity-=1;
+            }
+            $cart->update();
+        }
+        return redirect('cart');
     }
 }

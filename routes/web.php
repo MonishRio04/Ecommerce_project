@@ -31,6 +31,8 @@ Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::post('/placeorder',[indexController::class,"placeorder"]);
 });
 
+Route::get('qtycontrol/{cal}/{cartid}',[indexController::class,'cartqty']);
+
 Route::group([],function(){
     Route::post('apply-coupon',[indexController::class,"applycoupon"]);
     Route::get('view-coupons',[CouponController::class,'viewcoupon']);
@@ -46,6 +48,7 @@ Route::group([],function(){
 Route::group([],function(){   //User=Orders
     Route::get('/orders',[orderitems::class,'orderitems']);
     Route::get('/show-order/{id}',[orderitems::class,'showorder']);
+    Route::get('download-invoice/{id}',[orderitems::class,'getInvoice']);
     Route::get('/customer-address',[UserAddrerss::class,'useraddress']);
     Route::group([],function(){ //address controllers
     Route::post('/create-new-address',[UserAddrerss::class,'createaddress']);

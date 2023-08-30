@@ -89,6 +89,8 @@
                         </tr>
                     </tfoot>
                   </table>
+                    <div class=" text-center"><a href="{{url('download-invoice/'.$order['id'])}}" class="btn btn-info"><i class="fa fa-download"></i> Download invoice</a></div>
+
                 </div>
             </div>
         </div>
