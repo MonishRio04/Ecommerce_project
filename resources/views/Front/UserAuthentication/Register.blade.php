@@ -1,5 +1,11 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
+<style>
+  @media only screen and (max-width: 600px) {
+     .gap-4{
+      display:none !important;
+  }
+</style>
   <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}">
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
       <div

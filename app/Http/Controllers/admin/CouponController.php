@@ -20,6 +20,9 @@ class CouponController extends Controller
             if($coupon->expires_at==$date){
                 $coupon->delete();
             }
+            if($coupon->max_uses>=$coupon->uses){
+                $coupon->delete();
+            }
         }
         return view('admin.coupon.index',$data);
     }

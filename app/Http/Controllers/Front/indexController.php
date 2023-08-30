@@ -58,6 +58,8 @@ class indexController extends Controller
 
     public function addToCart(Request $r){
         $carts=new cart;
+        // dd($r->all());
+        $r->validate(['quantity'=> 'required|integer|not_in:0']);     
         $sameproduct=cart::where('product_id',$r->product_id)->where('customer_id',Auth::user()->id)->first();
         if($sameproduct){
             // dd('in');
@@ -92,10 +94,25 @@ class indexController extends Controller
         return view('Front.cart.cartItems',$this->data());
 
    }
+
+   // 
+
+   public function buyNow(Request $r){
+    // dd($r->all());
+            $carts=new cart;
+            $carts->customer_id=(int)$r->customer_id;
+            $carts->product_id=(int)$r->product_id;
+            $carts->quantity=(int)$r->quantity;
+            $carts->save();
+            return redirect('checkout');
+    }
+
+
+// 
+
    public function checkout(){
     // $couponmethods=new CouponController;
     // dd($couponmethods->test());
-
     $address=Address::where('customer_id',Auth::user()->id)->get();
     $addre=null;
         if(count($address)==0){
@@ -196,7 +213,9 @@ class indexController extends Controller
         return view('Front.layout.search',['products'=>$searchproducts]);
     }
     public function applycoupon(Request $r){
-        // firstorder        
+        // firstorder 
+        // dd($r->all());
+        $r->validate(['coupon_code'=>'required'])       ;
         $coupon=null;
         $orders=$singleorder=orders::where('customer_id',Auth::user()->id);
 

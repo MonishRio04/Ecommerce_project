@@ -114,8 +114,12 @@
                         }
                     }
                     }
-                }
+                },
+                error:function(response){
+                    $('#err').text('*'+response.responseJSON.message);
+                },
                 });
+
             })
         </script>
         <div class="col-md-8 order-md-1">

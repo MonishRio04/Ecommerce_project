@@ -37,7 +37,6 @@
 		      	</a>
 		      </td>
 		    </tr>	
-		    
 		    @endforeach
 		    <script>
 		    	$('.delete').click(function(){
@@ -55,7 +54,9 @@
 		    </script>
 
 		  </tbody>
-		</table>   
+		</table>
+		    <a href="{{url('wishlist-to-cart')}}"class="btn btn-primary btn-block">Add to Cart</a>
+
     </div>
 </div>
 <!--  -->

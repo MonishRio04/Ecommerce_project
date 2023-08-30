@@ -26,6 +26,7 @@ Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::post('/cart',[indexController::class,'addToCart'])->name('cart');
     Route::get('/cartdelete/{id}',[indexController::class,'delete']);
     Route::get('/cart',[indexController::class,'cartpage'])->middleware('auth');
+    Route::post('/buynow',[indexController::class,'buyNow'])->name('buynow');
     Route::get('checkout',[indexController::class,"checkout"])->middleware('auth');    
     Route::post('/placeorder',[indexController::class,"placeorder"]);
 });
@@ -63,6 +64,7 @@ Route::group([],function(){
 Route::group([],function(){
     Route::get('/view-wishlist',[wishlistcontroller::class,'viewlist']);
      Route::get('/add-wishlist/{id}',[wishlistcontroller::class,'addlist']);
+     Route::get('wishlist-to-cart',[wishlistcontroller::class,'addToCart']);
       Route::get('/wishlist-delete/{id}',[wishlistcontroller::class,'wishdelete']);
 });
 
@@ -100,6 +102,7 @@ Route::group([],function(){     //User=login
 }); 
 Route::group([],function(){
     Route::post('add-comment',[ReviewController::Class,'addcmnt']);
+    Route::get('add-like/{id}',[ReviewController::Class,'addlike']);
 })
 ?>
 

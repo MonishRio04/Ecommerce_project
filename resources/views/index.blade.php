@@ -1,7 +1,7 @@
 @extends('Front.layout.navbarandfooter')
 @section('main')
 {{-- {{ dd(category()) }} --}}
-<script src="{{asset('js/front_js/wishlist.js')}}"></script>
+<meta name="_token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Front_css/style.css') }}">   
     <section class="py-3"
         style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
@@ -232,18 +232,28 @@
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-all" role="tabpanel"
                                 aria-labelledby="nav-all-tab">
-
-                                <div
+                                <input type="hidden" id="cartlink" value="{{url('cart')}}">
+                                <div id="trendingproducts" 
                                     class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                                     {!! Form::open(['method' => 'POST', 'data-action' => route('cart')]) !!}
                                     @foreach ($products as $product)
                                         <div class="col">
                                             <div class="product-item">
-                                                <button  type="button" class="wish btn-wishlist" id="{{'btn'.$product->id }}">
+                                                @if(!isPresentInWish($product->id))                                               
+                                                <button  type="button" style="color:white;background-color:rgb(240, 56, 56)" 
+                                                 class="wish btn-wishlist" id="{{'btn'.$product->id }}">
                                                 <svg width="24"
                                                         height="24">
                                                         <use xlink:href="#heart"></use>
                                                     </svg></button>
+                                                    @else
+                                                        <button  type="button" 
+                                                 class="wish btn-wishlist" id="{{'btn'.$product->id }}">
+                                                <svg width="24"
+                                                        height="24">
+                                                        <use xlink:href="#heart"></use>
+                                                    </svg></button>
+                                                    @endif
                                                 <figure>
                                                     <a href="{{ url('product/' . $product->urlslug) }}"
                                                         title="Product Title">
@@ -290,11 +300,17 @@
                                                             </button>
                                                         </span>
                                                     </div>
+                                                    {!! Form::hidden('customer_id', Auth::user()->id, ['id' => 'customer_id']) !!}
                                                     @if (Auth::check())
+                                                        @if(!isPresentInCart($product->id))
+                                                            <a href="{{url('cart')}}"
+                                                            class="nav-link" style="color:green;font-size:smaller"><i>✔</i> view cart
+                                                            <iconify-icon icon="uil:shopping-cart"></a>
+                                                        @else
                                                         <button type="button" id="button_{{ $product->id }}"
                                                             class="add-to-cart nav-link">Add to Cart
                                                             <iconify-icon icon="uil:shopping-cart"></button>
-                                                        {!! Form::hidden('customer_id', Auth::user()->id, ['id' => 'customer_id']) !!}
+                                                        @endif
                                                     @else
                                                         <a type="button" id="button_{{ $product->id }}"
                                                             href="{{ url('userlogin') }}" class="add-to-cart nav-link">Add
@@ -307,65 +323,6 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <script>
-                                        // var quantity = $(this).closest('.product-item').find('.input-number').val();
-                                        $('.add-to-cart').click(function() {
-                                            var parent = $(this).parents('.product-item');
-                                            var quantity = parent.find('#quantity').val();
-                                            var product_id = parent.find('#product_id').val();
-                                            var customer_id = $('#customer_id').val();
-
-                                            $.ajax({
-                                                url: "{{ route('cart') }}",
-                                                type: 'POST',
-                                                data: {
-                                                    'quantity': quantity,
-                                                    'product_id': product_id,
-                                                    'customer_id': customer_id,
-                                                    _token: '{{ csrf_token() }}',
-                                                },
-                                                success: function(response) {
-
-                                                    parent.find('.add-to-cart').html('<i>✔</i> Added to cart').css('color','green')
-                                                    .css('font-size','smaller');
-                                                    $('#cartitemscount').text(response.length);
-                                                }
-                                            });
-
-                                        });
-
-                                        function addStock() {
-                                            var inp = $('#quantity').val();
-                                            var stockQuantity = $('#stockquantity').val();//$('#quantity').val();
-                                            console.log(stockQuantity);
-                                            if (stockQuantity != 0 && inp > stockQuantity) {
-                                                $('#oos').text("*" + "Out off stock")
-                                            } else {
-                                                $('#oos').text('');
-                                            }
-                                        }
-                                                           
-                                                $('.wish').click(function(){
-                                                    // var id=$('.ids').val();
-                                                     var product_id = $(this).parents('.product-item').find('#product_id').val();
-                                                      $.ajax({
-                                                        url:"/add-wishlist/"+product_id,
-                                                        type:'GET',
-                                                        data:{
-                                                        _token:"{{csrf_token()}}",
-                                                        },  
-                                                        success:function(response){
-                                                            console.log('#btn'+response.id);
-                                                            var id='#btn'+response.id;
-                                                            $(id).css('background-color','#F03838')
-                                                            .css('color','white');                                                         
-                                                        },
-                                                            fail:function(){
-                                                                console.log('failed');
-                                                            }
-                                                        });
-                                                 });                                                
-                                    </script>
 
                                 </div>
                             </div>
@@ -1301,4 +1258,7 @@
             </div>
         </div>
     </section>
+
+{{-- <script src="{{    asset('js/front_js/wishlist.js')}}"></script> --}}
+<script src="{{asset('js/front_js/index.js')}}"></script>
 @endsection

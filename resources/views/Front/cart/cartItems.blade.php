@@ -61,7 +61,7 @@
                 </div>
                 {{-- {{ dd('price-'.$cart->id) }} --}}
                 {!! Form::hidden('quantity', $cart->quantity, ['class'=>'quan'.$cart->id]) !!}
-                {!! Form::hidden('price', $cart->product_price, ['class'=>'price-'.$cart->id]) !!}
+                {!! Form::hidden('price', $cart->product_price*$cart->quantity, ['class'=>'price-'.$cart->id]) !!}
                 {!! Form::hidden('discount',$cart->discount,['class'=>'discount'.$cart->id]) !!}
                 <div class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                   <div class="float-md-end">
