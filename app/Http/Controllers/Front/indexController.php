@@ -133,7 +133,7 @@ class indexController extends Controller
     public function placeorder(Request $r){
        $r->validate([
             'address'=>'required'
-       ]);
+       ]);  
        if($r->couponid!=null){
             $coupon_update=coupon::where('id',$r->couponid)->first();        
             $coupon_update->uses=$coupon_update->uses!=null?$coupon_update->uses+1:1;
@@ -141,6 +141,12 @@ class indexController extends Controller
         }   
        $cartitems=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
         ->select('products.price as product_price','cart.*')->get();
+        // dd($cartitems->all());
+        foreach($cartitems as $cart){
+            $updatestock=products::where('id',$cart->product_id)->first();
+            $updatestock->stock_quantity-=$cart->quantity;
+            $updatestock->update();
+        }
         $orders=new orders;
         $orders->customer_id=Auth::user()->id;
         if($r->coupontotal!=null){

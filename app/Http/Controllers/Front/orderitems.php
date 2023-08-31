@@ -17,7 +17,6 @@ class   orderitems extends Controller
     $data=$data->data();
     $data['orders']=orders::where('customer_id',Auth::user()->id)->latest()->get();
     $data['orderstatus']=orders_status::pluck('status_name','id');
-    // dd($data['orderstatus'][1]);
     return view('Front.order-info.orders',$data);
    }
 
@@ -38,8 +37,10 @@ class   orderitems extends Controller
         // dd($order);
         $order=$order[0];
         $orderitems=order_items::where('order_id',$id)->join('products','order_items.item_id','=','products.id')
-        ->select('products.name as pname','products.discount_price as discount','order_items.*')->get();
-        // dd($orderitems);
+        ->select('products.name as pname','products.discount_price as discount',
+         'products.price as prprice'
+         ,'order_items.*')->get();
+        // dd($orderitems->all());
         return view('Front.order-info.showorder',['order'=>$order,'orderitems'=>$orderitems]);
 
    }
@@ -57,7 +58,7 @@ class   orderitems extends Controller
         'coupons.discount_amount as couponamount'
          )->get()->toArray()[0];
          $order['orderitems']=order_items::where('order_id',$id)->join('products','order_items.item_id','=','products.id')
-        ->select('products.name as pname','products.discount_price as discount','order_items.*')->get();
+        ->select('products.name as pname','products.discount_price as discount','products.price as prprice','order_items.*')->get();
         $pdf=PDF::loadView('templates.userorderdetail',$order);
         return $pdf->download($id.'.pdf');
    }  

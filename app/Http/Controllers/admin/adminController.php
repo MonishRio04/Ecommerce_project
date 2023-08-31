@@ -32,6 +32,35 @@ class adminController extends Controller
              }  
         }         
         $data['chart']=$chartdata;
+
+        $users=User::whereYear('created_at',Carbon::now()->year)->select('created_at')->get();
+        // dd($users);
+        $months=['January', 'February', 'March', 'April', 'May', 'June','July','August','September','October','November','December'];
+        $barchart=[];
+        foreach($months as $key=>$month){
+            $barchart[$key]=0;
+            foreach($users as $user){
+                $m=date('F',strtotime($user->created_at));
+                if($month==$m){
+                    $barchart[$key]+=1;
+                }
+            }
+        }
+        $data['barchart']=$barchart;
+
+        $orders=orders::whereYear('created_at',Carbon::now()->year)->select('created_at')->get();
+         $ordermonths=['January', 'February', 'March', 'April', 'May', 'June','July','August','September','October','November','December'];
+        $orderchart=[];
+        foreach($ordermonths as $key=>$month){
+            $orderchart[$key]=0;
+            foreach($orders as $order){
+                $m=date('F',strtotime($user->created_at));
+                if($month==$m){
+                    $orderchart[$key]+=1;
+                }
+            }
+        }
+        $data['orderbarchart']=$orderchart;
         return view('admin.index',$data);
     }
 
