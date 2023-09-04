@@ -181,7 +181,7 @@ Create
 </div>
 </div>
 <!-- End of modal backdrop -->
-<div class="container grid px-6 mx-auto">
+<div class="container grid mx-auto">
   <div style="display:flex">
     <h2
     class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
@@ -228,7 +228,7 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                     <th class="px-4 py-2">status</th>
                     <th class="px-4 py-2">minimum <br>purchase</th>                    
                      <th class="px-4 py-2">Coupon <br>condition</th>
-                     <th class="px-4 py-2">Action</th>
+                     <th class="px-4 py-2">Delete</th>
                       {{-- <th class="px-4 py-2"></th> --}}
                   </tr>
                 </thead>
@@ -243,7 +243,13 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                 {{-- {{dd($coupons)}} --}}
                 @foreach($coupons as $coupon)
                 <tr class="text-gray-700 dark:text-gray-400">
-                  <td class="px-4 py-3">{{ $coupon->coupon_code }}</td>
+                  <td class="px-4 py-3">
+                     <button type="submit" id="editbtn" value="{{$coupon->id}}" 
+                 {{-- href="{{ route('coupon.edit',$coupon->id) }}" --}} @click="openModal"
+                  class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray editbtn"
+                  aria-label="Edit" data-edit_url="{{route('coupon.edit',[$coupon->id])}}">
+                    {{ $coupon->coupon_code }}</button>
+                  </td>
                  {{--  <td class="px-4 py-3 text-sm">
                        {{ $coupon->coupon_name }}
                </td> --}}
@@ -270,17 +276,7 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             </td>
             <td class="px-4 py-3">
               <div class="flex items-center space-x-4 text-sm">
-                <button type="submit" id="editbtn" value="{{$coupon->id}}" 
-                 {{-- href="{{ route('coupon.edit',$coupon->id) }}" --}} @click="openModal"
-                  class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray editbtn"
-                  aria-label="Edit" data-edit_url="{{route('coupon.edit',[$coupon->id])}}">
-                  <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                  viewBox="0 0 20 20">
-                  <path
-                  d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                </path>
-              </svg>
-            </button>              
+                     
             <form method="post" action="{{ route('coupon.destroy',$coupon->id )}}">
               {{ csrf_field() }}{{ method_field('DELETE') }}
               <button type="submit" onclick="return confirm('do you want to delete')"
