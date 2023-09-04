@@ -10,6 +10,10 @@ class Products extends Model
 {
     use HasFactory,SoftDeletes;
     protected $dates=['deleted_at'];
+
+    protected $guarded  = [];
+
+
     public function getRouteKeyName()
 {
     return 'slug';

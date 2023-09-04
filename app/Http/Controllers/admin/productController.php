@@ -87,10 +87,11 @@ class productController extends Controller
      */
     public function update(Request $r, string $id)
     {
+        // dd($r->all());
         $r->validate([
             'productName'=>'required|string',
             'price'=>'required',
-            // 'url'=>'unique:products,urlslug',
+            // 'file'=>'unique:products,urlslug',
             'category'=>'required',
             'discription'=>'required',
             'stock_quantity'=>'required',
@@ -112,7 +113,7 @@ class productController extends Controller
         $products->price=$r->price;
         $products->category=$r->category;
         $products->update();
-        return redirect('/product');
+        return redirect('products');
     }
 
     /**

@@ -23,6 +23,7 @@ use App\Http\Controllers\Front\ReviewController;
 use App\Http\Controllers\Front\ForgotPasswordController;
 use App\Http\Controllers\admin\reportController;
 use App\Http\Controllers\admin\StockQuantity;
+use App\Imports\ProductsImport;
 
 
 
@@ -126,5 +127,11 @@ Route::group([],function(){
     Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
     Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
-?>
 
+
+Route::post('import-products',function(){
+            $products=new ProductsImport();
+            // $products->setStartRow(2);
+            Excel::import($products,request()->file('file'));
+            return back();
+});
