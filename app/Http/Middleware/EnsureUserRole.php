@@ -16,8 +16,9 @@ class EnsureUserRole
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // dd($request->all());
         $request->validate([
-            'email'=>'required|email',
+            'email'=>'required|email|exists:users,email',
             'password'=>'required',
         ]);
         $user=User::where('email',$request->email)->first();

@@ -26,7 +26,7 @@ class indexController extends Controller
         $data=[];
             $data['category']=categories::get();
             $data['newItems']=Products::get()->sortByDesc('id')->take(5);//get();
-            $data['products']=Products::get()->take(10)->shuffle();
+            $data['products']=Products::get()->take(10);
             if(Auth::check()){
                 $data["cartitems"] = cart::where('customer_id', Auth::user()->id)->join('products', 'cart.product_id', '=', 'products.id')
                 ->select('products.urlslug as url',
@@ -59,7 +59,7 @@ class indexController extends Controller
     public function addToCart(Request $r){
         $carts=new cart;
         // dd($r->all());
-        $r->validate(['quantity'=> 'required|integer|not_in:0']);     
+        $r->validate(['quantity'=> 'required|integer|not_in:0|max:10']);     
         $sameproduct=cart::where('product_id',$r->product_id)->where('customer_id',Auth::user()->id)->first();
         if($sameproduct){
             // dd('in');
@@ -134,75 +134,79 @@ class indexController extends Controller
        $r->validate([
             'address'=>'required'
        ]);  
-       if($r->couponid!=null){
-            $coupon_update=coupon::where('id',$r->couponid)->first();        
-            $coupon_update->uses=$coupon_update->uses!=null?$coupon_update->uses+1:1;
-            $coupon_update->update();
-        }   
-       $cartitems=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
-        ->select('products.price as product_price','cart.*')->get();
-        // dd($cartitems->all());
-        foreach($cartitems as $cart){
-            $updatestock=products::where('id',$cart->product_id)->first();
-            $updatestock->stock_quantity-=$cart->quantity;
-            $updatestock->update();
-        }
-        $orders=new orders;
-        $orders->customer_id=Auth::user()->id;
-        if($r->coupontotal!=null){
-            $orders->total=$r->coupontotal;
-            $orders->coupon_id=$r->couponid;
-        }else{
-            $orders->total=$r->total;
-        }
-        $orders->billing_address=(int)$r->address;
-        $orders->payment_type=$r->paymentMethod;
-        $orders->save();
-        $ordercode='ORD'.date('Y').'0000'.$orders->id;
-    //    dd($ordercode);
-        orders::where('id',$orders->id)->update(['order_code'=>$ordercode]);
-        $orderid=$orders->id;
-        foreach($cartitems as $cart){
-            $ordered_items=new order_items;
-            $ordered_items->order_id=$orders->id;
-            $ordered_items->item_id=$cart->product_id;
-            $ordered_items->item_quantity=$cart->quantity;
-            $ordered_items->price=$cart->product_price;
-            $ordered_items->save();
-        }
-         $data = array('name'=>Auth::user()->id);   
-        $orders['maildata']=orders::where('orders.customer_id',Auth::user()->id)
-        ->where('orders.id',$orderid)->
-        join('address','orders.billing_address','=','address.id')->
-        select('address.name as adrname',
-        'address.mobile_no as adrmobileno',
-        'address.address_line1 as address','orders.*',
-        'address.post_code as pincode')->first()->toArray();                
-        $orders['items']=order_items::where('order_id',$orderid)->join('products','order_items.item_id','=','products.id')
-        ->select('products.name as pname','products.discount_price as discount','order_items.*')->get()->toArray();       
-        $orders['status']=orders_status::pluck('status_name','id');    
-            Mail::send("templates.mailtemplate",json_decode(json_encode($orders),true),function($message) 
-            {
-                 $message->to(Auth::user()->email, 'Order Placed')->subject
-                    ('Order Placed');                 
-            });         
-        $user_role=user_role::pluck('id','role');
-        // dd($user_role['customer']);
-        $userforemail=User::whereIn('role',[$user_role['admin'],$user_role['subadmin']])->get();
-        // dd($userforemail);
-        // function sendemail($orders){
-        foreach($userforemail as $sendemail)
+       if(cart::where('customer_id',Auth::user()->id)->count()!=0):      
+           if($r->couponid!=null){
+                $coupon_update=coupon::where('id',$r->couponid)->first();        
+                $coupon_update->uses=$coupon_update->uses!=null?$coupon_update->uses+1:1;
+                $coupon_update->update();
+            }   
+           $cartitems=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
+            ->select('products.price as product_price','cart.*')->get();
+            // dd($cartitems->all());
+            foreach($cartitems as $cart){
+                $updatestock=products::where('id',$cart->product_id)->first();
+                $updatestock->stock_quantity-=$cart->quantity;
+                $updatestock->update();
+            }
+            $orders=new orders;
+            $orders->customer_id=Auth::user()->id;
+            if($r->coupontotal!=null){
+                $orders->total=$r->coupontotal;
+                $orders->coupon_id=$r->couponid;
+            }else{
+                $orders->total=$r->total;
+            }
+            $orders->billing_address=(int)$r->address;
+            $orders->payment_type=$r->paymentMethod;
+            $orders->save();
+            $ordercode='ORD'.date('Y').'0000'.$orders->id;
+        //    dd($ordercode);
+            orders::where('id',$orders->id)->update(['order_code'=>$ordercode]);
+            $orderid=$orders->id;
+            foreach($cartitems as $cart){
+                $ordered_items=new order_items;
+                $ordered_items->order_id=$orders->id;
+                $ordered_items->item_id=$cart->product_id;
+                $ordered_items->item_quantity=$cart->quantity;
+                $ordered_items->price=$cart->product_price;
+                $ordered_items->save();
+            }
+             $data = array('name'=>Auth::user()->id);   
+            $orders['maildata']=orders::where('orders.customer_id',Auth::user()->id)
+            ->where('orders.id',$orderid)->
+            join('address','orders.billing_address','=','address.id')->
+            select('address.name as adrname',
+            'address.mobile_no as adrmobileno',
+            'address.address_line1 as address','orders.*',
+            'address.post_code as pincode')->first()->toArray();                
+            $orders['items']=order_items::where('order_id',$orderid)->join('products','order_items.item_id','=','products.id')
+            ->select('products.name as pname','products.discount_price as discount','order_items.*')->get()->toArray();       
+            $orders['status']=orders_status::pluck('status_name','id');    
+                Mail::send("templates.mailtemplate",json_decode(json_encode($orders),true),function($message) 
                 {
-
-                     Mail::send("templates.mailtemplate",json_decode(json_encode($orders),true),function($message) use($sendemail) 
+                     $message->to(Auth::user()->email, 'Order Placed')->subject
+                        ('Order Placed');                 
+                });         
+            $user_role=user_role::pluck('id','role');
+            // dd($user_role['customer']);
+            $userforemail=User::whereIn('role',[$user_role['admin'],$user_role['subadmin']])->get();
+            // dd($userforemail);
+            // function sendemail($orders){
+            foreach($userforemail as $sendemail)
                     {
-                         $message->to($sendemail->email, 'Order Placed')->subject
-                            ('Order Placed');                 
-                    }   );
-                }
-        
-        // sendemail($orders);
-        cart::where('customer_id',Auth::user()->id)->delete();
+
+                         Mail::send("templates.mailtemplate",json_decode(json_encode($orders),true),function($message) use($sendemail) 
+                        {
+                             $message->to($sendemail->email, 'Order Placed')->subject
+                                ('Order Placed');                 
+                        }   );
+                    }
+            
+            // sendemail($orders);
+            cart::where('customer_id',Auth::user()->id)->delete();
+        else:
+            return back();
+        endif;
         return redirect('orders')->with('success','Ordered Successfully');
     }
 

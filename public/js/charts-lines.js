@@ -3,7 +3,7 @@
  */
 var chart=JSON.parse(document.getElementById('chartvalue').value);
 var days=document.getElementById('days').value;
-console.log(chart);
+// console.log(chart);
  var label=[];
 for(var i=0;i<=days;i++){
     label.push(i);
@@ -51,7 +51,7 @@ const lineConfig = {
      * See examples in charts.html to add your own legends
      *  */
     legend: {
-      display: true,
+      display: false,
     },
     tooltips: {
       mode: 'index',

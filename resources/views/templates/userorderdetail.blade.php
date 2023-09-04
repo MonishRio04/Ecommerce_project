@@ -8,27 +8,25 @@
 </head>
 <body style="padding:10px;color:#808080;
   font-family: Arial, Helvetica, sans-serif;">
-    <div style="padding-top: 15px; padding-bottom: 15px;">
-   {{--  <button onclick="history.back()" style="display: inline-block; text-decoration: none; padding: 10px; float: right;">
-        <i class="fa fa-angle-double-left"></i> Back
-    </button> --}}  
-    <table style="color: #808080;">
+    <div style="padding-top: 15px;margin:20px">
+    <img src="https://authorselvi.com/wp-content/uploads/2022/01/as-logo1.svg" style="text-align:left;">
+    <table style="color: #808080;width:100%">
     <thead>
       <tr>
-        <th colspan="3" style="color:black;font-size:25px;text-align: center;padding: 30px 0;">Order-Items</th>
+        <th colspan="3" style="color:black;font-size:20px;text-align: left;padding: 30px 0;">Order Items</th>
       </tr>
     </thead>
     <tbody>
-      <tr style="font-size: 7px;">
-        <td style="color:#808080;padding:0px 40px 0px 10px;border: 1px solid #dddddd;border-radius: 5px;font-size:large;">
+      <tr style="">
+        <td style="color:#808080;padding:0px 20px 0px 10px;border: 1px solid #dddddd;border-radius: 5px;font-size:medium;">
        <p><b>Order Details</b></p>
         <p>Order Code : {{$order['order_code']}}</p>
         <p>Order Date : {{date('Y-m-d',strtotime($order['created_at']))}}</p>
         <p>Status : {{ $order['status']==1?'Order Approved':'Rejected' }}</p>
         <p>Payment Status : {{ $order['payment_type']==3?'Cash on delievery':'online payment' }}</p>
         </td>
-        <td style="padding: 30px;"></td>
-        <td style="margin-left:100px;padding:0px 100px 0px 10px;border: 1px solid #dddddd;border-radius: 5px;font-size:large">
+        <td style="padding: 10px;"></td>
+        <td style="margin-left:100px;padding:0px 60px 0px 10px;border: 1px solid #dddddd;border-radius: 5px;font-size:medium">
           <p><b>Contact</b></p>
           <p> Name : {{$order['adrname']}}</p>
           <p>Mobile : {{$order['adrmobileno']}}</p>
@@ -52,14 +50,15 @@
             </tr>
         </thead>
         <tbody>
+            {{-- @dd($orderitems) --}}
             @foreach($orderitems as $orders)
             <tr style="border-bottom:black">
                 <td style="text-align: left; padding: 8px;">{{ $loop->iteration }}.</td>
                 <td style="text-align: left; padding: 8px;">{{ $orders->pname }}</td>
-                <td style="text-align: left; padding: 8px;"><span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ $orders->price }}</td>
+                <td style="text-align: left; padding: 8px;"><span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ $orders->prprice }}</td>
                 <td style="text-align: left; padding: 8px;">{{ !empty($orders->discount) ? $orders->discount : 'N/A' }}</td>
                 <td style="text-align: left; padding: 8px;">{{ $orders->item_quantity }}</td>
-                <td style="text-align: left; padding: 8px;"><span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ $totals = !empty($orders->discount) ? $orders->discount : $orders->price }}</td>
+                <td style="text-align: left; padding: 8px;"><span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>{{ $totals = !empty($orders->discount) ? $orders->discount : $orders->prprice }}</td>
                 @php $total += $totals * $orders->item_quantity; @endphp
             </tr>
             @endforeach
@@ -72,7 +71,8 @@
         </tbody>
         <tfoot style="background-color: #f8f9fa;">
             <tr>
-                <td colspan="6" style="text-align: right; padding: 8px; color: red;">Total :<span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>  {{$total - $order['couponamount']}}</td>
+                <td colspan="5"style="text-align:right">Total :</td>
+                <td  style="text-align: left; padding: 8px; color: rgb(240, 56, 56);"><span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>  <b>{{$total - $order['couponamount']}}.00</b></td>
             </tr>
         </tfoot>
     </table>
@@ -80,3 +80,4 @@
 </div>
 </body>
 </html>
+{{-- <?php exit; ?> --}}

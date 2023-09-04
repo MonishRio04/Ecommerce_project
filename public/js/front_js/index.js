@@ -1,37 +1,44 @@
-  
-$('.add-to-cart').click(function() {
-    var parent = $(this).parents('.product-item');
-    var quantity = parent.find('#quantity').val();
-    var product_id = parent.find('#product_id').val();
-    var customer_id = $('#customer_id').val();
+    $('.add-to-cart').click(function() {
+        var parent = $(this).parents('.product-item');
+        var quantity = parent.find('#quantity').val();
+        
+        var product_id = parent.find('#product_id').val();
+        var customer_id = $('#customer_id').val();
 
-    $.ajax({
-        url: $('#cartlink').val(),
-        type: 'POST',
-        data: {
-            'quantity': quantity,
-            'product_id': product_id,
-            'customer_id': customer_id,
-            _token:  $('meta[name="_token"]').attr('content'),
-        },
-        success: function(response) {
-                                                    // $("#trendingproducts").load(location.href + " #trendingproducts")
-            parent.find('.add-to-cart').remove();
-            parent.children('.justify-content-between').
-            append(`<a href="${ $('#cartlink').val() }" style="color:green;font-size:smaller" class='btn btn-default nav-link'
-                >✔ View cart</a>`)
-            // click(function(){
-            //     window.location.href =$('#cartlink').val();
-            // }).html('<i>✔</i> view cart').css('color','green')
-            // .css('font-size','smaller');
-            $('#cartitemscount').text(response.length);
-        },
-        error:function(response){
-            parent.find('#quantity').css('border','1px solid red')
-        }
-    });
+        $.ajax({
+            url: $('#cartlink').val(),
+            type: 'POST',
+            data: {
+                'quantity': quantity,
+                'product_id': product_id,
+                'customer_id': customer_id,
+                _token:  $('meta[name="_token"]').attr('content'),
+            },
+            success: function(response) {
+                                                        // $("#trendingproducts").load(location.href + " #trendingproducts")
+                parent.find('.add-to-cart').remove();
+                parent.children('.justify-content-between').
+                append(`<a href="${ $('#cartlink').val() }" style="color:green;font-size:smaller" class='btn btn-default nav-link'
+                    >✔ View cart</a>`)
+                // click(function(){
+                //     window.location.href =$('#cartlink').val();
+                // }).html('<i>✔</i> view cart').css('color','green')
+                // .css('font-size','smaller');
+                $('#cartitemscount').text(response.length);
+            },
+            error:function(response){
+                parent.find('#quantity').css('border','1px solid red');
+                if(response.responseJSON.errors.quantity[0]=='The quantity field must not be greater than 10.'){
+                    parent.find('[data-toggle="popover"]').popover('show');
+                }
+                // if(response)
+                }
 
-});
+
+            });
+
+        });
+    
 
   function addStock() {
     var inp = $('#quantity').val();
@@ -67,6 +74,7 @@ $('.wish').click(function(){
     fail:function(){
         console.log('failed');
     }
+
 });
 });                                                
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Cache;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
@@ -46,4 +46,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+   public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
 }

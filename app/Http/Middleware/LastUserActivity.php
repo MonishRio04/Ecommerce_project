@@ -6,7 +6,10 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Auth;
-class isUser
+use Cache;
+use Carbon\Carbon;
+
+class LastUserActivity
 {
     /**
      * Handle an incoming request.
@@ -15,13 +18,11 @@ class isUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // dd($request->all());
-        if(Auth::check())
-            if(Auth::user()->role==3){
-                return $next($request);
-              }else{
-                return back();
-             }
-    return redirect('userlogin');
+        
+        if(Auth::check()) {
+            $expiresAt = Carbon::now()->addMinutes(1);
+            Cache::put('user-is-online-' . Auth::user()->id, true, $expiresAt);
+        }
+        return $next($request);
     }
 }

@@ -237,7 +237,7 @@ class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
                 {{-- {{ dd($coupons) }} --}}
                 @if($coupons->count()<=0)
                 <tr>
-                  <td class="px-4 py-3 text-center" colspan="5">No coupons</td>
+                  <td class="px-4 py-3 text-center" colspan="9">No coupons</td>
                 </tr>
                 @endif
                 {{-- {{dd($coupons)}} --}}

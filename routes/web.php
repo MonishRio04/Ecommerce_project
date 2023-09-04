@@ -12,14 +12,19 @@ use App\Http\Controllers\Front\UserAuthController;
 use App\Http\Controllers\Front\orderitems;
 use App\Http\Controllers\Front\profilecontroller;
 use App\Http\Controllers\Front\usercategorycontroller;
-use App\Http\Middleware\EnsureUserRole;
 use App\Http\Controllers\Front\UserAddrerss;
 use App\Http\Controllers\Front\wishlistcontroller;
 use App\Http\Controllers\admin\orderscontroller;
 use App\Http\Middleware\isAdmin;
+use App\Http\Middleware\EnsureUserRole;
 use App\Http\Controllers\admin\CouponController as admincoupon;
 use App\Http\Controllers\Front\CouponController;
 use App\Http\Controllers\Front\ReviewController;
+use App\Http\Controllers\Front\ForgotPasswordController;
+use App\Http\Controllers\admin\reportController;
+use App\Http\Controllers\admin\StockQuantity;
+
+
 
 Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::get('/',[indexController::class,'index']);
@@ -89,7 +94,13 @@ Route::group(['middleware'=>'isadmin'],function(){     //Admin=operations
     Route::post('orders-status-update',[orderscontroller::class,'update']);
     Route::get('orders-controller/view-order/{id}',[orderscontroller::class,'vieworder']);
     Route::resource('/coupon',admincoupon::class);
+    Route::get('reports',[reportController::class,'viewReport']);
+    Route::post('get-reports',[reportController::class,'getReport']);
+    Route::get('product-reports',[reportController::class,'productReport']);
 });
+
+Route::resource('stock-quantity',StockQuantity::class);
+
 Route::group([],function(){
     Route::get('export-orders',[orderscontroller::class,'exportorders']);
     Route::get('generate-pdf/{id}/{code}',[orderscontroller::class,'generateorderpdf']);
@@ -106,6 +117,13 @@ Route::group([],function(){     //User=login
 Route::group([],function(){
     Route::post('add-comment',[ReviewController::Class,'addcmnt']);
     Route::get('add-like/{id}',[ReviewController::Class,'addlike']);
-})
+});
+
+Route::group([],function(){
+    Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+    Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+    Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+    Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+});
 ?>
 

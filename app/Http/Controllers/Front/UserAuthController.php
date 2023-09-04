@@ -19,20 +19,17 @@ class UserAuthController extends Controller
     return view('Front.UserAuthentication.login');
     }
     public function loginvalidate(Request $r){
-
         $r->validate([
-        'email' => 'required',
+        'email' => 'required|email',
         'password' => 'required',
-         ]);
-
+         ]);    
         $credentials = [
             'email' => $r['email'],
             'password' => $r['password'],
-            'role'=>3
+            'role'=>3,            
         ];
-        // $category=category();
-        // dd($category);
-        if (Auth::attempt($credentials)) {
+        $remember_me = $r->has('remember') ? true : false;                         
+        if (Auth::attempt($credentials,$remember_me)) {
             return redirect('/');
 
         }

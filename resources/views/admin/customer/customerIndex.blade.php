@@ -42,7 +42,7 @@
                         <div class="flex items-center text-sm">
                           <!-- Avatar with inset shadow -->
                           <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-
+                           
                           @if($users->image!=null)
                           <img class="object-cover w-full h-full rounded-full"
                           src="storage/customerImages/{{ $users->image }}"
@@ -59,7 +59,10 @@
                           @endif
                           <div>
                             <p class="font-semibold">
-                             {{ $users->name }}
+                             {{ $users->name }} 
+                              @if ($users->isOnline())
+                             <b style="font-size:10px;color:green;border-radius:50%;background-color:green">0-</b> 
+                             @endif              
                             </p>
                           </div>
                         </div>

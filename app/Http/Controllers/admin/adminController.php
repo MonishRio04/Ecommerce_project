@@ -54,7 +54,8 @@ class adminController extends Controller
         foreach($ordermonths as $key=>$month){
             $orderchart[$key]=0;
             foreach($orders as $order){
-                $m=date('F',strtotime($user->created_at));
+                $m=date('F',strtotime($order->created_at));
+                // dd($month);
                 if($month==$m){
                     $orderchart[$key]+=1;
                 }

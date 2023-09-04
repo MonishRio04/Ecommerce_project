@@ -18,6 +18,7 @@ class customerController extends Controller
     public function index()
     {
         $user=User::get();
+        // dd($user);
         $user_role=user_role::get()->pluck('role','id');
         return view('admin.customer.customerIndex',['user'=>$user,'user_role'=>$user_role]);
     }

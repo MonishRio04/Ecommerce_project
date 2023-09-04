@@ -24,7 +24,7 @@
                     </div>
                     {{-- {{ dd($product->stock_quantity) }} --}}
                     {!! Form::open(['method'=>'POST','data-action'=>'/cart','url'=>route('buynow')]) !!}
-
+                    @if($product->stock_quantity!=0)
                     <div class="d-flex">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="input-group product-qty">
@@ -60,7 +60,7 @@
                     </div><br>
                 </div>
             </div>  
-            <div class="d-flex mt-4 mb-4">
+            <div class="d-flex mt-4 mb-4" id="btnviewcart">
                 @if(Auth::check())
                 <button type="button" id="button" class="add-to-cart btn btn-outline-dark m-2" >Add to cart</button>
                 <button type="submit"  class="btn btn-success m-2" >Buy now</button>
@@ -70,11 +70,24 @@
                 <a href="{{ route('login') }}"class="add-to-cart btn btn-success m-2" >Buy now</a>
                 @endif
             </div>
+            @endif
+            @if((int)$product->stock_quantity<=20 && (int)$product->stock_quantity!=0 )
+            <p style="color:#dc3545"id="lowstock"><i class="fas fa-exclamation-triangle"></i><b>{{' only '.$product->stock_quantity.' stocks available'}}</b></p>
+            @elseif((int)$product->stock_quantity==0)
+             <p style="color:#dc3545"id="lowstock"><i class="fas fa-exclamation-triangle"></i><b> Out of Stock</b></p>
+            @endif
             <p id="quanerror" style="color:red"></p>
             <p class="lead">{{ $product->description }}</p>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $('#lowstock').fadeToggle(500); // Toggle visibility with a fade effect
+        }, 500); // Change visibility every 1000ms (1 second)
+    });
+</script>
 @if(Auth::check())
 {!! Form::hidden('product_id',$product->id,['id'=>'product_id'])!!}
 {!! Form::hidden('customer_id',Auth::user()->id,['id'=>'customer_id'])!!}
@@ -121,24 +134,7 @@
                         success:function(response){
                              // location.reload();
                              $('#reset').trigger('click')
-                             $("#comnt").load(location.href + " #comnt");
-                            var newComment = `
-                            <div class="d-flex flex-row p-3 mb-2" style="border:1px solid lightgrey;border-radius:4px;">
-                            <div class="w-100">
-                            <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex flex-row align-items-center">
-                            <span class="mr-2">${response.name}</span>
-                            </div>
-                            <small></small>
-                            </div>  
-                            <p class="text-justify comment-text mb-0">${response.reviews}</p>
-                            <div class="d-flex flex-row user-feed">
-                            <span class="wish"><i class="fa fa-heartbeat mr-2"></i></span>
-                            </div>
-                            </div>
-                            </div>
-                            `;
-                            $('.mt-2').prepend(newComment);
+                             $("#comnt").load(location.href + " #comnt");                           
                         }
                     })
                 })
@@ -224,12 +220,17 @@
             },
             success:function(response){
                 
-                $('#button').text('Added to cart').css('color','white').css('background-color','#212529');
+                $('#button').remove();                
+                $('#btnviewcart').prepend(`
+                    <a href="{{url('cart')}}" class="btn btn-outline-dark m-2" >View cart</a>
+                    `)
+                // text('Added to cart').css('color','white').css('background-color','#212529');
                 $('#cartitemscount').html(response.length);
             },
             error:function(response){
-                console.log(response.responseJSON.message);
+                // console.log(response.responseJSON.message);
                 $('#quanerror').text('*'+   response.responseJSON.message);
+
             }
            
         });

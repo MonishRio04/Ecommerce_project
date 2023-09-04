@@ -59,14 +59,15 @@
                       </tr>
                     </thead>
                     <tbody>
+                      {{-- @dd($orderitems) --}}
                         @foreach($orderitems as $orders)
                       <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $orders->pname }}</td>
-                        <td>&#8377;{{ $orders->price }}</td>
+                        <td>&#8377;{{ $orders->prprice }}</td>
                         <td>{{ !empty($orders->discount)?$orders->discount:'N/A' }}</td>
                         <td>{{ $orders->item_quantity }}</td>
-                        <td>&#8377;{{ $totals=!empty($orders->discount)?$orders->discount:$orders->price }}</td>
+                        <td>&#8377;{{ $totals=!empty($orders->discount)?$orders->discount:$orders->prprice }}</td>
                         @php
                             $total+=$totals*$orders->item_quantity;
                         @endphp

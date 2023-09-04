@@ -33,7 +33,8 @@ class wishlistcontroller extends Controller
     }
     public function wishdelete(string $id){
         wishlists::where('id',$id)->delete();
-        return response(['id'=>$id]);
+        $count=wishlists::where('customer_id',Auth::user()->id)->count();
+        return response(['id'=>$id,'count'=>$count]);
     }
     public function addToCart(){
         $wishlist=wishlists::where('customer_id',Auth::user()->id)->get();

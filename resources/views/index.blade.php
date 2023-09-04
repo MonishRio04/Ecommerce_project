@@ -258,10 +258,9 @@
                                                     <a href="{{ url('product/' . $product->urlslug) }}"
                                                         title="Product Title">
                                                         <img src="storage/productImages/{{ $product->image }}"
-                                                            class="tab-image">
+                                                            class="tab-image" style="height:400px;width:200px">
                                                     </a>
-                                                </figure>
-                                                                                                       
+                                                </figure>                                                
                                                 @if ($product->stock_quantity != null)
                                                 {!! Form::hidden('stockquantity', $product->stock_quantity,['id'=>'stockquantity']) !!}
                                                 <h3>{{ $product->name }}<span class="qty">{{ '('.$product->stock_quantity . ' Unit)' }}</span></h3>
@@ -269,7 +268,7 @@
                                                 <h3>{{ $product->name }}</h3><span class="qty"></span>
                                                 @endif
                                                 <span class="price">&#8377;{{ $product->price }}</span>
-
+                                                @if($product->stock_quantity!=0)
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="input-group product-qty">
                                                         <span class="input-group-btn">
@@ -283,12 +282,16 @@
                                                         </span>
                                                         {{-- {{ dd(isset($quantity[$product->id])) }} --}}
                                                         @if (isset($quantity[$product->id]))
+                                                        {{-- <a  data-toggle="popover" data-placement="top" data-content="10 only"> --}}
                                                             <input type="text" id="quantity" name="quantity"
                                                                 class="form-control input-number"
                                                                 value={{ $quantity[$product->id] }}>
+                                                            {{-- </a> --}}
                                                         @else
+                                                        {{-- <a  data-toggle="popover" data-placement="top" data-content="10 only"> --}}
                                                             <input type="text" id="quantity" name="quantity"
                                                                 class="form-control input-number" value='1'>
+                                                            {{-- </a> --}}
                                                         @endif
                                                         <span class="input-group-btn">
                                                             <button type="button"
@@ -316,10 +319,17 @@
                                                             href="{{ url('userlogin') }}" class="add-to-cart nav-link">Add
                                                             to Cart
                                                             <iconify-icon icon="uil:shopping-cart"></a>
-                                                    @endif
+                                                    @endif                                                    
                                                     {!! Form::hidden('product_id', $product->id, ['id' => 'product_id']) !!}
                                                     {{ Form::close() }}
                                                 </div>
+                                                @else
+                                                    {{-- <div class="d-flex align-items-center justify-content-between"> --}}
+                                                    {!! Form::hidden('product_id', $product->id, ['id' => 'product_id']) !!}
+                                                             
+                                                        <p style="color:#dc3545"><i class="fas fa-exclamation-triangle"></i> Out of Stock</p>
+                                                    {{-- </div> --}}
+                                                @endif
                                             </div>
                                         </div>
                                     @endforeach

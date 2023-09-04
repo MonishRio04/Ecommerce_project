@@ -7,8 +7,14 @@
             	<input type="hidden" id="count" value="{{count($items)}}">
             <button onclick="history.back()" class="d-inline btn text-decoration-none p-2" style="float:right">
                <i class="fa fa-angle-double-left"></i> Back</button>
-    <div class="col-12">
-		<table class="table table-image">
+    <div class="col-12" id="content">
+    	@if(count($items)==0)	  		  		
+		  			<div class="text-center">
+		  				<h3>No items in the wishlist !</h3>
+		  				<a class="btn btn-primary mt-4" href="{{url('/')}}">Add Products</a>
+		  			</div>
+		  @else
+		<table class="table table-image" id="table1">
 		  <thead>
 		    <tr class="text-center">		     		      
 		      <th scope="col"></th>
@@ -16,7 +22,8 @@
 		      <th scope="col">Action</th>
 		    </tr>
 		  </thead>
-		  <tbody>		  
+		  <tbody>	
+		  
 		  	@foreach($items as $item)
 		    <tr class="text-center"id="hide{{$item->id}}">		      
 		      <td class="w-25" style="vertical-align: middle">
@@ -37,7 +44,7 @@
 		      	</a>
 		      </td>
 		    </tr>	
-		    @endforeach
+		    @endforeach		   
 		    <script>
 		    	$('.delete').click(function(){
 		    		var id=$(this).parents('.text-right').find('#wishid').val();
@@ -46,7 +53,18 @@
 		    			type:"GET",
 		    			success:function(response){
 		    				var id='#hide'+response.id;
-		    				$(id).slideUp();		    				
+		    				$(id).slideUp();
+		    				if(response.count==0){
+		    					$('#table1').remove()
+		    					$('#adtocart').remove()
+		    					$('#content').append(`
+					    							<div class="text-center">
+					  				<h3>No items in the wishlist !</h3>
+					  				<a class="btn btn-primary mt-4" href="{{url('/')}}">Add Products</a>
+					  			</div>
+		    						`)
+
+		    			}
 		    			}
 		    		})
 		    	});
@@ -55,7 +73,8 @@
 
 		  </tbody>
 		</table>
-		    <a href="{{url('wishlist-to-cart')}}"class="btn btn-primary btn-block">Add to Cart</a>
+		    <a id="adtocart" href="{{url('wishlist-to-cart')}}"class="btn btn-primary btn-block">Add to Cart</a>
+	 @endif
 
     </div>
 </div>
