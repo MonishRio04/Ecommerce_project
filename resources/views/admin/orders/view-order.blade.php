@@ -1,17 +1,7 @@
 @extends('admin.layout.headerandfooter')
 @section('admincontent')
   <style>
-    body {
-      background-color: whitesmoke;
-      font-family: Open Sans, sans-serif;
-      font-size: 100%;
-      font-weight: 400;
-      line-height: 1.4;
-      color: #000;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-    }
+   
 
     .email-container {
       max-width: 670px;

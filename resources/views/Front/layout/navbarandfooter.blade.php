@@ -114,7 +114,7 @@ aria-labelledby="Search">
                         </div>
                         <div class="col-11 col-md-7">
                             <input type="text" name="searchquery" class="form-control border-0 bg-transparent"
-                            placeholder="Search for more than 20,000 products" />
+                            placeholder="Search for more than 20,000 products" required />
 
                         </div>
                         <div class="col-1">

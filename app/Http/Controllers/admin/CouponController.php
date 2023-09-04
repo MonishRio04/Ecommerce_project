@@ -14,16 +14,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        $data['coupons']=coupon::get();
-        $date=Carbon::now()->format('Y-m-d');
-        foreach($data['coupons'] as $coupon){
-            if($coupon->expires_at==$date){
-                $coupon->delete();
-            }
-            if($coupon->max_uses>=$coupon->uses){
-                $coupon->delete();
-            }
-        }
+        $data['coupons']=coupon::get();        
         return view('admin.coupon.index',$data);
     }
 

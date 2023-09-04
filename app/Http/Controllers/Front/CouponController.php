@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 use App\Models\coupon;
 use App\MOdels\orders;
 use Auth;
+use Carbon\Carbon;
 class CouponController extends Controller
 {
    public function viewcoupon(){
      $coupons=coupon::where('status',1)->get();
+      $date=Carbon::now()->format('Y-m-d');
+     foreach($coupons as $coupon){
+            if($coupon->expires_at==$date){
+                $coupon->status=2;
+                $coupon->update();
+            }
+            if($coupon->uses>=$coupon->max_uses){
+                 $coupon->status=2;
+                $coupon->update();
+            }
+        }
      $colors = ["#FF5733","#FFC300","#33FF57","#336BFF","#FF33E9","#A633FF","#FF9A33","#33FFE6","#FF3333","#FFD133"];
      return view('Front.coupon.index',['coupons'=>$coupons,'colors'=>$colors]);
   }

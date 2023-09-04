@@ -79,7 +79,8 @@ Route::group([],function(){
 
 Route::group([],function(){  //AdminLogin
     Route::get('login', [authController::class, 'index'])->name('login');
-    Route::any('registered-information', [authController::class, 'customLogin'])->name('login.custom');
+    Route::any('registered-information', [authController::class, 'customLogin'])->name('login.custom')
+    ->middleware(EnsureUserRole::class);
     Route::get('registration', [authController::class, 'registration'])->name('register-user');
     Route::post('custom-registration', [authController::class, 'customRegistration'])->name('register.custom');
 });

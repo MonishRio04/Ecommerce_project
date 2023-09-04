@@ -6,7 +6,7 @@
     style="box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);"
     class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
         <div class="py-4 text-gray-500 dark:text-gray-400">
-            <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+            <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="{{url('admin')}}">
                 {{config('app.name')}}
             </a>
             <ul class="mt-6">
@@ -98,7 +98,8 @@
                     </a>
                 </li>
                 <li class="relative px-6 py-3">
-                    @if(Request::is('orders-controller'){{--||Request::is('orders-controller/view-order/'.$orders['id'])--}})                   
+                    {{-- <?php $suborder=explode(Request::is('order-controller')) ?> --}}
+                    @if(Request::is('orders-controller')|| explode('/',Request::path())[0]=='orders-controller')
                     <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                         aria-hidden="true"></span>                                           
                     <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800
@@ -138,11 +139,11 @@
                     </a>
                 </li>
                  <li class="relative px-6 py-3">
-
-              <button
+            
+              <button  
                 class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                 @click="togglePagesMenu"
-                aria-haspopup="true"
+                aria-haspopup="false"
               >
                 <span class="inline-flex items-center">
                   <svg
@@ -158,7 +159,7 @@
                     <path
                       d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
                     ></path>
-                  </svg>
+                  </svg>        
                   <span class="ml-4">Reports</span>
                 </span>
                 <svg
@@ -187,13 +188,16 @@
                 >
                   <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                    
-                    <a class="w-full" href="{{url('reports')}}">Customer report</a>
+                    <a class="w-full" style="{{Request::is('reports')?'color:#7E3AF2':''}}" 
+                     href="{{url('reports')}}">Customer report</a>
                   </li>
                    <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                    <a class="w-full" href="{{url('product-reports')}}">Product report</a>
+                    <a class="w-full" style="{{Request::is('product-reports')?'color:#7E3AF2':''}}"
+                     href="{{url('product-reports')}}">Product report</a>
                   </li>
                   <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                    <a class="w-full" href="{{url('stock-quantity')}}">Stock quantity</a>
+                    <a class="w-full" style="{{Request::is('stock-quantity')?'color:#7E3AF2':''}}"
+                    href="{{url('stock-quantity')}}">Stock quantity</a>
                   </li>
                 </ul>
               </template>

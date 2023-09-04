@@ -113,4 +113,11 @@ class adminController extends Controller
     {
         //
     }
+    public function signout(){
+        Session::flush();
+        Auth::logout();
+
+        return Redirect('login');
+    }
+    
 }

@@ -9,22 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('products', function (Blueprint $table) {
-        //    $table->decimal('discount_price')->nullable()->after('price');
-        //    $table->integer('stock_quantity')->default(0)->after('description');
-                $table->text('urlslug')->after('stock_quantity');
-        });
-    }
+    // public function up(): void
+    // {
+    //     Schema::table('products', function (Blueprint $table) {
+    //     //    $table->decimal('discount_price')->nullable()->after('price');
+    //     //    $table->integer('stock_quantity')->default(0)->after('description');
+    //             $table->text('urlslug')->after('stock_quantity');
+    //     });
+    // }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
-    }
+    // /**
+    //  * Reverse the migrations.
+    //  */
+    // public function down(): void
+    // {
+    //     Schema::table('products', function (Blueprint $table) {
+    //         //
+    //     });
+    // }
 };

@@ -2,9 +2,13 @@
 @section('main')
 @include('Front.layout.usersidebar')
  
-<link rel="stylesheet" href="{{asset('css/Front_css/coupon.css')}}">
-
+<link rel="stylesheet" href="{{asset('css/Front_css/coupon.css')}}">    
 <div class="row" style="width:90%">
+    @if(count($coupons)<1)
+    <div class="col-md-12 mt-6 text-center">
+        <h3 class="text-dark">! No coupons</h3>
+    </div>
+    @endif
 	@foreach($coupons as $key=>$coupon)
 	<div class="col-md-6 mb-4">
 		<div class="coupon-card" style="background:linear-gradient(135deg,#87CEFA,{{$colors[$key]}});width:100%;">

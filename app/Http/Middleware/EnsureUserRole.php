@@ -22,11 +22,17 @@ class EnsureUserRole
             'password'=>'required',
         ]);
         $user=User::where('email',$request->email)->first();
-        if((int)$user->role==1){
-            return redirect('userlogin')->with('admin',"*Invalid login details");
+        // dd($user->role==1);
+
+        if((int)$user->role==3){            
+            return $next($request);
         }      
+        
+        elseif((int)$user->role==1||(int)$user->role==2){
+            return $next($request);
+        }
         else{
-        return $next($request);
+            return back()->with('admin',"*Invalid login details");
         }
     }
 }
