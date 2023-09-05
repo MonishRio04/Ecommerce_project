@@ -157,7 +157,7 @@
                 </div>
 
                 <div class="mt-3">
-                    <a href="{{ url('checkout') }}" class="btn btn-success w-100 shadow-0 mb-2"> Make Purchase </a>
+                    <a href="{{ url('checkout/cart') }}" class="btn btn-success w-100 shadow-0 mb-2"> Make Purchase </a>
                     <a href="{{ url('/') }}" class="btn btn-light w-100 border mt-2"> Back to shop </a>
                 </div>
                 </div>

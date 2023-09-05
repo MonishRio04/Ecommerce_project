@@ -263,9 +263,11 @@
                                                 </figure>                                                
                                                 @if ($product->stock_quantity != null)
                                                 {!! Form::hidden('stockquantity', $product->stock_quantity,['id'=>'stockquantity']) !!}
-                                                <h3>{{ $product->name }}<span class="qty">{{ '('.$product->stock_quantity . ' Unit)' }}</span></h3>
+                                                <a class="text-decoration-none" href="{{ url('product/' . $product->urlslug) }}">
+                                                <h3>{{ $product->name }}<span class="qty">{{ '('.$product->stock_quantity . ' Unit)' }}</span></h3></a>
                                                 @else
-                                                <h3>{{ $product->name }}</h3><span class="qty"></span>
+                                                <a class="text-decoration-none" href="{{ url('product/' . $product->urlslug) }}">
+                                                <h3>{{ $product->name }}</h3><span class="qty"></span></a>
                                                 @endif
                                                 <span class="price">&#8377;{{ $product->price }}</span>
                                                 @if($product->stock_quantity!=0)

@@ -51,6 +51,7 @@ class indexController extends Controller
 
     public function show(string $slug){
         $data["product"]=Products::where('urlslug',$slug)->get()->first();
+        $data['categorylist']=categories::pluck('name','id');
         $data['reviews']=Reviews::where('product_slug',$slug)
         ->join('users','reviews.customer_id','=','users.id')->select('name','reviews.*')->latest()->get();        
         return view('Front.showproduct.showproduct',$this->data(),$data);
@@ -99,50 +100,65 @@ class indexController extends Controller
 
    public function buyNow(Request $r){
     // dd($r->all());
-            $carts=new cart;
-            $carts->customer_id=(int)$r->customer_id;
-            $carts->product_id=(int)$r->product_id;
-            $carts->quantity=(int)$r->quantity;
-            $carts->save();
-            return redirect('checkout');
+            if(cart::where('product_id',$r->product_id)->first()==null){
+                $carts=new cart;
+                $carts->customer_id=(int)$r->customer_id;
+                $carts->product_id=(int)$r->product_id;
+                $carts->quantity=(int)$r->quantity;
+                $carts->save();
+                return redirect('checkout/buynow');
+            }else{
+                return redirect('checkout/buynow');
+            }
     }
 
 
 // 
 
-   public function checkout(){
-    // $couponmethods=new CouponController;
-    // dd($couponmethods->test());
+   public function checkout(string $process){
     $address=Address::where('customer_id',Auth::user()->id)->get();
     $addre=null;
         if(count($address)==0){
             return redirect('/customer-address');
         }
-        else{
-            $freecoupon=null;
-            if(orders::where('customer_id',Auth::user()->id)->first()==null){
-                $freecoupon='FIRST100';                
-            }else $freecoupon=null;
-             foreach($address as $addr){
+        else{           
+           foreach($address as $addr){
                 $addre[$addr->id]=$addr->name." ".$addr->mobile_no." ".$addr->address_line1." ".$addr->post_code;
-                }
-                 return view('Front.cart.checkout',$this->data(),['addre'=>$addre,'freecoupon'=>$freecoupon]);
             }
+            if($process=='buynow'){
+            $data["cartitems"][0] =cart::where('customer_id', Auth::user()->id)->join('products', 'cart.product_id', '=', 'products.id')
+                ->select(
+                'products.name as product_name',
+                'products.discount_price as discount',
+                'products.price as product_price','cart.*')->latest()->first();
+            }else{
+                $data=$this->data();
+            }
+            // dd($data);
+                return view('Front.cart.checkout',$data,['addre'=>$addre,'process'=>$process]);
         }
+    }
 
     public function placeorder(Request $r){
        $r->validate([
             'address'=>'required'
        ]);  
+       // dd($r);
        if(cart::where('customer_id',Auth::user()->id)->count()!=0):      
            if($r->couponid!=null){
                 $coupon_update=coupon::where('id',$r->couponid)->first();        
                 $coupon_update->uses=$coupon_update->uses!=null?$coupon_update->uses+1:1;
                 $coupon_update->update();
             }   
+
            $cartitems=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
             ->select('products.price as product_price','cart.*')->get();
             // dd($cartitems->all());
+            if($r->process=='buynow'){
+                $cartitems[0]=cart::where('customer_id',Auth::user()->id)->join('products','cart.product_id','=','products.id')
+                ->select('products.price as product_price','cart.*')->latest()->first();
+            }
+            // dd($cartitems);
             foreach($cartitems as $cart){
                 $updatestock=products::where('id',$cart->product_id)->first();
                 $updatestock->stock_quantity-=$cart->quantity;

@@ -8,10 +8,13 @@
                 <span class="text-muted">Your cart</span>
                 <span class="text-light bg-dark p-1 rounded-circle">&nbsp;{{count($cartitems)}}&nbsp;</span>
             </h4>
+            {{-- @dd($cartitems); --}}
             @php
                 $total=0;
                 $discount=0;
             @endphp
+            {{-- @dd($cartitems->product_name); --}}
+
             @foreach($cartitems as $cart)
             <ul class="list-group mb-3 sticky-top">
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -43,7 +46,7 @@
                 @csrf
                 <div class="input-group">
                     <input type="text" style="border-color:lightgrey" id="code" class="form-control" name="coupon_code" 
-                    value="{{ $freecoupon!=null?$freecoupon:''; }}"
+                    value=""
                     placeholder="Promo code">                   
                     <div class="input-group-append">
                         {{-- {{dd($freecoupon)}} --}}
@@ -138,6 +141,7 @@
                 @enderror
                 <input type="hidden" name="coupontotal" value="" id="coupontotal">
                 <input type="hidden" name="couponid" value="" id="couponid">
+                <input type="hidden" name="process" value="{{$process}}">
                 {{-- <hr class="mb-4 mt-4">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="same-address">

@@ -33,7 +33,7 @@ Route::group(['middleware'=>'isuser'],function(){   //User=Flow Details
     Route::get('/cartdelete/{id}',[indexController::class,'delete']);
     Route::get('/cart',[indexController::class,'cartpage'])->middleware('auth');
     Route::post('/buynow',[indexController::class,'buyNow'])->name('buynow');
-    Route::get('checkout',[indexController::class,"checkout"])->middleware('auth');    
+    Route::get('checkout/{process}',[indexController::class,"checkout"])->middleware('auth');    
     Route::post('/placeorder',[indexController::class,"placeorder"]);
 });
 
