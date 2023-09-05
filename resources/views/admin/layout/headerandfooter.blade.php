@@ -36,12 +36,13 @@
             </ul>
             <ul>
                 <li class="relative px-6 py-3">
-                     @if(Request::is('category'))                   
+
+                     @if(Request::is('category')||explode('/',Request::path())[0]=='category')                   
                     <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                         aria-hidden="true"></span>                                           
                     <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800
                     transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                        href="#">
+                        href="{{route('category.index')}}">
                          @else
                           <a class="inline-flex items-center w-full text-sm font-semibold
                     transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
@@ -57,12 +58,12 @@
                     </a>
                 </li>
                 <li class="relative px-6 py-3">
-                     @if(Request::is('products'))                   
+                     @if(Request::is('products')||explode('/',Request::path())[0]=='products')                   
                     <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                         aria-hidden="true"></span>                                           
                     <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800
                     transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                        href="1">
+                        href="{{route('products.index')}}">
                          @else
                           <a class="inline-flex items-center w-full text-sm font-semibold
                     transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
@@ -78,12 +79,12 @@
                     </a>
                 </li>
                 <li class="relative px-6 py-3">
-                     @if(Request::is('customer'))                   
+                     @if(Request::is('customer')||explode('/',Request::path())[0]=='customer')                   
                     <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                         aria-hidden="true"></span>                                           
                     <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800
                     transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                        href="#">
+                        href="{{route('customer.index')}}">
                          @else
                           <a class="inline-flex items-center w-full text-sm font-semibold
                     transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"

@@ -4,7 +4,8 @@
     <form class="w-75 p-3" method="POST" action="{{ route('update') }}" files='true' enctype='multipart/form-data'>
         @csrf
         <div class="text-center">
-    <img src="storage/customerImages/{{ $profile->image }}" class="img-circle text-center img-responsive" id="logo" alt="User image "/></div>
+
+    <img src="{{ $profile->image!=null?'storage/customerImages/'.$profile->image:url("images/profile.jpg") }}" class="img-circle text-center img-responsive" id="logo" alt="User image "/></div>
         <div class="form-group">
           <label for="exampleInputPassword1">Name</label>
           <input type="name" class="form-control in" name='name' value="{{ $profile->name }}" placeholder="Enter Name">
