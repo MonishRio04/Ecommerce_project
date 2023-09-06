@@ -297,4 +297,10 @@ class indexController extends Controller
         }
         return redirect('cart');
     }
+
+
+    public function searchquery($query){
+         $searchproducts=Products::where('name','like','%'.$query.'%')->get();
+        return response($items=$searchproducts);
+    }
 }

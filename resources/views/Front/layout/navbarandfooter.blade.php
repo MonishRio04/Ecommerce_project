@@ -107,15 +107,14 @@ aria-labelledby="Search">
             <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block" style="">
                 <div class="search-bar row bg-light p-2 my-2 rounded-4" style="width:100%;margin-top:15px;background-color:transparent !important">
                     <div class="col-md-4 d-none d-md-block" >
-                        <form id="search-form" class="text-center"    action="{{ url('search') }}" method="POST" >
+                        <form id="search-form" class="text-center" autocomplete="off"   action="{{ url('search') }}" method="POST" >
                             @php $categorylist=category()@endphp
                             @csrf
                             {!! Form::select('category', $categorylist['categorylist'], null, ['class'=>'form-select border-0 bg-transparent', 'data-for'=>'category']) !!}
                         </div>
-                        <div class="col-11 col-md-7">
-                            <input type="text" name="searchquery" class="form-control border-0 bg-transparent"
-                            placeholder="Search for more than 20,000 products" required />
-
+                        <div class="col-11 col-md-7" id="parent">
+                            <input type="text" name="searchquery" id="searchquery" class="form-control border-0 bg-transparent"
+                            placeholder="Search for more than 20,000 products" required />                           
                         </div>
                         <div class="col-1">
                             <button type="submit" class="btn" style="cursor:pointer">
@@ -126,7 +125,29 @@ aria-labelledby="Search">
                             </div></form>
                         </div>
                     </div>
+<script type="text/javascript">
+    $(document).ready(function(){
 
+        $('#searchquery').keyup(function(){
+
+            // console.log($(this).val());
+            $.ajax({
+                url:"{{ url('searchquery') }}" +'/'+ $(this).val(),
+                type:'GET',
+                success:function(response){
+                    var dropdown="";
+                    console.log(response);
+                    $('#searchquery').autocomplete({
+                            source: response,
+                    })               
+                }
+            })
+
+        });
+    
+    })
+
+</script>
                     <div
                     class="col-sm-8 col-lg-4 d-flex justify-content-end gap-4 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
                     <div class="support-box text-end d-none d-xl-block" style="margin-bottom:20px">

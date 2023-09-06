@@ -47,6 +47,7 @@ Route::group([],function(){
 Route::group([],function(){
     Route::get('/product/{slug}',[indexController::class,'show']);
     Route::post('/search',[indexController::class,'search']);
+    Route::get('searchquery/{query}',[indexController::class,'searchquery']);
     Route::get('/all-categories',[usercategoryController::class,'allcategories']);
     Route::get('/categories/{category}',[usercategoryController::class,'category']);
 });
